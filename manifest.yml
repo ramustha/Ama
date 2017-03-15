@@ -1,0 +1,8 @@
+applications:
+- path: build/libs/ama-1.0-SNAPSHOT.jar
+  memory: 512M
+  instances: 1
+  domain: mybluemix.net
+  name: IAmAma
+  host: IAmAma
+  disk_quota: 1024M

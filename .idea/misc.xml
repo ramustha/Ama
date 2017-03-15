@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GradleLocalSettings">
-    <option name="modificationStamps">
-      <map>
-        <entry key="D:/SANDBOX/Line/BluemixLINEBot-master/BluemixLINEBot-master" value="1486696771623" />
-        <entry key="D:/SANDBOX/Line/LINEBotHeroku-master" value="1485744248000" />
-        <entry key="D:/SANDBOX/Line/line-bot-sdk-java" value="2973257646034" />
-        <entry key="$PROJECT_DIR$" value="1489474380274" />
-        <entry key="$PROJECT_DIR$/../IAmAma" value="1485917330000" />
-      </map>
-    </option>
-    <option name="externalProjectsViewState">
-      <projects_view />
-    </option>
-  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
   <component name="masterDetails">
     <states>
