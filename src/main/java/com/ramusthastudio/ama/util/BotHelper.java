@@ -16,9 +16,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
+import okhttp3.CertificatePinner;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.TlsVersion;
 import org.apache.tomcat.jni.SSLSocket;
 import org.slf4j.Logger;
@@ -68,9 +71,8 @@ public final class BotHelper {
         .build();
 
     return new OkHttpClient.Builder()
-        .followRedirects(true)
-        .followSslRedirects(true)
-        .retryOnConnectionFailure(true)
+        .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+        .certificatePinner(CertificatePinner.DEFAULT)
         .connectionSpecs(Collections.singletonList(cs));
   }
 
