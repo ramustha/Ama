@@ -10,8 +10,17 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Intercepter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import javax.net.ssl.SSLSocketFactory;
+import okhttp3.ConnectionSpec;
+import okhttp3.OkHttpClient;
+import okhttp3.TlsVersion;
+import org.apache.tomcat.jni.SSLSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
@@ -53,44 +62,74 @@ public final class BotHelper {
   public static final String KW_VIDEOS = "Video";
   public static final String KW_PANDUAN = "Panduan";
 
+  private static OkHttpClient.Builder okHttpClient() {
+    ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+        .tlsVersions(TlsVersion.TLS_1_2)
+        .build();
+
+    return new OkHttpClient.Builder()
+        .followRedirects(true)
+        .followSslRedirects(true)
+        .retryOnConnectionFailure(true)
+        .connectionSpecs(Collections.singletonList(cs));
+  }
+
   public static Response<UserProfileResponse> getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
-    return LineMessagingServiceBuilder.create(aChannelAccessToken).build().getProfile(aUserId).execute();
+    return LineMessagingServiceBuilder
+        .create(aChannelAccessToken)
+        .okHttpClientBuilder(okHttpClient())
+        .build().getProfile(aUserId).execute();
   }
 
   public static Response<BotApiResponse> replayMessage(String aChannelAccessToken, String aReplayToken,
       String aMsg) throws IOException {
     TextMessage message = new TextMessage(aMsg);
     ReplyMessage pushMessage = new ReplyMessage(aReplayToken, message);
-    return LineMessagingServiceBuilder.create(aChannelAccessToken).build().replyMessage(pushMessage).execute();
+    return LineMessagingServiceBuilder
+        .create(aChannelAccessToken)
+        .okHttpClientBuilder(okHttpClient())
+        .build().replyMessage(pushMessage).execute();
   }
 
   public static Response<BotApiResponse> pushMessage(String aChannelAccessToken, String aUserId,
       String aMsg) throws IOException {
     TextMessage message = new TextMessage(aMsg);
     PushMessage pushMessage = new PushMessage(aUserId, message);
-    return LineMessagingServiceBuilder.create(aChannelAccessToken).build().pushMessage(pushMessage).execute();
+    return LineMessagingServiceBuilder
+        .create(aChannelAccessToken)
+        .okHttpClientBuilder(okHttpClient())
+        .build().pushMessage(pushMessage).execute();
   }
 
   public static Response<BotApiResponse> multicastMessage(String aChannelAccessToken, Set<String> aUserIds,
       String aMsg) throws IOException {
     TextMessage message = new TextMessage(aMsg);
     Multicast pushMessage = new Multicast(aUserIds, message);
-    return LineMessagingServiceBuilder.create(aChannelAccessToken).build().multicast(pushMessage).execute();
+    return LineMessagingServiceBuilder
+        .create(aChannelAccessToken)
+        .okHttpClientBuilder(okHttpClient())
+        .build().multicast(pushMessage).execute();
   }
 
   public static Response<BotApiResponse> templateMessage(String aChannelAccessToken, String aUserId,
       Template aTemplate) throws IOException {
     TemplateMessage message = new TemplateMessage("Result", aTemplate);
     PushMessage pushMessage = new PushMessage(aUserId, message);
-    return LineMessagingServiceBuilder.create(aChannelAccessToken).build().pushMessage(pushMessage).execute();
+    return LineMessagingServiceBuilder
+        .create(aChannelAccessToken)
+        .okHttpClientBuilder(okHttpClient())
+        .build().pushMessage(pushMessage).execute();
   }
 
   public static Response<BotApiResponse> stickerMessage(String aChannelAccessToken, String aUserId,
       String aPackageId, String stickerId) throws IOException {
     StickerMessage message = new StickerMessage(aPackageId, stickerId);
     PushMessage pushMessage = new PushMessage(aUserId, message);
-    return LineMessagingServiceBuilder.create(aChannelAccessToken).build().pushMessage(pushMessage).execute();
+    return LineMessagingServiceBuilder
+        .create(aChannelAccessToken)
+        .okHttpClientBuilder(okHttpClient())
+        .build().pushMessage(pushMessage).execute();
   }
 
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {
