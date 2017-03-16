@@ -10,7 +10,6 @@ import com.ramusthastudio.ama.model.Postback;
 import com.ramusthastudio.ama.model.Source;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -40,6 +39,7 @@ import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
+import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
 
@@ -115,41 +115,37 @@ public class LineBotController {
                 String id = text.substring(TWITTER.length(), text.length());
 
                 if (id.length() > 3) {
-                  boolean isTwitterValid = false;
-                  try {
+                  ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+                  ScheduledFuture<User> scheduledFuture = scheduledExecutorService.schedule(() -> {
+                    pushMessage(fChannelAccessToken, userId, "twitter:" + id + "\n" + "Tunggu sebentar yah...");
+                    return twitterHelper.checkUsers(id);
+                  }, 5, TimeUnit.SECONDS);
 
-                    ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
-                    ScheduledFuture<User> scheduledFuture = scheduledExecutorService.schedule(() -> {
-                      replayMessage(fChannelAccessToken, replayToken, "twitter:" + id + "\n" + "Tunggu sebentar yah...");
-                      return twitterHelper.checkUsers(id);
-                    }, 5, TimeUnit.SECONDS);
+                  LOG.info("Is ScheduledExecutorService done :" + scheduledFuture.isDone());
+                  if (scheduledFuture.isDone()) {
+                    LOG.info("ScheduledExecutorService shutdown...");
+                    scheduledExecutorService.shutdown();
 
-                    LOG.info("Is ScheduledExecutorService done :"+scheduledFuture.isDone());
-                    if (scheduledFuture.isDone()) {
-                      LOG.info("ScheduledExecutorService shutdown...");
-                      scheduledExecutorService.shutdown();
-
+                    try {
                       User twitterUser = scheduledFuture.get();
                       if (twitterUser != null) {
-                        replayMessage(fChannelAccessToken, replayToken,
+                        pushMessage(fChannelAccessToken, userId,
                             "Name:" + twitterUser.getName() + "\n" +
                                 "Profile:" + twitterUser.getOriginalProfileImageURL() + "\n" +
                                 "Status:" + twitterUser.getStatus() + "\n"
                         );
-                        isTwitterValid = true;
                         confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
                       } else {
-                        replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba ulangi id twitter kamu");
+                        pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, coba ulangi id twitter kamu");
                       }
+                    } catch (Exception aE) {
+                      LOG.error("Getting twitter info error message : " + aE.getMessage());
                     }
+                  } else {
+                    pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, aku gak tau kenapa...");
+                  }
 
-                    LOG.info("End ScheduledExecutorService...");
-                  } catch (Exception aE) {
-                    LOG.error("Getting twitter info error message : " + aE.getMessage());
-                  }
-                  if (!isTwitterValid) {
-                    replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, aku gak tau kenapa...");
-                  }
+                  LOG.info("End ScheduledExecutorService...");
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba cek lagi id nya...");
                 }
