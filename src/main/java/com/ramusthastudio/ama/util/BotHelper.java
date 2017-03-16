@@ -4,32 +4,23 @@ import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.Multicast;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import java.io.IOException;
-import java.security.KeyStore;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-import okhttp3.CertificatePinner;
-import okhttp3.ConnectionSpec;
-import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 
 public final class BotHelper {
   private static final Logger LOG = LoggerFactory.getLogger(BotHelper.class);
-  public static final String DFL_REGION = "ID";
 
   public static final String SOURCE_USER = "user";
   public static final String SOURCE_GROUP = "group";
@@ -50,19 +41,9 @@ public final class BotHelper {
   public static final String MESSAGE_LOCATION = "location";
   public static final String MESSAGE_STICKER = "sticker";
 
-  public static final String KW_FIND = "Find";
-  public static final String KW_DETAIL = "Detail";
-  public static final String KW_STAR = "Star";
-  public static final String KW_DETAIL_OVERVIEW = "Overview";
-  public static final String KW_NOW_PLAYING = "Now Playing";
-  public static final String KW_LATEST = "Latest";
-  public static final String KW_POPULAR = "Popular";
-  public static final String KW_TOP_RATED = "Top Rated";
-  public static final String KW_UPCOMING = "Comming Soon";
-  public static final String KW_RECOMMEND = "Recommend";
-  public static final String KW_SIMILAR = "Similar";
-  public static final String KW_VIDEOS = "Video";
-  public static final String KW_PANDUAN = "Panduan";
+  public static final String TWITTER = "twitter:";
+  public static final String TWITTER_YES = "twitter_yes";
+  public static final String TWITTER_NO = "twitter_no";
 
   public static Response<UserProfileResponse> getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
@@ -123,10 +104,36 @@ public final class BotHelper {
   }
 
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {
-    stickerMessage(aChannelAccessToken, aUserId, "1", "125");
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
-    greeting += "Terima kasih telah menambahkan saya sebagai teman! \n\n";
+    greeting += "Terima kasih telah menambahkan saya sebagai teman!";
     pushMessage(aChannelAccessToken, aUserId, greeting);
+    stickerMessage(aChannelAccessToken, aUserId, "1", "125");
+  }
+
+  public static void instructionTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
+    String greeting = "Hi " + userProfile.getDisplayName() + "\n";
+    greeting += "Kamu mau tahu apa yang orang lain pikirkan tentang kamu ?\n";
+    greeting += "Aku bisa tau loh... asalkan kamu punya twitter dan sering nge-tweets\n";
+    greeting += "coba tulis id twitter kamu , contoh 'twitter:@idtwitter'";
+    pushMessage(aChannelAccessToken, aUserId, greeting);
+  }
+
+  public static void errorHandleTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
+    String greeting = "Hi " + userProfile.getDisplayName() + "\n";
+    greeting += "Ah kamu jarang nge-tweets nih\n";
+    greeting += "Aku gak bisa tau kalau kamu jarang nge-tweets\n";
+    stickerMessage(aChannelAccessToken, aUserId, "1", "125");
+    pushMessage(aChannelAccessToken, aUserId, greeting);
+  }
+
+  public static Response<BotApiResponse> confirmTwitterMessage(String aChannelAccessToken, String aUserId) throws IOException {
+    ConfirmTemplate template = new ConfirmTemplate("Kamu punya twitter ?", Arrays.asList(
+        new PostbackAction("Punya", TWITTER_YES),
+        new PostbackAction("nggak", TWITTER_NO)
+    ));
+    return templateMessage(aChannelAccessToken, aUserId, template);
   }
 }

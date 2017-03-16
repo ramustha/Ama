@@ -55,9 +55,11 @@ dependencies {
     compile('com.linecorp.bot:line-bot-servlet:1.6.0')
     compile('com.linecorp.bot:line-bot-spring-boot:1.6.0')
 
-//    compile('org.postgresql:postgresql:9.4.1212')
-//    compile('org.postgresql:postgresql:9.4.1212.jre7')
-//    compile('org.springframework:spring-jdbc:4.3.2.RELEASE')
+    compile 'org.twitter4j:twitter4j-core:4.0.3'
+
+    compile('org.postgresql:postgresql:9.4.1212')
+    compile('org.postgresql:postgresql:9.4.1212.jre7')
+    compile('org.springframework:spring-jdbc:4.3.2.RELEASE')
 //    testCompile 'com.squareup.okhttp3:mockwebserver'
 //    testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:1.5.2.RELEASE')

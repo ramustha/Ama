@@ -26,9 +26,12 @@ import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
+import static com.ramusthastudio.ama.util.BotHelper.TWITTER;
+import static com.ramusthastudio.ama.util.BotHelper.TWITTER_NO;
+import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
+import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
-import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 
 @RestController
@@ -85,14 +88,26 @@ public class LineBotController {
           case FOLLOW:
             LOG.info("Greeting Message");
             greetingMessage(fChannelAccessToken, userId);
-            pushMessage(fChannelAccessToken, userId, "Ask me anything..");
+            confirmTwitterMessage(fChannelAccessToken, userId);
             break;
           case MESSAGE:
             if (message.type().equals(MESSAGE_TEXT)) {
-              replayMessage(fChannelAccessToken, replayToken, message.text());
+              String text = message.text();
+              if (text.toLowerCase().startsWith(TWITTER)) {
+                String id = text.substring(TWITTER.length(), text.length());
+                replayMessage(fChannelAccessToken, replayToken, "twitter:" + id + "\n" + "Tunggu sebentar yah...");
+              } else {
+                replayMessage(fChannelAccessToken, replayToken, message.text());
+              }
             }
             break;
           case POSTBACK:
+            String pd = postback.data();
+            if (pd.equalsIgnoreCase(TWITTER_YES)) {
+              replayMessage(fChannelAccessToken, replayToken, TWITTER_YES);
+            } else if (pd.equalsIgnoreCase(TWITTER_NO)) {
+              replayMessage(fChannelAccessToken, replayToken, TWITTER_NO);
+            }
             break;
         }
       } catch (IOException aE) {
