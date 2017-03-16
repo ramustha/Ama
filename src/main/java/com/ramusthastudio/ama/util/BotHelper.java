@@ -146,7 +146,7 @@ public final class BotHelper {
 
   public static Response<BotApiResponse> confirmTwitterMessage(String aChannelAccessToken, String aUserId, String aMsg, String aYes, String aNo) throws IOException {
     ConfirmTemplate template = new ConfirmTemplate(aMsg, Arrays.asList(
-        new PostbackAction("Betul", aYes),
+        new PostbackAction("Bener", aYes),
         new PostbackAction("Salah", aNo)
     ));
     return templateMessage(aChannelAccessToken, aUserId, template);
