@@ -14,14 +14,13 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Set;
-import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import okhttp3.CertificatePinner;
 import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.TlsVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,36 +65,30 @@ public final class BotHelper {
 
   private static OkHttpClient.Builder okHttpClient() {
     LOG.info("creating ConnectionSpec....");
-    ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-        .tlsVersions(TlsVersion.SSL_3_0)
-        .supportsTlsExtensions(true)
-        .allEnabledCipherSuites()
-        .allEnabledTlsVersions()
-        .cipherSuites(
-            CipherSuite.TLS_DH_anon_EXPORT_WITH_DES40_CBC_SHA,
-            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-            CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-            CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-            // CipherSuite.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,
-            // CipherSuite.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
-            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-            CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-            CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-            CipherSuite.TLS_RSA_WITH_AES_128_GCM_SHA256,
-            CipherSuite.TLS_RSA_WITH_AES_256_GCM_SHA384,
-            CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA,
-            CipherSuite.TLS_RSA_WITH_AES_256_CBC_SHA,
-            CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA
-        )
+    ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
+        .tlsVersions(TlsVersion.TLS_1_0)
+        .cipherSuites(CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA)
+        // .allEnabledCipherSuites()
+        // .allEnabledTlsVersions()
+        // .cipherSuites(
+        //     CipherSuite.TLS_DH_anon_EXPORT_WITH_DES40_CBC_SHA,
+        //     CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+        //     CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+        //     CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+        //     CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+        //     // CipherSuite.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,
+        //     // CipherSuite.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
+        //     CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+        //     CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+        //     CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+        //     CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+        //     CipherSuite.TLS_RSA_WITH_AES_128_GCM_SHA256,
+        //     CipherSuite.TLS_RSA_WITH_AES_256_GCM_SHA384,
+        //     CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA,
+        //     CipherSuite.TLS_RSA_WITH_AES_256_CBC_SHA,
+        //     CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA
+        // )
         .build();
-
-    try {
-      SSLContext.getInstance("SSL_TLSv2");
-    } catch (NoSuchAlgorithmException aE) {
-      aE.printStackTrace();
-    }
 
     LOG.info("creating CertificatePinner....");
     CertificatePinner certificatePinner = new CertificatePinner.Builder()
