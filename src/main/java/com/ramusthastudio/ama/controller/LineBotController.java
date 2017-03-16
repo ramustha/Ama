@@ -9,6 +9,7 @@ import com.ramusthastudio.ama.model.Message;
 import com.ramusthastudio.ama.model.Payload;
 import com.ramusthastudio.ama.model.Postback;
 import com.ramusthastudio.ama.model.Source;
+import com.ramusthastudio.ama.model.UserModel;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -40,6 +41,7 @@ import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
+import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
 import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
@@ -116,27 +118,33 @@ public class LineBotController {
             if (message.type().equals(MESSAGE_TEXT)) {
               String text = message.text();
               if (text.toLowerCase().startsWith(TWITTER)) {
-                String id = text.substring(TWITTER.length(), text.length());
+                String screenName = text.substring(TWITTER.length(), text.length());
 
-                if (id.length() > 3) {
-                  try {
-                    User twitterUser = twitterHelper.checkUsers(id);
-                    pushMessage(fChannelAccessToken, userId,
-                        "Name: " + twitterUser.getName() + "\n" +
-                            "Profile: " + twitterUser.getOriginalProfileImageURL() + "\n" +
-                            "Status: " + twitterUser.getStatus().getText() + "\n"
-                    );
-                    LOG.info("Start adding user...");
-                    mDao.setUser(twitterUser);
-                    LOG.info("End adding user...");
-                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
+                if (screenName.length() > 3) {
+                  LOG.info("Start find user on database...");
+                  UserModel userDb = mDao.getByUserScreenName(screenName);
+                  LOG.info("end find user on database...");
 
-                  } catch (Exception aE) {
-                    pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, aku gak tau kenapa \ncoba cek lagi id nya");
-                    LOG.error("Getting twitter info error message : " + aE.getMessage());
+                  if (userDb != null) {
+                    profileUserMessage(fChannelAccessToken, userId, userDb);
+                  }else {
+                    LOG.info("Start find user on twitter server...");
+                    try {
+                      User twitterUser = twitterHelper.checkUsers(screenName);
+                      profileUserMessage(fChannelAccessToken, userId, twitterUser);
+                      LOG.info("Start adding user...");
+                      mDao.setUser(twitterUser);
+                      LOG.info("End adding user...");
+                      confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_YES, TWITTER_NO);
+
+                    } catch (Exception aE) {
+                      pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, aku gak tau kenapa \ncoba cek lagi id nya");
+                      LOG.error("Getting twitter info error message : " + aE.getMessage());
+                    }
+                    LOG.info("End find user on twitter server...");
                   }
                 } else {
-                  replayMessage(fChannelAccessToken, replayToken, "Kamu yakin id nya udah bener ? coba cek lagi id nya...");
+                  replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
 
               } else {

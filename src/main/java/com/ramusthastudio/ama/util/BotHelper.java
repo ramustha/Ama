@@ -8,16 +8,20 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.ramusthastudio.ama.model.UserModel;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
+import twitter4j.User;
 
 public final class BotHelper {
   private static final Logger LOG = LoggerFactory.getLogger(BotHelper.class);
@@ -44,6 +48,7 @@ public final class BotHelper {
   public static final String TWITTER = "twitter:";
   public static final String TWITTER_YES = "twitter_yes";
   public static final String TWITTER_NO = "twitter_no";
+  public static final String TWITTER_SENTIMENT = "twitter_sentiment";
 
   public static Response<UserProfileResponse> getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
@@ -103,6 +108,38 @@ public final class BotHelper {
         .build().pushMessage(pushMessage).execute();
   }
 
+  public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, UserModel aModel) throws IOException {
+    String desc = aModel.getDescription();
+    if (aModel.getDescription().isEmpty()) {
+      desc = "Gak nyantumin deskripsi";
+    }
+    ButtonsTemplate template = new ButtonsTemplate(
+        aModel.getOriginalProfileImageUrlHttps(),
+        aModel.getScreenName(),
+        desc,
+        Collections.singletonList(
+            new PostbackAction("Apa kata orang ?", TWITTER_SENTIMENT + " " + aModel.getId())
+        ));
+
+    return templateMessage(aChannelAccessToken, aUserId, template);
+  }
+
+  public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, User aModel) throws IOException {
+    String desc = aModel.getDescription();
+    if (aModel.getDescription().isEmpty()) {
+      desc = "Gak nyantumin deskripsi";
+    }
+    ButtonsTemplate template = new ButtonsTemplate(
+        aModel.getProfileImageURLHttps(),
+        aModel.getScreenName(),
+        desc,
+        Collections.singletonList(
+            new PostbackAction("Apa kata orang ?", TWITTER_SENTIMENT + " " + aModel.getId())
+        ));
+
+    return templateMessage(aChannelAccessToken, aUserId, template);
+  }
+
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
@@ -123,7 +160,7 @@ public final class BotHelper {
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Kamu mau tahu apa yang orang lain pikirkan tentang kamu ?\n";
     greeting += "Aku bisa tau loh... asalkan kamu punya twitter dan sering nge-tweets\n";
-    greeting += "coba tulis id twitter kamu , contoh 'twitter:@idtwitter'";
+    greeting += "coba tulis id twitter nya , contoh 'twitter:@idtwitter'";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
