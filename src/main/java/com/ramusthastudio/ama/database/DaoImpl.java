@@ -80,11 +80,11 @@ public class DaoImpl implements Dao {
     return mJdbc.query(SQL_SELECT_ALL, MULTIPLE_RS_EXTRACTOR);
   }
 
-  @Override public UserModel getByUserId(long aUserId) {
-    return mJdbc.query(SQL_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_RS_EXTRACTOR);
+  @Override public List<UserModel> getByUserId(long aUserId) {
+    return mJdbc.query(SQL_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, MULTIPLE_RS_EXTRACTOR);
   }
 
-  @Override public UserModel getByUserScreenName(String aScreenName) {
-    return mJdbc.query(SQL_GET_BY_SCREEN_NAME, new Object[] {"%" + aScreenName + "%"}, SINGLE_RS_EXTRACTOR);
+  @Override public List<UserModel> getByUserScreenName(String aScreenName) {
+    return mJdbc.query(SQL_GET_BY_SCREEN_NAME, new Object[] {"%" + aScreenName + "%"}, MULTIPLE_RS_EXTRACTOR);
   }
 }
