@@ -11,12 +11,18 @@ import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import java.io.IOException;
+import java.security.KeyStore;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.CertificatePinner;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
-import okhttp3.TlsVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
@@ -60,7 +66,7 @@ public final class BotHelper {
 
   private static OkHttpClient.Builder okHttpClient() {
     LOG.info("creating ConnectionSpec string COMPATIBLE_TLS TLSv1, TLSv1.1, TLSv1.2....");
-    ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
+    ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
         .tlsVersions("TLSv1", "TLSv1.1", "TLSv1.2")
         // .cipherSuites(CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA)
         // .allEnabledCipherSuites()
@@ -90,9 +96,34 @@ public final class BotHelper {
         .add("localhost", "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
         .build();
 
-    LOG.info("creating http client with connectionSpecs....");
+    LOG.info("creating TrustManagerFactory....");
 
-    return new OkHttpClient.Builder()
+    OkHttpClient.Builder okhttp = new OkHttpClient.Builder();
+    X509TrustManager trustManager = null;
+    SSLSocketFactory sslSocketFactory = null;
+    try {
+      TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
+          TrustManagerFactory.getDefaultAlgorithm());
+      trustManagerFactory.init((KeyStore) null);
+      TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+      if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
+        throw new IllegalStateException("Unexpected default trust managers:"
+            + Arrays.toString(trustManagers));
+      }
+      trustManager = (X509TrustManager) trustManagers[0];
+
+      SSLContext sslContext = SSLContext.getInstance("TLS");
+      sslContext.init(null, new TrustManager[] {trustManager}, null);
+      sslSocketFactory = sslContext.getSocketFactory();
+
+      LOG.info("creating sslSocketFactory....");
+      okhttp.sslSocketFactory(sslSocketFactory, trustManager);
+    } catch (Exception aE) {
+      aE.printStackTrace();
+    }
+
+    LOG.info("creating OkHttpClient....");
+    return okhttp
         .certificatePinner(certificatePinner)
         .connectionSpecs(Collections.singletonList(cs));
   }
