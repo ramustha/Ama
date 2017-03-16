@@ -59,7 +59,21 @@ public class DaoImpl implements Dao {
   }
 
   @Override public void setUser(User aUser) {
-    mJdbc.update(SQL_INSERT_USER, aUser);
+    mJdbc.update(SQL_INSERT_USER, new UserModel(
+        aUser.getId(),
+        aUser.getName(),
+        aUser.getScreenName(),
+        aUser.getLocation(),
+        aUser.getDescription(),
+        aUser.getProfileImageURL(),
+        aUser.getOriginalProfileImageURL(),
+        aUser.getOriginalProfileImageURLHttps(),
+        aUser.isProtected(),
+        aUser.getFollowersCount(),
+        aUser.getStatus().getText(),
+        aUser.getFriendsCount(),
+        aUser.isVerified()
+    ));
   }
 
   @Override public List<UserModel> get() {

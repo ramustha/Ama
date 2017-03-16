@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" />
-    </list>
+    <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -84,8 +81,8 @@
       <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7">
-              <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+            <state relative-caret-position="296">
+              <caret line="129" column="27" lean-forward="true" selection-start-line="129" selection-start-column="27" selection-end-line="129" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -147,7 +144,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="7" column="27" lean-forward="false" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+              <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -158,17 +155,19 @@
       <file leaf-file-name="DaoImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="61" column="16" lean-forward="false" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="16" />
+            <state relative-caret-position="260">
+              <caret line="60" column="24" lean-forward="false" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1489655440687" expanded="true" signature="387:400" ph="SELECT * FRO... " />
-                <marker date="1489655440687" expanded="true" signature="387:406" ph="SELECT * FRO... user" />
-                <marker date="1489655440687" expanded="true" signature="387:407" ph="SELECT * FRO... " />
-                <marker date="1489655440687" expanded="true" signature="474:481" ph="SELECT id, u... user_table" />
-                <marker date="1489655440687" expanded="true" signature="474:487" ph="SELECT * FRO... " />
-                <marker date="1489655440687" expanded="true" signature="474:489" ph="SELECT * FRO... " />
-                <marker date="1489655440687" expanded="true" signature="541:805" ph="INSERT INTO " />
+                <element signature="e#2405#2406#0" expanded="true" />
+                <element signature="e#2451#2452#0" expanded="true" />
+                <marker date="1489655564957" expanded="true" signature="387:400" ph="SELECT * FRO... " />
+                <marker date="1489655564957" expanded="true" signature="387:406" ph="SELECT * FRO... user" />
+                <marker date="1489655564957" expanded="true" signature="387:407" ph="SELECT * FRO... " />
+                <marker date="1489655564957" expanded="true" signature="474:481" ph="SELECT id, u... user_table" />
+                <marker date="1489655564957" expanded="true" signature="474:487" ph="SELECT * FRO... " />
+                <marker date="1489655564957" expanded="true" signature="474:489" ph="SELECT * FRO... " />
+                <marker date="1489655564957" expanded="true" signature="541:805" ph="INSERT INTO " />
               </folding>
             </state>
           </provider>
@@ -650,11 +649,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/task/TaskExecutor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/task/TaskExecutorTwitter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
       </list>
     </option>
   </component>
@@ -1365,12 +1364,12 @@
       <workItem from="1489560478830" duration="48000" />
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
-      <workItem from="1489565847515" duration="33570000" />
+      <workItem from="1489565847515" duration="33828000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137126000" />
+    <option name="totallyTimeSpent" value="137384000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1401,7 +1400,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30343008" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30343008" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1188946" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1815,16 +1814,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7">
-          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="398">
@@ -1839,16 +1828,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="27" lean-forward="false" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/4.3.2.RELEASE/a8943a4ba041e29ddf9b313ba8f1f5f8aab768a/spring-jdbc-4.3.2.RELEASE-sources.jar!/org/springframework/jdbc/core/JdbcTemplate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-519">
@@ -1857,19 +1836,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="61" column="16" lean-forward="false" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="16" />
+        <state relative-caret-position="296">
+          <caret line="129" column="27" lean-forward="true" selection-start-line="129" selection-start-column="27" selection-end-line="129" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1489655440687" expanded="true" signature="387:400" ph="SELECT * FRO... " />
-            <marker date="1489655440687" expanded="true" signature="387:406" ph="SELECT * FRO... user" />
-            <marker date="1489655440687" expanded="true" signature="387:407" ph="SELECT * FRO... " />
-            <marker date="1489655440687" expanded="true" signature="474:481" ph="SELECT id, u... user_table" />
-            <marker date="1489655440687" expanded="true" signature="474:487" ph="SELECT * FRO... " />
-            <marker date="1489655440687" expanded="true" signature="474:489" ph="SELECT * FRO... " />
-            <marker date="1489655440687" expanded="true" signature="541:805" ph="INSERT INTO " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="60" column="24" lean-forward="false" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2405#2406#0" expanded="true" />
+            <element signature="e#2451#2452#0" expanded="true" />
+            <marker date="1489655564957" expanded="true" signature="387:400" ph="SELECT * FRO... " />
+            <marker date="1489655564957" expanded="true" signature="387:406" ph="SELECT * FRO... user" />
+            <marker date="1489655564957" expanded="true" signature="387:407" ph="SELECT * FRO... " />
+            <marker date="1489655564957" expanded="true" signature="474:481" ph="SELECT id, u... user_table" />
+            <marker date="1489655564957" expanded="true" signature="474:487" ph="SELECT * FRO... " />
+            <marker date="1489655564957" expanded="true" signature="474:489" ph="SELECT * FRO... " />
+            <marker date="1489655564957" expanded="true" signature="541:805" ph="INSERT INTO " />
           </folding>
         </state>
       </provider>
