@@ -12,6 +12,7 @@ import com.ramusthastudio.ama.model.Source;
 import com.ramusthastudio.ama.model.UserModel;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -122,11 +123,11 @@ public class LineBotController {
 
                 if (screenName.length() > 3) {
                   LOG.info("Start find user on database...");
-                  UserModel userDb = mDao.getByUserScreenName(screenName);
+                  List<UserModel> userDb = mDao.getByUserScreenName(screenName);
                   LOG.info("end find user on database...");
 
                   if (userDb != null) {
-                    profileUserMessage(fChannelAccessToken, userId, userDb);
+                    profileUserMessage(fChannelAccessToken, userId, userDb.get(0));
                   }else {
                     LOG.info("Start find user on twitter server...");
                     try {
