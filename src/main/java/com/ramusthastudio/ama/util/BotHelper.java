@@ -11,14 +11,9 @@ import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Set;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 import okhttp3.CertificatePinner;
-import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.TlsVersion;
@@ -64,10 +59,10 @@ public final class BotHelper {
   public static final String KW_PANDUAN = "Panduan";
 
   private static OkHttpClient.Builder okHttpClient() {
-    LOG.info("creating ConnectionSpec....");
+    LOG.info("creating ConnectionSpec COMPATIBLE_TLS TLSv1, TLSv1.1, TLSv1.2....");
     ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
-        .tlsVersions(TlsVersion.TLS_1_0)
-        .cipherSuites(CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA)
+        .tlsVersions(TlsVersion.TLS_1_0, TlsVersion.TLS_1_1, TlsVersion.TLS_1_2)
+        // .cipherSuites(CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA)
         // .allEnabledCipherSuites()
         // .allEnabledTlsVersions()
         // .cipherSuites(
@@ -95,13 +90,11 @@ public final class BotHelper {
         .add("localhost", "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
         .build();
 
-    LOG.info("creating http client....");
+    LOG.info("creating http client with connectionSpecs....");
 
     return new OkHttpClient.Builder()
         .certificatePinner(certificatePinner)
-        .connectionSpecs(Collections.singletonList(cs))
-        .cache(null)
-        ;
+        .connectionSpecs(Collections.singletonList(cs));
   }
 
   public static Response<UserProfileResponse> getUserProfile(String aChannelAccessToken,
