@@ -59,7 +59,7 @@ public class DaoImpl implements Dao {
   }
 
   @Override public void setUser(User aUser) {
-    mJdbc.update(SQL_INSERT_USER, new UserModel(
+    mJdbc.update(SQL_INSERT_USER,
         aUser.getId(),
         aUser.getName(),
         aUser.getScreenName(),
@@ -72,8 +72,7 @@ public class DaoImpl implements Dao {
         aUser.getFollowersCount(),
         aUser.getStatus().getText(),
         aUser.getFriendsCount(),
-        aUser.isVerified()
-    ));
+        aUser.isVerified());
   }
 
   @Override public List<UserModel> get() {
