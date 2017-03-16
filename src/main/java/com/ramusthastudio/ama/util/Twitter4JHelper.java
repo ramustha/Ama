@@ -3,7 +3,6 @@ package com.ramusthastudio.ama.util;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.google.common.base.Strings;
-import com.ramusthastudio.ama.controller.LineBotController;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.time.Instant;
@@ -13,9 +12,6 @@ import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.RestController;
 import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
 import twitter4j.RateLimitStatusEvent;
@@ -27,24 +23,11 @@ import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
-@RestController
 public class Twitter4JHelper implements RateLimitStatusListener {
   private static final Logger LOG = LoggerFactory.getLogger(Twitter4JHelper.class);
-
-  @Autowired
-  @Qualifier("twitter.consumerKey")
   String fTwitterConsumerKey;
-
-  @Autowired
-  @Qualifier("twitter.consumerSecret")
   String fTwitterConsumerSecret;
-
-  @Autowired
-  @Qualifier("twitter.accessToken")
   String fTwitterAccessToken;
-
-  @Autowired
-  @Qualifier("twitter.accessSecret")
   String fTwitterAccessSecret;
 
   Twitter twitter = null;
@@ -55,6 +38,12 @@ public class Twitter4JHelper implements RateLimitStatusListener {
   public Twitter4JHelper() {
     // Validate that these are set and throw an error if they are not
     ArrayList<String> nullPropNames = new ArrayList<>();
+
+    fTwitterConsumerKey = System.getenv("oauth.consumerKey");
+    fTwitterConsumerSecret = System.getenv("oauth.consumerSecret");
+    fTwitterAccessToken = System.getenv("oauth.accessToken");
+    fTwitterAccessSecret = System.getenv("oauth.accessTokenSecret");
+
     if (Strings.isNullOrEmpty(fTwitterConsumerKey)) { nullPropNames.add(fTwitterConsumerKey); }
     if (Strings.isNullOrEmpty(fTwitterConsumerSecret)) {
       nullPropNames.add(fTwitterConsumerSecret);
@@ -62,15 +51,15 @@ public class Twitter4JHelper implements RateLimitStatusListener {
     if (Strings.isNullOrEmpty(fTwitterAccessToken)) { nullPropNames.add(fTwitterAccessToken); }
     if (Strings.isNullOrEmpty(fTwitterAccessSecret)) { nullPropNames.add(fTwitterAccessSecret); }
     if (nullPropNames.size() > 0) {
-      System.out.println(
+      LOG.error(
           "Cannot load the twitter credentials from the properties. The properties "
               + " are null or empty");
     }
 
-    LOG.info("TwitterConsumerKey :"+fTwitterConsumerKey);
-    LOG.info("TwitterConsumerSecret :"+fTwitterConsumerSecret);
-    LOG.info("TwitterAccessToken :"+fTwitterAccessToken);
-    LOG.info("TwitterAccessSecret :"+fTwitterAccessSecret);
+    LOG.info("TwitterConsumerKey :" + fTwitterConsumerKey);
+    LOG.info("TwitterConsumerSecret :" + fTwitterConsumerSecret);
+    LOG.info("TwitterAccessToken :" + fTwitterAccessToken);
+    LOG.info("TwitterAccessSecret :" + fTwitterAccessSecret);
 
     ConfigurationBuilder cb = new ConfigurationBuilder();
     cb.setDebugEnabled(true)

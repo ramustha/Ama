@@ -110,22 +110,29 @@ public class LineBotController {
                 String id = text.substring(TWITTER.length(), text.length());
                 replayMessage(fChannelAccessToken, replayToken, "twitter:" + id + "\n" + "Tunggu sebentar yah...");
 
-                try {
-                  User twitterUser = twitterHelper.checkUsers(id);
-                  if (twitterUser != null) {
-                    replayMessage(fChannelAccessToken, replayToken,
-                        "Name:" + twitterUser.getName() + "\n" +
-                            "Profile:" + twitterUser.getOriginalProfileImageURL() + "\n" +
-                            "Status:" + twitterUser.getStatus() + "\n"
-                    );
-
-                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
-                  } else {
-                    replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba ulangi id twitter kamu");
+                if (id.length() > 3) {
+                  boolean isTwitterValid = false;
+                  try {
+                    User twitterUser = twitterHelper.checkUsers(id);
+                    if (twitterUser != null) {
+                      replayMessage(fChannelAccessToken, replayToken,
+                          "Name:" + twitterUser.getName() + "\n" +
+                              "Profile:" + twitterUser.getOriginalProfileImageURL() + "\n" +
+                              "Status:" + twitterUser.getStatus() + "\n"
+                      );
+                      isTwitterValid = true;
+                      confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
+                    } else {
+                      replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba ulangi id twitter kamu");
+                    }
+                  } catch (Exception aE) {
+                    LOG.error("Getting twitter info error message : " + aE.getMessage());
                   }
-                } catch (Exception aE) {
-                  replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, aku gak tau kenapa...");
-                  LOG.error("Getting twitter info error message : " + aE.getMessage());
+                  if (!isTwitterValid) {
+                    replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, aku gak tau kenapa...");
+                  }
+                }else {
+                  replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba cek lagi id nya...");
                 }
 
               } else {
