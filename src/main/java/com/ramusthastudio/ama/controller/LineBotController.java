@@ -115,39 +115,21 @@ public class LineBotController {
                 String id = text.substring(TWITTER.length(), text.length());
 
                 if (id.length() > 3) {
-                  ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
-                  ScheduledFuture<User> scheduledFuture = scheduledExecutorService.schedule(() -> {
-                    pushMessage(fChannelAccessToken, userId, "twitter:" + id + "\n" + "Tunggu sebentar yah...");
-                    return twitterHelper.checkUsers(id);
-                  }, 5, TimeUnit.SECONDS);
+                  try {
+                    User twitterUser = twitterHelper.checkUsers(id);
+                    pushMessage(fChannelAccessToken, userId,
+                        "Name:" + twitterUser.getName() + "\n" +
+                            "Profile:" + twitterUser.getOriginalProfileImageURL() + "\n" +
+                            "Status:" + twitterUser.getStatus() + "\n"
+                    );
+                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
 
-                  LOG.info("Is ScheduledExecutorService done :" + scheduledFuture.isDone());
-                  if (scheduledFuture.isDone()) {
-                    LOG.info("ScheduledExecutorService shutdown...");
-                    scheduledExecutorService.shutdown();
-
-                    try {
-                      User twitterUser = scheduledFuture.get();
-                      if (twitterUser != null) {
-                        pushMessage(fChannelAccessToken, userId,
-                            "Name:" + twitterUser.getName() + "\n" +
-                                "Profile:" + twitterUser.getOriginalProfileImageURL() + "\n" +
-                                "Status:" + twitterUser.getStatus() + "\n"
-                        );
-                        confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
-                      } else {
-                        pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, coba ulangi id twitter kamu");
-                      }
-                    } catch (Exception aE) {
-                      LOG.error("Getting twitter info error message : " + aE.getMessage());
-                    }
-                  } else {
+                  } catch (Exception aE) {
                     pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, aku gak tau kenapa...");
+                    LOG.error("Getting twitter info error message : " + aE.getMessage());
                   }
-
-                  LOG.info("End ScheduledExecutorService...");
                 } else {
-                  replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba cek lagi id nya...");
+                  replayMessage(fChannelAccessToken, replayToken, "Kamu yakin id nya udah bener ? coba cek lagi id nya...");
                 }
 
               } else {
