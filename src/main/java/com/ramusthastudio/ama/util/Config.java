@@ -21,4 +21,24 @@ public class Config {
   public String getChannelAccessToken() {
     return mEnv.getProperty("line.bot.channelToken");
   }
+
+  @Bean(name = "twitter.consumerKey")
+  public String getTwitterConsumerKey() {
+    return mEnv.getProperty("twitter.consumerKey");
+  }
+
+  @Bean(name = "twitter.consumerSecret")
+  public String getTwitterConsumerSecret() {
+    return mEnv.getProperty("twitter.consumerSecret");
+  }
+
+  @Bean(name = "twitter.accessToken")
+  public String getTwitterAccessToken() {
+    return mEnv.getProperty("twitter.accessToken");
+  }
+
+  @Bean(name = "twitter.accessSecret")
+  public String getTwitterAccessSecret() {
+    return mEnv.getProperty("twitter.accessSecret");
+  }
 }

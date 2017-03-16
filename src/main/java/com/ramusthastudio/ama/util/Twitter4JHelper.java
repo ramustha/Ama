@@ -9,8 +9,10 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RestController;
 import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
 import twitter4j.RateLimitStatusEvent;
@@ -22,39 +24,50 @@ import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
+@RestController
 public class Twitter4JHelper implements RateLimitStatusListener {
-  private static final String TW_CONSUMER_KEY_PROP_NAME = "twitter.consumerKey";
-  private static final String TW_CONSUMER_SECRET_PROP_NAME = "twitter.consumerSecret";
-  private static final String TW_ACCESS_TOKEN_PROP_NAME = "twitter.accessToken";
-  private static final String TW_ACCESS_SECRET_PROP_NAME = "twitter.accessSecret";
+
+  @Autowired
+  @Qualifier("twitter.consumerKey")
+  String fTwitterConsumerKey;
+
+  @Autowired
+  @Qualifier("twitter.consumerSecret")
+  String fTwitterConsumerSecret;
+
+  @Autowired
+  @Qualifier("twitter.accessToken")
+  String fTwitterAccessToken;
+
+  @Autowired
+  @Qualifier("twitter.accessSecret")
+  String fTwitterAccessSecret;
 
   Twitter twitter = null;
 
   boolean rateLimited = false;
   long rateLimitResetTime = -1;
 
-  public Twitter4JHelper(Properties properties) throws Exception {
-    String consumerKey = properties.getProperty(TW_CONSUMER_KEY_PROP_NAME);
-    String consumerSecret = properties.getProperty(TW_CONSUMER_SECRET_PROP_NAME);
-    String accessToken = properties.getProperty(TW_ACCESS_TOKEN_PROP_NAME);
-    String accessSecret = properties.getProperty(TW_ACCESS_SECRET_PROP_NAME);
+  public Twitter4JHelper() {
     // Validate that these are set and throw an error if they are not
-    ArrayList<String> nullPropNames = new ArrayList<String>();
-    if (Strings.isNullOrEmpty(consumerKey)) { nullPropNames.add(TW_CONSUMER_KEY_PROP_NAME); }
-    if (Strings.isNullOrEmpty(consumerSecret)) { nullPropNames.add(TW_CONSUMER_SECRET_PROP_NAME); }
-    if (Strings.isNullOrEmpty(accessToken)) { nullPropNames.add(TW_ACCESS_TOKEN_PROP_NAME); }
-    if (Strings.isNullOrEmpty(accessSecret)) { nullPropNames.add(TW_ACCESS_SECRET_PROP_NAME); }
+    ArrayList<String> nullPropNames = new ArrayList<>();
+    if (Strings.isNullOrEmpty(fTwitterConsumerKey)) { nullPropNames.add(fTwitterConsumerKey); }
+    if (Strings.isNullOrEmpty(fTwitterConsumerSecret)) {
+      nullPropNames.add(fTwitterConsumerSecret);
+    }
+    if (Strings.isNullOrEmpty(fTwitterAccessToken)) { nullPropNames.add(fTwitterAccessToken); }
+    if (Strings.isNullOrEmpty(fTwitterAccessSecret)) { nullPropNames.add(fTwitterAccessSecret); }
     if (nullPropNames.size() > 0) {
-      throw new Exception(
+      System.out.println(
           "Cannot load the twitter credentials from the properties. The properties "
               + " are null or empty");
     }
     ConfigurationBuilder cb = new ConfigurationBuilder();
     cb.setDebugEnabled(true)
-        .setOAuthConsumerKey(consumerKey)
-        .setOAuthConsumerSecret(consumerSecret)
-        .setOAuthAccessToken(accessToken)
-        .setOAuthAccessTokenSecret(accessSecret);
+        .setOAuthConsumerKey(fTwitterConsumerKey)
+        .setOAuthConsumerSecret(fTwitterConsumerSecret)
+        .setOAuthAccessToken(fTwitterAccessToken)
+        .setOAuthAccessTokenSecret(fTwitterAccessSecret);
     TwitterFactory tf = new TwitterFactory(cb.build());
     twitter = tf.getInstance();
     twitter.addRateLimitStatusListener(this);
@@ -124,7 +137,7 @@ public class Twitter4JHelper implements RateLimitStatusListener {
     return path;
   }
 
-  public long checkUsers(String idOrHandle) throws Exception {
+  public User checkUsers(String idOrHandle) throws Exception {
     long userId = -1;
     if (idOrHandle.startsWith("@")) {
       // Check rate limit
@@ -133,7 +146,7 @@ public class Twitter4JHelper implements RateLimitStatusListener {
       if (user == null) {
         throw new Exception("Handle " + idOrHandle + " is not a valid twitter handle.");
       }
-      userId = user.getId();
+      return user;
     } else if (!idOrHandle.startsWith("@")) {
       // Check rate limit
       checkRateLimitAndThrow();
@@ -141,11 +154,10 @@ public class Twitter4JHelper implements RateLimitStatusListener {
       if (user == null) {
         throw new Exception("Handle " + idOrHandle + " is not a valid twitter handle.");
       }
-      userId = user.getId();
-    } else {
-      userId = Long.valueOf(idOrHandle);
+      return user;
     }
-    return userId;
+
+    return null;
   }
 
   public List<Status> getTweets(String idOrHandle, Set<String> langs, int numberOfNonRetweets) throws Exception {

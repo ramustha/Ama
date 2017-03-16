@@ -111,6 +111,13 @@ public final class BotHelper {
     stickerMessage(aChannelAccessToken, aUserId, "1", "125");
   }
 
+  public static void unfollowMessage(String aChannelAccessToken, String aUserId) throws IOException {
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
+    String greeting = "Hi " + userProfile.getDisplayName() + "\n";
+    greeting += "Kenapa kamu unfollow aku? jahat !!!";
+    pushMessage(aChannelAccessToken, aUserId, greeting);
+  }
+
   public static void instructionTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
@@ -133,6 +140,14 @@ public final class BotHelper {
     ConfirmTemplate template = new ConfirmTemplate("Kamu punya twitter ?", Arrays.asList(
         new PostbackAction("Punya", TWITTER_YES),
         new PostbackAction("nggak", TWITTER_NO)
+    ));
+    return templateMessage(aChannelAccessToken, aUserId, template);
+  }
+
+  public static Response<BotApiResponse> confirmTwitterMessage(String aChannelAccessToken, String aUserId, String aMsg, String aYes, String aNo) throws IOException {
+    ConfirmTemplate template = new ConfirmTemplate(aMsg, Arrays.asList(
+        new PostbackAction("Betul", aYes),
+        new PostbackAction("Salah", aNo)
     ));
     return templateMessage(aChannelAccessToken, aUserId, template);
   }

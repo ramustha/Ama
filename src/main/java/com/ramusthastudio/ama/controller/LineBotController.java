@@ -8,6 +8,7 @@ import com.ramusthastudio.ama.model.Message;
 import com.ramusthastudio.ama.model.Payload;
 import com.ramusthastudio.ama.model.Postback;
 import com.ramusthastudio.ama.model.Source;
+import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import retrofit2.Response;
+import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
@@ -29,10 +31,12 @@ import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_NO;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
+import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
+import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
 
 @RestController
 @RequestMapping(value = "/linebot")
@@ -47,6 +51,8 @@ public class LineBotController {
   @Qualifier("line.bot.channelToken")
   String fChannelAccessToken;
 
+  private Twitter4JHelper twitterHelper;
+
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
   public ResponseEntity<String> callback(
       @RequestHeader("X-Line-Signature") String aXLineSignature,
@@ -58,6 +64,10 @@ public class LineBotController {
     LOG.info("The Signature is: {} ", (aXLineSignature != null && aXLineSignature.length() > 0) ? aXLineSignature : "N/A");
     final boolean valid = new LineSignatureValidator(fChannelSecret.getBytes()).validateSignature(aPayload.getBytes(), aXLineSignature);
     LOG.info("The Signature is: {} ", valid ? "valid" : "tidak valid");
+
+    if (twitterHelper == null) {
+      twitterHelper = new Twitter4JHelper();
+    }
 
     if (aPayload != null && aPayload.length() > 0) {
       Gson gson = new Gson();
@@ -85,6 +95,9 @@ public class LineBotController {
 
       try {
         switch (eventType) {
+          case UNFOLLOW:
+            unfollowMessage(fChannelAccessToken, userId);
+            break;
           case FOLLOW:
             LOG.info("Greeting Message");
             greetingMessage(fChannelAccessToken, userId);
@@ -96,6 +109,24 @@ public class LineBotController {
               if (text.toLowerCase().startsWith(TWITTER)) {
                 String id = text.substring(TWITTER.length(), text.length());
                 replayMessage(fChannelAccessToken, replayToken, "twitter:" + id + "\n" + "Tunggu sebentar yah...");
+
+                try {
+                  User twitterUser = twitterHelper.checkUsers(id);
+                  if (twitterUser != null) {
+                    replayMessage(fChannelAccessToken, replayToken,
+                        "Name:" + twitterUser.getName() + "\n" +
+                            "Profile:" + twitterUser.getOriginalProfileImageURL() + "\n" +
+                            "Status:" + twitterUser.getStatus() + "\n"
+                    );
+
+                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
+                  } else {
+                    replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba ulangi id twitter kamu");
+                  }
+                } catch (Exception aE) {
+                  LOG.error("Getting twitter info error message : " + aE.getMessage());
+                }
+
               } else {
                 replayMessage(fChannelAccessToken, replayToken, message.text());
               }
