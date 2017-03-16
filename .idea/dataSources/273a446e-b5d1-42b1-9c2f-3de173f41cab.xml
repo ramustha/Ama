@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="heroku">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.0">
+    <root id="1"/>
+    <database id="2" parent="1" name="d651am2g14ijta">
+      <ObjectId>2510615</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <schema id="3" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2017-03-16.09:32:53.676</IntrospectionTimestamp>
+      <IntrospectionStateNumber>11199678</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="4" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="5" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="6" parent="2" name="pg_temp_1">
+      <ObjectId>11848</ObjectId>
+    </schema>
+    <schema id="7" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11849</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="information_schema">
+      <ObjectId>13003</ObjectId>
+    </schema>
+    <sequence id="9" parent="3" name="user_followers_count_seq">
+      <ObjectId>2597664</ObjectId>
+      <StateNumber>11199678</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+    </sequence>
+    <sequence id="10" parent="3" name="user_friends_count_seq">
+      <ObjectId>2597666</ObjectId>
+      <StateNumber>11199678</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+    </sequence>
+    <sequence id="11" parent="3" name="user_id_seq">
+      <ObjectId>2597662</ObjectId>
+      <StateNumber>11199678</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+    </sequence>
+    <table id="12" parent="3" name="user">
+      <ObjectId>2597668</ObjectId>
+      <StateNumber>11199678</StateNumber>
+    </table>
+    <column id="13" parent="12" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11199678</StateNumber>
+      <DefaultExpression>nextval(&apos;user_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="14" parent="12" name="name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="15" parent="12" name="screen_name">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="16" parent="12" name="location">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="17" parent="12" name="description">
+      <Position>5</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="18" parent="12" name="profile_image_url">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="19" parent="12" name="original_profile_image_url">
+      <Position>7</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="20" parent="12" name="original_profile_image_url_https">
+      <Position>8</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="21" parent="12" name="is_protected">
+      <Position>9</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="22" parent="12" name="followers_count">
+      <Position>10</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11199678</StateNumber>
+      <DefaultExpression>nextval(&apos;user_followers_count_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="23" parent="12" name="status_text">
+      <Position>11</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <column id="24" parent="12" name="friends_count">
+      <Position>12</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>11199678</StateNumber>
+      <DefaultExpression>nextval(&apos;user_friends_count_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="25" parent="12" name="is_verified">
+      <Position>13</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>11199678</StateNumber>
+    </column>
+    <index id="26" parent="12" name="user_pkey">
+      <ObjectId>2597677</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="27" parent="12" name="user_pkey">
+      <ObjectId>2597678</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>user_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

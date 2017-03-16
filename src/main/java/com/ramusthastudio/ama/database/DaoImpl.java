@@ -9,9 +9,9 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import twitter4j.User;
 
 public class DaoImpl implements Dao {
-  private final static String SQL_SELECT_ALL = "SELECT * FROM 'user'";
+  private final static String SQL_SELECT_ALL = "SELECT * FROM \"user\"";
   private final static String SQL_GET_BY_ID = SQL_SELECT_ALL + " WHERE id = ? ;";
-  private final static String SQL_INSERT_USER = "INSERT INTO 'user' (id, name, screen_name, location, description, profile_image_url,original_profile_image_url, original_profile_image_url_https, is_protected, followers_count, status_text, friends_count, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+  private final static String SQL_INSERT_USER = "INSERT INTO \"user\" (id, \"name\", screen_name, location, description, profile_image_url,original_profile_image_url, original_profile_image_url_https, is_protected, followers_count, status_text, friends_count, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
   private JdbcTemplate mJdbc;
 
