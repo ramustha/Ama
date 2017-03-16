@@ -12,13 +12,13 @@ public class Config {
   @Autowired
   Environment mEnv;
 
-  @Bean(name = "com.linecorp.channel_secret")
+  @Bean(name = "line.bot.channelSecret")
   public String getChannelSecret() {
-    return mEnv.getProperty("com.linecorp.channel_secret");
+    return mEnv.getProperty("line.bot.channelSecret");
   }
 
-  @Bean(name = "com.linecorp.channel_access_token")
+  @Bean(name = "line.bot.channelToken")
   public String getChannelAccessToken() {
-    return mEnv.getProperty("com.linecorp.channel_access_token");
+    return mEnv.getProperty("line.bot.channelToken");
   }
 }

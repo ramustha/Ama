@@ -37,11 +37,11 @@ public class LineBotController {
   private static final Logger LOG = LoggerFactory.getLogger(LineBotController.class);
 
   @Autowired
-  @Qualifier("com.linecorp.channel_secret")
+  @Qualifier("line.bot.channelSecret")
   String fChannelSecret;
 
   @Autowired
-  @Qualifier("com.linecorp.channel_access_token")
+  @Qualifier("line.bot.channelToken")
   String fChannelAccessToken;
 
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
