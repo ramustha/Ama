@@ -67,9 +67,12 @@ public final class BotHelper {
   public static final String KW_PANDUAN = "Panduan";
 
   private static OkHttpClient.Builder okHttpClient() {
+    System.out.println("creating ConnectionSpec....");
     ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-        .tlsVersions(TlsVersion.TLS_1_0)
+        .tlsVersions(TlsVersion.TLS_1_3)
         .supportsTlsExtensions(true)
+        .allEnabledCipherSuites()
+        .allEnabledTlsVersions()
         .cipherSuites(
             CipherSuite.TLS_DH_anon_EXPORT_WITH_DES40_CBC_SHA,
             CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
@@ -87,14 +90,15 @@ public final class BotHelper {
             CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA,
             CipherSuite.TLS_RSA_WITH_AES_256_CBC_SHA,
             CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA
-            // CipherSuite.SSL_RSA_WITH_3DES_EDE_CBC_SHA
             )
         .build();
 
+    System.out.println("creating CertificatePinner....");
     CertificatePinner certificatePinner = new CertificatePinner.Builder()
         .add("localhost", "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
         .build();
 
+    System.out.println("creating http client....");
     return new OkHttpClient.Builder()
         .protocols(Collections.singletonList(Protocol.HTTP_1_1))
         .certificatePinner(certificatePinner)

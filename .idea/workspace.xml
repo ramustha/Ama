@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -123,8 +124,8 @@
       <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="87" column="22" lean-forward="true" selection-start-line="87" selection-start-column="22" selection-end-line="87" selection-end-column="22" />
+            <state relative-caret-position="146">
+              <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -133,9 +134,22 @@
       <file leaf-file-name="BotHelper.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="94" column="9" lean-forward="true" selection-start-line="94" selection-start-column="9" selection-end-line="94" selection-end-column="9" />
+            <state relative-caret-position="270">
+              <caret line="96" column="48" lean-forward="false" selection-start-line="96" selection-start-column="48" selection-end-line="96" selection-end-column="48" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CipherSuite.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/CipherSuite.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="148">
+              <caret line="51" column="63" lean-forward="false" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="63" />
+              <folding>
+                <element signature="e#42972#42973#0" expanded="true" />
+                <element signature="e#43010#43011#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -153,8 +167,8 @@
       <file leaf-file-name="TlsVersion.java" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/TlsVersion.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="25" column="2" lean-forward="false" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
+            <state relative-caret-position="107">
+              <caret line="22" column="16" lean-forward="false" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -186,7 +200,6 @@
       <find>get</find>
       <find>@Expose</find>
       <find>public</find>
-      <find>get</find>
       <find>movie</find>
       <find>@Query(&quot;api_key&quot;) String aApi</find>
       <find>ow_playing</find>
@@ -197,6 +210,7 @@
       <find>, @Query(&quot;language&quot;) String aLanguage</find>
       <find>contains</find>
       <find>DFL_REGION</find>
+      <find>SSL_RSA_WITH_3DES_EDE_CBC_SHA</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -1273,12 +1287,12 @@
       <workItem from="1489560478830" duration="48000" />
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
-      <workItem from="1489565847515" duration="10298000" />
+      <workItem from="1489565847515" duration="10926000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113854000" />
+    <option name="totallyTimeSpent" value="114482000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1672,38 +1686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="87" column="22" lean-forward="true" selection-start-line="87" selection-start-column="22" selection-end-line="87" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/Protocol.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/TlsVersion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="25" column="2" lean-forward="false" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/CipherSuite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="32" column="19" lean-forward="false" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/CertificatePinner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
@@ -1712,10 +1694,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/Protocol.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="40" column="2" lean-forward="false" selection-start-line="40" selection-start-column="2" selection-end-line="40" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/CipherSuite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="51" column="63" lean-forward="false" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="63" />
+          <folding>
+            <element signature="e#42972#42973#0" expanded="true" />
+            <element signature="e#43010#43011#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/TlsVersion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="22" column="16" lean-forward="false" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="94" column="9" lean-forward="true" selection-start-line="94" selection-start-column="9" selection-end-line="94" selection-end-column="9" />
+        <state relative-caret-position="270">
+          <caret line="96" column="48" lean-forward="false" selection-start-line="96" selection-start-column="48" selection-end-line="96" selection-end-column="48" />
           <folding />
         </state>
       </provider>
