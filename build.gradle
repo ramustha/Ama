@@ -2,7 +2,7 @@ group 'com.ramusthastudio.ama'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-//apply plugin: 'spring-boot'
+apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
 
@@ -39,25 +39,9 @@ configure(distclean) {
     description = 'Clean the build result and the .gradle directory'
 }
 
-//dependencyManagement {
-//    dependencies {
-//        dependency 'com.squareup.retrofit2:converter-jackson:2.1.0'
-//        dependency 'com.squareup.retrofit2:retrofit:2.1.0'
-//        dependency 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-//        dependency 'com.squareup.okhttp3:mockwebserver:3.4.1'
-//    }
-//}
-
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE'
-//    compile 'org.springframework:spring-aop:1.5.2.RELEASE'
-//    compile 'org.springframework:spring-beans:1.5.2.RELEASE'
-//    compile 'org.springframework:spring-context:1.5.2.RELEASE'
-//    compile 'org.springframework:spring-core:1.5.2.RELEASE'
-//    compile 'org.springframework:spring-expression:1.5.2.RELEASE'
-//    compile 'org.springframework:spring-web:1.5.2.RELEASE'
-//    compile 'org.springframework:spring-webmvc:1.5.2.RELEASE'
 
 
     compile 'com.google.code.gson:gson:2.8.0'
