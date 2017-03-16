@@ -13,7 +13,7 @@ buildscript {
         maven { url 'https://repo.spring.io/plugins-release' }
     }
     dependencies {
-//        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE')
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE')
     }
 }
 
@@ -50,7 +50,7 @@ configure(distclean) {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-//    compile 'org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:1.5.2.RELEASE'
 //    compile 'org.springframework:spring-aop:1.5.2.RELEASE'
 //    compile 'org.springframework:spring-beans:1.5.2.RELEASE'
 //    compile 'org.springframework:spring-context:1.5.2.RELEASE'
@@ -76,5 +76,5 @@ dependencies {
 //    compile('org.springframework:spring-jdbc:4.3.2.RELEASE')
 //    testCompile 'com.squareup.okhttp3:mockwebserver'
 //    testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
-//    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:1.5.2.RELEASE')
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:1.5.2.RELEASE')
 }
