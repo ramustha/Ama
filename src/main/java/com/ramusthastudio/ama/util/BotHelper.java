@@ -65,7 +65,7 @@ public final class BotHelper {
   public static final String KW_PANDUAN = "Panduan";
 
   private static OkHttpClient.Builder okHttpClient() {
-    LOG.info("creating ConnectionSpec string COMPATIBLE_TLS TLSv1, TLSv1.1, TLSv1.2....");
+    LOG.info("creating ConnectionSpec ....");
     ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
         .tlsVersions("TLSv1", "TLSv1.1", "TLSv1.2")
         // .cipherSuites(CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA)
