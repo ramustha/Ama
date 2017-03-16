@@ -77,7 +77,6 @@ public class LineBotController {
         UserProfileResponse profile = profileResp.body();
         LOG.info("profile {} message {}", profile, profileResp.message());
       } catch (IOException aE) {
-        aE.printStackTrace();
         LOG.error("Message {}", aE.getMessage());
       }
 
@@ -97,7 +96,6 @@ public class LineBotController {
             break;
         }
       } catch (IOException aE) {
-        aE.printStackTrace();
         LOG.error("Message {}", aE.getMessage());
       }
 

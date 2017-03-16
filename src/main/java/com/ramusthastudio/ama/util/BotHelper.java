@@ -10,21 +10,19 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Intercepter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import okhttp3.CertificatePinner;
 import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
+import okhttp3.Request;
 import okhttp3.TlsVersion;
-import org.apache.tomcat.jni.SSLSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
@@ -67,7 +65,7 @@ public final class BotHelper {
   public static final String KW_PANDUAN = "Panduan";
 
   private static OkHttpClient.Builder okHttpClient() {
-    System.out.println("creating ConnectionSpec....");
+    LOG.info("creating ConnectionSpec....");
     ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
         .tlsVersions(TlsVersion.TLS_1_3)
         .supportsTlsExtensions(true)
@@ -90,23 +88,32 @@ public final class BotHelper {
             CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA,
             CipherSuite.TLS_RSA_WITH_AES_256_CBC_SHA,
             CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA
-            )
+        )
         .build();
 
-    System.out.println("creating CertificatePinner....");
+    try {
+      SSLContext.getInstance("SSL_TLSv2");
+    } catch (NoSuchAlgorithmException aE) {
+      aE.printStackTrace();
+    }
+
+    LOG.info("creating CertificatePinner....");
     CertificatePinner certificatePinner = new CertificatePinner.Builder()
         .add("localhost", "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
         .build();
 
-    System.out.println("creating http client....");
+    LOG.info("creating http client....");
+
     return new OkHttpClient.Builder()
-        .protocols(Collections.singletonList(Protocol.HTTP_1_1))
         .certificatePinner(certificatePinner)
-        .connectionSpecs(Collections.singletonList(cs));
+        .connectionSpecs(Collections.singletonList(cs))
+        .cache(null)
+        ;
   }
 
   public static Response<UserProfileResponse> getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
+    LOG.info("getUserProfile...");
     return LineMessagingServiceBuilder
         .create(aChannelAccessToken)
         .okHttpClientBuilder(okHttpClient())
@@ -117,6 +124,7 @@ public final class BotHelper {
       String aMsg) throws IOException {
     TextMessage message = new TextMessage(aMsg);
     ReplyMessage pushMessage = new ReplyMessage(aReplayToken, message);
+    LOG.info("replayMessage...");
     return LineMessagingServiceBuilder
         .create(aChannelAccessToken)
         .okHttpClientBuilder(okHttpClient())
@@ -127,6 +135,7 @@ public final class BotHelper {
       String aMsg) throws IOException {
     TextMessage message = new TextMessage(aMsg);
     PushMessage pushMessage = new PushMessage(aUserId, message);
+    LOG.info("pushMessage...");
     return LineMessagingServiceBuilder
         .create(aChannelAccessToken)
         .okHttpClientBuilder(okHttpClient())
@@ -137,6 +146,7 @@ public final class BotHelper {
       String aMsg) throws IOException {
     TextMessage message = new TextMessage(aMsg);
     Multicast pushMessage = new Multicast(aUserIds, message);
+    LOG.info("multicastMessage...");
     return LineMessagingServiceBuilder
         .create(aChannelAccessToken)
         .okHttpClientBuilder(okHttpClient())
@@ -147,6 +157,7 @@ public final class BotHelper {
       Template aTemplate) throws IOException {
     TemplateMessage message = new TemplateMessage("Result", aTemplate);
     PushMessage pushMessage = new PushMessage(aUserId, message);
+    LOG.info("templateMessage...");
     return LineMessagingServiceBuilder
         .create(aChannelAccessToken)
         .okHttpClientBuilder(okHttpClient())
@@ -157,6 +168,7 @@ public final class BotHelper {
       String aPackageId, String stickerId) throws IOException {
     StickerMessage message = new StickerMessage(aPackageId, stickerId);
     PushMessage pushMessage = new PushMessage(aUserId, message);
+    LOG.info("stickerMessage...");
     return LineMessagingServiceBuilder
         .create(aChannelAccessToken)
         .okHttpClientBuilder(okHttpClient())
