@@ -124,6 +124,7 @@ public class LineBotController {
                     replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, coba ulangi id twitter kamu");
                   }
                 } catch (Exception aE) {
+                  replayMessage(fChannelAccessToken, replayToken, "Kayaknya ada yang salah nih, aku gak tau kenapa...");
                   LOG.error("Getting twitter info error message : " + aE.getMessage());
                 }
 

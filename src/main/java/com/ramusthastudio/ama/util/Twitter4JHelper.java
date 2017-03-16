@@ -3,6 +3,7 @@ package com.ramusthastudio.ama.util;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.google.common.base.Strings;
+import com.ramusthastudio.ama.controller.LineBotController;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.time.Instant;
@@ -10,6 +11,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +29,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 @RestController
 public class Twitter4JHelper implements RateLimitStatusListener {
+  private static final Logger LOG = LoggerFactory.getLogger(Twitter4JHelper.class);
 
   @Autowired
   @Qualifier("twitter.consumerKey")
@@ -62,6 +66,12 @@ public class Twitter4JHelper implements RateLimitStatusListener {
           "Cannot load the twitter credentials from the properties. The properties "
               + " are null or empty");
     }
+
+    LOG.info("TwitterConsumerKey :"+fTwitterConsumerKey);
+    LOG.info("TwitterConsumerSecret :"+fTwitterConsumerSecret);
+    LOG.info("TwitterAccessToken :"+fTwitterAccessToken);
+    LOG.info("TwitterAccessSecret :"+fTwitterAccessSecret);
+
     ConfigurationBuilder cb = new ConfigurationBuilder();
     cb.setDebugEnabled(true)
         .setOAuthConsumerKey(fTwitterConsumerKey)
