@@ -3,6 +3,7 @@ package com.ramusthastudio.ama.controller;
 import com.google.gson.Gson;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.profile.UserProfileResponse;
+import com.ramusthastudio.ama.database.Dao;
 import com.ramusthastudio.ama.model.Events;
 import com.ramusthastudio.ama.model.Message;
 import com.ramusthastudio.ama.model.Payload;
@@ -55,6 +56,9 @@ public class LineBotController {
   @Autowired
   @Qualifier("line.bot.channelToken")
   String fChannelAccessToken;
+
+  @Autowired
+  Dao mDao;
 
   private Twitter4JHelper twitterHelper;
 
@@ -118,14 +122,17 @@ public class LineBotController {
                   try {
                     User twitterUser = twitterHelper.checkUsers(id);
                     pushMessage(fChannelAccessToken, userId,
-                        "Name:" + twitterUser.getName() + "\n" +
-                            "Profile:" + twitterUser.getOriginalProfileImageURL() + "\n" +
-                            "Status:" + twitterUser.getStatus() + "\n"
+                        "Name: " + twitterUser.getName() + "\n" +
+                            "Profile: " + twitterUser.getOriginalProfileImageURL() + "\n" +
+                            "Status: " + twitterUser.getStatus().getText() + "\n"
                     );
+                    LOG.info("Start adding user...");
+                    mDao.setUser(twitterUser);
+                    LOG.info("End adding user...");
                     confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter kamu ?", TWITTER_YES, TWITTER_NO);
 
                   } catch (Exception aE) {
-                    pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, aku gak tau kenapa...");
+                    pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, aku gak tau kenapa \ncoba cek lagi id nya");
                     LOG.error("Getting twitter info error message : " + aE.getMessage());
                   }
                 } else {
