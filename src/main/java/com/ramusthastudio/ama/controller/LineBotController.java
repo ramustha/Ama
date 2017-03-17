@@ -13,10 +13,6 @@ import com.ramusthastudio.ama.model.UserModel;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,7 +124,7 @@ public class LineBotController {
 
                   if (userDb != null) {
                     profileUserMessage(fChannelAccessToken, userId, userDb.get(0));
-                  }else {
+                  } else {
                     LOG.info("Start find user on twitter server...");
                     try {
                       User twitterUser = twitterHelper.checkUsers(screenName);
