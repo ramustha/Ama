@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,7 +65,10 @@ public class LineBotController {
   @Autowired
   Dao mDao;
 
+  private UserLine mUserLine;
   private Twitter4JHelper twitterHelper;
+
+  @Bean public UserLine getUserLine() { return mUserLine; }
 
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
   public ResponseEntity<String> callback(
@@ -100,8 +104,8 @@ public class LineBotController {
       try {
         LOG.info("Start find UserProfileResponse on database...");
         UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
-        UserLine userLine = mDao.getUserLineById(profile.getUserId());
-        if (userLine == null) {
+        mUserLine = mDao.getUserLineById(profile.getUserId());
+        if (mUserLine == null) {
           LOG.info("Start save user line to database...");
           mDao.setUserLine(profile);
         }
@@ -127,29 +131,27 @@ public class LineBotController {
                 if (screenName.length() > 3) {
                   LOG.info("Start find user on database...");
                   UserModel userModel = mDao.getUserModelByScreenName(screenName);
-                  LOG.info("end find user on database...");
+                  LOG.info("end find user on database..." + userModel);
 
                   if (userModel != null) {
+                    LOG.info("Display from database...");
                     profileUserMessage(fChannelAccessToken, userId, userModel);
                   } else {
-                    LOG.info("Start find user on twitter server...");
                     try {
                       User twitterUser = twitterHelper.checkUsers(screenName);
+                      LOG.info("Display from twitter server...");
                       profileUserMessage(fChannelAccessToken, userId, twitterUser);
                       LOG.info("Start adding user...");
                       mDao.setUserModel(twitterUser);
                       LOG.info("End adding user...");
                       confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
-
                     } catch (Exception aE) {
                       LOG.error("Getting twitter info error message : " + aE.getMessage());
                     }
-                    LOG.info("End find user on twitter server...");
                   }
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
-
               } else {
                 replayMessage(fChannelAccessToken, replayToken, message.text());
               }
