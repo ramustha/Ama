@@ -118,12 +118,12 @@ public class LineBotController {
                 String screenName = text.substring(TWITTER.length(), text.length());
 
                 if (screenName.length() > 3) {
-                  LOG.info("Start find user on database...");
-                  List<UserModel> userDb = mDao.getByUserScreenName(screenName);
-                  LOG.info("end find user on database...");
+                  LOG.info("Start find single user on database...");
+                  UserModel userDb = mDao.getByUserScreenName(screenName);
+                  LOG.info("end find single user on database...");
 
                   if (userDb != null) {
-                    profileUserMessage(fChannelAccessToken, userId, userDb.get(0));
+                    profileUserMessage(fChannelAccessToken, userId, userDb);
                   } else {
                     LOG.info("Start find user on twitter server...");
                     try {

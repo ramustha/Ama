@@ -6,6 +6,7 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import twitter4j.User;
 
 public class DaoImpl implements Dao {
@@ -16,7 +17,7 @@ public class DaoImpl implements Dao {
 
   private JdbcTemplate mJdbc;
 
-  private final static ResultSetExtractor<UserModel> SINGLE_RS_EXTRACTOR = aRs ->
+  private final static RowMapper<UserModel> SINGLE_RS_EXTRACTOR = (aRs, rowNum) ->
       new UserModel(
           aRs.getInt("id"),
           aRs.getString("name"),
@@ -30,8 +31,24 @@ public class DaoImpl implements Dao {
           aRs.getInt("followers_count"),
           aRs.getString("status_text"),
           aRs.getInt("friends_count"),
-          aRs.getBoolean("is_verified")
-      );
+          aRs.getBoolean("is_verified"));
+
+  // private final static ResultSetExtractor<UserModel> SINGLE_RS_EXTRACTOR = aRs ->
+  //     new UserModel(
+  //         aRs.getInt("id"),
+  //         aRs.getString("name"),
+  //         aRs.getString("screen_name"),
+  //         aRs.getString("location"),
+  //         aRs.getString("description"),
+  //         aRs.getString("profile_image_url"),
+  //         aRs.getString("original_profile_image_url"),
+  //         aRs.getString("original_profile_image_url_https"),
+  //         aRs.getBoolean("is_protected"),
+  //         aRs.getInt("followers_count"),
+  //         aRs.getString("status_text"),
+  //         aRs.getInt("friends_count"),
+  //         aRs.getBoolean("is_verified")
+  //     );
 
   private final static ResultSetExtractor<List<UserModel>> MULTIPLE_RS_EXTRACTOR = aRs -> {
     List<UserModel> list = new ArrayList<>();
@@ -84,7 +101,7 @@ public class DaoImpl implements Dao {
     return mJdbc.query(SQL_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, MULTIPLE_RS_EXTRACTOR);
   }
 
-  @Override public List<UserModel> getByUserScreenName(String aScreenName) {
-    return mJdbc.query(SQL_GET_BY_SCREEN_NAME, new Object[] {"%" + aScreenName + "%"}, MULTIPLE_RS_EXTRACTOR);
+  @Override public UserModel getByUserScreenName(String aScreenName) {
+    return mJdbc.queryForObject(SQL_GET_BY_SCREEN_NAME, new Object[] {"%" + aScreenName + "%"}, SINGLE_RS_EXTRACTOR);
   }
 }
