@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
-
 @Component
 public class ScheduledTasks {
   private static final Logger LOG = LoggerFactory.getLogger(ScheduledTasks.class);
@@ -34,22 +32,26 @@ public class ScheduledTasks {
 
   @Scheduled(fixedRate = 5000)
   public void reportCurrentTime() {
-    LocalDateTime now = LocalDateTime.now();
-    LOG.info("The time is now {}", dateFormat.format(now));
-    List<UserChat> userChat = mDao.getAllUserChat();
-    if (userChat != null) {
-      for (UserChat chat : userChat) {
-        LocalDateTime lastTimeChat = LocalDateTime.from(Instant.ofEpochMilli(chat.getLastTime()));
-        LocalDateTime timeLimit = lastTimeChat.plusMinutes(2);
-        if (timeLimit.isAfter(now)) {
-          LOG.info("Start push message");
-          // try {
-          //   pushMessage(fChannelAccessToken, chat.getUserId(), "Kok kamu aja ? kok gak ngobrol sama aku lagi ?");
-          // } catch (IOException aE) {
-          //   LOG.error("Start push message error message : " + aE.getMessage());
-          // }
+    try {
+      LocalDateTime now = LocalDateTime.now();
+      LOG.info("The time is now {}", dateFormat.format(now));
+      List<UserChat> userChat = mDao.getAllUserChat();
+      if (userChat != null && userChat.size() > 0) {
+        for (UserChat chat : userChat) {
+          LocalDateTime lastTimeChat = LocalDateTime.from(Instant.ofEpochMilli(chat.getLastTime()));
+          LocalDateTime timeLimit = lastTimeChat.plusMinutes(2);
+          if (timeLimit.isAfter(now)) {
+            LOG.info("Start push message");
+            // try {
+            //   pushMessage(fChannelAccessToken, chat.getUserId(), "Kok kamu aja ? kok gak ngobrol sama aku lagi ?");
+            // } catch (IOException aE) {
+            //   LOG.error("Start push message error message : " + aE.getMessage());
+            // }
+          }
         }
       }
+    } catch (Exception aE) {
+      LOG.error("ScheduledTasks error message : " + aE.getMessage());
     }
   }
 }
