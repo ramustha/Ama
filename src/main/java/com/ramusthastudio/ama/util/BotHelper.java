@@ -13,6 +13,8 @@ import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.ramusthastudio.ama.database.Dao;
+import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserModel;
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,6 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 import twitter4j.User;
+
+import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_AFRAID;
+import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_TWO_THUMBS;
 
 public final class BotHelper {
   private static final Logger LOG = LoggerFactory.getLogger(BotHelper.class);
@@ -48,14 +53,16 @@ public final class BotHelper {
   public static final String TWITTER = "twitter:";
   public static final String TWITTER_YES = "twitter_yes";
   public static final String TWITTER_NO = "twitter_no";
+  public static final String TWITTER_TRUE = "twitter_true";
+  public static final String TWITTER_FALSE = "twitter_false";
   public static final String TWITTER_SENTIMENT = "twitter_sentiment";
 
-  public static Response<UserProfileResponse> getUserProfile(String aChannelAccessToken,
+  public static UserProfileResponse getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
     LOG.info("getUserProfile...");
     return LineMessagingServiceBuilder
         .create(aChannelAccessToken)
-        .build().getProfile(aUserId).execute();
+        .build().getProfile(aUserId).execute().body();
   }
 
   public static Response<BotApiResponse> replayMessage(String aChannelAccessToken, String aReplayToken,
@@ -99,8 +106,8 @@ public final class BotHelper {
   }
 
   public static Response<BotApiResponse> stickerMessage(String aChannelAccessToken, String aUserId,
-      String aPackageId, String stickerId) throws IOException {
-    StickerMessage message = new StickerMessage(aPackageId, stickerId);
+      StickerHelper.StickerMsg aSt) throws IOException {
+    StickerMessage message = new StickerMessage(aSt.pkgId(), aSt.id());
     PushMessage pushMessage = new PushMessage(aUserId, message);
     LOG.info("stickerMessage...");
     return LineMessagingServiceBuilder
@@ -141,35 +148,35 @@ public final class BotHelper {
   }
 
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {
-    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Terima kasih telah menambahkan saya sebagai teman!";
+    stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
-    stickerMessage(aChannelAccessToken, aUserId, "1", "125");
   }
 
   public static void unfollowMessage(String aChannelAccessToken, String aUserId) throws IOException {
-    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Kenapa kamu unfollow aku? jahat !!!";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
   public static void instructionTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
-    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
-    greeting += "Kamu mau tahu apa yang orang lain pikirkan tentang kamu ?\n";
-    greeting += "Aku bisa tau loh... asalkan kamu punya twitter dan sering nge-tweets\n";
+    greeting += "Kamu mau tahu yang orang lain pikirin tentang kamu ?\n";
+    greeting += "Aku bisa tau loh... asalkan kamu sering nge-tweets\n";
     greeting += "coba tulis id twitter nya , contoh 'twitter:@idtwitter'";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
   public static void errorHandleTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
-    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId).body();
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Ah kamu jarang nge-tweets nih\n";
     greeting += "Aku gak bisa tau kalau kamu jarang nge-tweets\n";
-    stickerMessage(aChannelAccessToken, aUserId, "1", "125");
+    stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_AFRAID));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 

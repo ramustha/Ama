@@ -11,6 +11,7 @@ import com.ramusthastudio.ama.model.Postback;
 import com.ramusthastudio.ama.model.Source;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserModel;
+import com.ramusthastudio.ama.util.StickerHelper;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
 import org.slf4j.Logger;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import retrofit2.Response;
 import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
@@ -32,15 +32,20 @@ import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER;
+import static com.ramusthastudio.ama.util.BotHelper.TWITTER_FALSE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_NO;
+import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
+import static com.ramusthastudio.ama.util.BotHelper.instructionTweetsMessage;
 import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
+import static com.ramusthastudio.ama.util.BotHelper.stickerMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
+import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SHOCK;
 
 @RestController
 @RequestMapping(value = "/linebot")
@@ -91,12 +96,14 @@ public class LineBotController {
 
       String userId = source.userId();
 
+      UserLine userLine = null;
+      UserModel userModel = null;
+
       try {
         LOG.info("Start find UserProfileResponse on database...");
-        Response<UserProfileResponse> profileResp = getUserProfile(fChannelAccessToken, userId);
-        UserProfileResponse profile = profileResp.body();
-        UserLine lineUser = mDao.getUserLineById(profile.getUserId());
-        if (lineUser == null) {
+        UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
+        userLine = mDao.getUserLineById(profile.getUserId());
+        if (userLine == null) {
           LOG.info("Start save user line to database...");
           mDao.setUserLine(profile);
         }
@@ -121,11 +128,11 @@ public class LineBotController {
 
                 if (screenName.length() > 3) {
                   LOG.info("Start find user on database...");
-                  UserModel userDb = mDao.getUserModelByScreenName(screenName);
+                  userModel = mDao.getUserModelByScreenName(screenName);
                   LOG.info("end find user on database...");
 
-                  if (userDb != null) {
-                    profileUserMessage(fChannelAccessToken, userId, userDb);
+                  if (userModel != null) {
+                    profileUserMessage(fChannelAccessToken, userId, userModel);
                   } else {
                     LOG.info("Start find user on twitter server...");
                     try {
@@ -134,7 +141,7 @@ public class LineBotController {
                       LOG.info("Start adding user...");
                       mDao.setUserModel(twitterUser);
                       LOG.info("End adding user...");
-                      confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_YES, TWITTER_NO);
+                      confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE, TWITTER_FALSE);
 
                     } catch (Exception aE) {
                       LOG.error("Getting twitter info error message : " + aE.getMessage());
@@ -152,17 +159,27 @@ public class LineBotController {
             break;
           case POSTBACK:
             String pd = postback.data();
-            if (pd.equalsIgnoreCase(TWITTER_YES)) {
-              replayMessage(fChannelAccessToken, replayToken, TWITTER_YES);
-            } else if (pd.equalsIgnoreCase(TWITTER_NO)) {
-              replayMessage(fChannelAccessToken, replayToken, TWITTER_NO);
+
+            switch (pd) {
+              case TWITTER_YES:
+                replayMessage(fChannelAccessToken, replayToken, TWITTER_YES + "tw: " + userModel.getName() +" line: "+userLine.getDisplayName());
+                instructionTweetsMessage(fChannelAccessToken, userId);
+                break;
+              case TWITTER_NO:
+                stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SHOCK));
+                replayMessage(fChannelAccessToken, replayToken, "Hari gini gak punya twitter ?");
+                break;
+              case TWITTER_TRUE:
+                replayMessage(fChannelAccessToken, replayToken, TWITTER_YES + "tw: " + userModel.getName() +" line: "+userLine.getDisplayName());
+                stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SHOCK));
+                break;
+              case TWITTER_FALSE:
+                replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
+                break;
             }
             break;
         }
-      } catch (IOException aE) {
-        LOG.error("Message {}", aE.getMessage());
-      }
-
+      } catch (IOException aE) { LOG.error("Message {}", aE.getMessage()); }
     }
 
     return new ResponseEntity<>(HttpStatus.OK);

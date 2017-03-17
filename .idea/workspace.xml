@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="" />
+    <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -99,8 +103,8 @@
       <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="96" column="45" lean-forward="false" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
+            <state relative-caret-position="357">
+              <caret line="164" column="106" lean-forward="false" selection-start-line="164" selection-start-column="106" selection-end-line="164" selection-end-column="106" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -108,23 +112,35 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="StickerHelper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/StickerHelper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="17" column="31" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DaoImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="130" column="48" lean-forward="true" selection-start-line="130" selection-start-column="48" selection-end-line="130" selection-end-column="48" />
+            <state relative-caret-position="49">
+              <caret line="14" column="71" lean-forward="true" selection-start-line="14" selection-start-column="71" selection-end-line="14" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1489722024502" expanded="true" signature="551:564" ph="SELECT * FRO... " />
-                <marker date="1489722024502" expanded="true" signature="551:565" ph="SELECT * FRO... user" />
-                <marker date="1489722024502" expanded="true" signature="551:571" ph="SELECT * FRO... " />
-                <marker date="1489722024502" expanded="true" signature="551:573" ph="SELECT * FRO... user" />
-                <marker date="1489722024502" expanded="true" signature="551:574" ph="SELECT * FRO... user" />
-                <marker date="1489722024502" expanded="true" signature="662:675" ph="SELECT * FRO... user" />
-                <marker date="1489722024502" expanded="true" signature="775:814" ph="SELECT * FRO... user" />
-                <marker date="1489722024502" expanded="true" signature="874:1144" ph="INSERT INTO \&quot;user\&quot;... " />
-                <marker date="1489722024502" expanded="true" signature="1207:1230" ph="SELECT * FRO... user_line" />
-                <marker date="1489722024502" expanded="true" signature="1317:1330" ph="SELECT * FRO... user_line" />
+                <marker date="1489723054846" expanded="true" signature="551:564" ph="SELECT * FRO... " />
+                <marker date="1489723054846" expanded="true" signature="551:565" ph="SELECT * FRO... user" />
+                <marker date="1489723054846" expanded="true" signature="551:571" ph="SELECT * FRO... " />
+                <marker date="1489723054846" expanded="true" signature="551:573" ph="SELECT * FRO... user" />
+                <marker date="1489723054846" expanded="true" signature="551:574" ph="SELECT * FRO... user" />
+                <marker date="1489723054846" expanded="true" signature="662:675" ph="SELECT * FRO... user" />
+                <marker date="1489723054846" expanded="true" signature="775:814" ph="SELECT * FRO... user" />
+                <marker date="1489723054846" expanded="true" signature="874:1144" ph="INSERT INTO \&quot;user\&quot;... " />
+                <marker date="1489723054846" expanded="true" signature="1207:1230" ph="SELECT * FRO... user_line" />
+                <marker date="1489723054846" expanded="true" signature="1317:1346" ph="SELECT * FRO... user_line" />
+                <marker date="1489723054846" expanded="true" signature="1317:1347" ph="SELECT * FRO... user_line" />
+                <marker date="1489723054846" expanded="true" signature="1406:1495" ph="INSERT INTO user_line... " />
               </folding>
             </state>
           </provider>
@@ -155,8 +171,8 @@
       <file leaf-file-name="BotHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="52" column="46" lean-forward="false" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
+            <state relative-caret-position="100">
+              <caret line="151" column="56" lean-forward="true" selection-start-line="150" selection-start-column="4" selection-end-line="151" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -198,6 +214,10 @@
       <find>getByUserScreenName</find>
       <find>+ '\'' +</find>
       <find>kamu</find>
+      <find>st</find>
+      <find>Integer</find>
+      <find>100</find>
+      <find>1</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -633,10 +653,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserLine.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/StickerHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
       </list>
     </option>
@@ -840,7 +861,7 @@
     <property name="js.eslint.eslintPackage" value="" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="SearchEverywhereHistoryKey" value="ok&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/OkHttpClient.java&#10;ConnectionSpecSelector&#9;PSI&#9;JAVA://okhttp3.internal.connection.ConnectionSpecSelector&#10;mess&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;push&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;Mes&#9;FILE&#9;file://D:/SANDBOX/Line/infomovies/src/main/java/com/ramusthastudio/infomovies/model/Message.java&#10;e&#9;PSI&#9;JAVA://com.ramusthastudio.infomovies.util.EGenre&#10;sticker&#9;PSI&#9;JAVA://com.linecorp.bot.model.message.StickerMessage&#10;Confirm&#9;PSI&#9;JAVA://com.linecorp.bot.model.message.template.ConfirmTemplate" />
+    <property name="SearchEverywhereHistoryKey" value="sticker&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/6c232e0be0300a599717881d472a4b2c8ce6e56f/line-bot-model-1.6.0.jar!/com/linecorp/bot/model/event/message/StickerMessageContent.class&#10;ok&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/OkHttpClient.java&#10;ConnectionSpecSelector&#9;PSI&#9;JAVA://okhttp3.internal.connection.ConnectionSpecSelector&#10;mess&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;push&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;Mes&#9;FILE&#9;file://D:/SANDBOX/Line/infomovies/src/main/java/com/ramusthastudio/infomovies/model/Message.java&#10;e&#9;PSI&#9;JAVA://com.ramusthastudio.infomovies.util.EGenre&#10;Confirm&#9;PSI&#9;JAVA://com.linecorp.bot.model.message.template.ConfirmTemplate" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Sample Program/get-started-java/pom.xml" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
   </component>
@@ -1349,12 +1370,12 @@
       <workItem from="1489560478830" duration="48000" />
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
-      <workItem from="1489565847515" duration="49094000" />
+      <workItem from="1489565847515" duration="52523000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152650000" />
+    <option name="totallyTimeSpent" value="156079000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1387,7 +1408,7 @@
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.4974293" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30343008" sideWeight="0.49614397" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17159383" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.073264785" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17609255" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1416,41 +1437,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="23" column="63" lean-forward="false" selection-start-line="23" selection-start-column="63" selection-end-line="23" selection-end-column="63" />
-          <folding>
-            <element signature="e#1200#1201#0" expanded="true" />
-            <element signature="e#1247#1248#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.2/27f62476dfeacb8e8d2595988cd67995e65e9a42/okhttp-3.4.2-sources.jar!/okhttp3/CipherSuite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="53" column="99" lean-forward="false" selection-start-line="53" selection-start-column="70" selection-end-line="53" selection-end-column="99" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/jre/lib/rt.jar!/javax/net/ssl/SSLContext.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="80" column="20" lean-forward="false" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-api-client/1.6.0/4102d1741d0b13d749c16c939655cee4883c2f53/line-bot-api-client-1.6.0-sources.jar!/com/linecorp/bot/client/LineMessagingService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-493">
-          <caret line="36" column="42" lean-forward="false" selection-start-line="36" selection-start-column="42" selection-end-line="36" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/OkHttpClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8153">
@@ -1792,14 +1778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1810,40 +1788,84 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/event/message/StickerMessageContent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/6c232e0be0300a599717881d472a4b2c8ce6e56f/line-bot-model-1.6.0.jar!/com/linecorp/bot/model/event/message/StickerMessageContent.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1343">
+          <caret line="88" column="11" lean-forward="false" selection-start-line="88" selection-start-column="11" selection-end-line="88" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#2796#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/6c232e0be0300a599717881d472a4b2c8ce6e56f/line-bot-model-1.6.0.jar!/com/linecorp/bot/model/message/StickerMessage.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="18" column="9" lean-forward="false" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="130" column="48" lean-forward="true" selection-start-line="130" selection-start-column="48" selection-end-line="130" selection-end-column="48" />
+        <state relative-caret-position="49">
+          <caret line="14" column="71" lean-forward="true" selection-start-line="14" selection-start-column="71" selection-end-line="14" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1489722024502" expanded="true" signature="551:564" ph="SELECT * FRO... " />
-            <marker date="1489722024502" expanded="true" signature="551:565" ph="SELECT * FRO... user" />
-            <marker date="1489722024502" expanded="true" signature="551:571" ph="SELECT * FRO... " />
-            <marker date="1489722024502" expanded="true" signature="551:573" ph="SELECT * FRO... user" />
-            <marker date="1489722024502" expanded="true" signature="551:574" ph="SELECT * FRO... user" />
-            <marker date="1489722024502" expanded="true" signature="662:675" ph="SELECT * FRO... user" />
-            <marker date="1489722024502" expanded="true" signature="775:814" ph="SELECT * FRO... user" />
-            <marker date="1489722024502" expanded="true" signature="874:1144" ph="INSERT INTO \&quot;user\&quot;... " />
-            <marker date="1489722024502" expanded="true" signature="1207:1230" ph="SELECT * FRO... user_line" />
-            <marker date="1489722024502" expanded="true" signature="1317:1330" ph="SELECT * FRO... user_line" />
+            <marker date="1489723054846" expanded="true" signature="551:564" ph="SELECT * FRO... " />
+            <marker date="1489723054846" expanded="true" signature="551:565" ph="SELECT * FRO... user" />
+            <marker date="1489723054846" expanded="true" signature="551:571" ph="SELECT * FRO... " />
+            <marker date="1489723054846" expanded="true" signature="551:573" ph="SELECT * FRO... user" />
+            <marker date="1489723054846" expanded="true" signature="551:574" ph="SELECT * FRO... user" />
+            <marker date="1489723054846" expanded="true" signature="662:675" ph="SELECT * FRO... user" />
+            <marker date="1489723054846" expanded="true" signature="775:814" ph="SELECT * FRO... user" />
+            <marker date="1489723054846" expanded="true" signature="874:1144" ph="INSERT INTO \&quot;user\&quot;... " />
+            <marker date="1489723054846" expanded="true" signature="1207:1230" ph="SELECT * FRO... user_line" />
+            <marker date="1489723054846" expanded="true" signature="1317:1346" ph="SELECT * FRO... user_line" />
+            <marker date="1489723054846" expanded="true" signature="1317:1347" ph="SELECT * FRO... user_line" />
+            <marker date="1489723054846" expanded="true" signature="1406:1495" ph="INSERT INTO user_line... " />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="52" column="46" lean-forward="false" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
+        <state relative-caret-position="100">
+          <caret line="151" column="56" lean-forward="true" selection-start-line="150" selection-start-column="4" selection-end-line="151" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/StickerHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="17" column="31" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="96" column="45" lean-forward="false" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
+        <state relative-caret-position="357">
+          <caret line="164" column="106" lean-forward="false" selection-start-line="164" selection-start-column="106" selection-end-line="164" selection-end-column="106" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
