@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class ScheduledTasks {
   public void reportCurrentTime() {
     try {
       LocalDateTime now = LocalDateTime.now();
-      LOG.info("The time is now {}", dateFormat.format(now));
+      LOG.info("The time is now {}", dateFormat.format(new Date()));
       List<UserChat> userChat = mDao.getAllUserChat();
       if (userChat != null && userChat.size() > 0) {
         for (UserChat chat : userChat) {
