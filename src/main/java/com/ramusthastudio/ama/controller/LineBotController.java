@@ -4,17 +4,28 @@ import com.google.gson.Gson;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.ramusthastudio.ama.database.Dao;
+import com.ramusthastudio.ama.model.ApiTweets;
+import com.ramusthastudio.ama.model.Content;
 import com.ramusthastudio.ama.model.Events;
+import com.ramusthastudio.ama.model.Evidence;
 import com.ramusthastudio.ama.model.Message;
+import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.Payload;
 import com.ramusthastudio.ama.model.Postback;
+import com.ramusthastudio.ama.model.Related;
+import com.ramusthastudio.ama.model.Search;
+import com.ramusthastudio.ama.model.Sentiment;
+import com.ramusthastudio.ama.model.SentimentTweetService;
 import com.ramusthastudio.ama.model.Source;
+import com.ramusthastudio.ama.model.Tweet;
 import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import com.ramusthastudio.ama.util.StickerHelper;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import retrofit2.Call;
+import retrofit2.Response;
 import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
@@ -53,19 +66,22 @@ import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SHOCK;
 @RequestMapping(value = "/linebot")
 public class LineBotController {
   private static final Logger LOG = LoggerFactory.getLogger(LineBotController.class);
+  private final static int MAX_TWEETS = 500;
+  private final static int TWEETS_STEP = 250;
+  private Twitter4JHelper fTwitterHelper;
+  private final List<Message2> collectMessage = new ArrayList<>();
+  private final List<Evidence> collectEvidence = new ArrayList<>();
 
   @Autowired
   @Qualifier("line.bot.channelSecret")
   String fChannelSecret;
-
   @Autowired
   @Qualifier("line.bot.channelToken")
   String fChannelAccessToken;
-
   @Autowired
-  Dao mDao;
-
-  private Twitter4JHelper twitterHelper;
+  Dao fDao;
+  @Autowired
+  SentimentTweetService fSentimentTweetService;
 
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
   public ResponseEntity<String> callback(
@@ -79,8 +95,8 @@ public class LineBotController {
     final boolean valid = new LineSignatureValidator(fChannelSecret.getBytes()).validateSignature(aPayload.getBytes(), aXLineSignature);
     LOG.info("The Signature is: {} ", valid ? "valid" : "tidak valid");
 
-    if (twitterHelper == null) {
-      twitterHelper = new Twitter4JHelper();
+    if (fTwitterHelper == null) {
+      fTwitterHelper = new Twitter4JHelper();
     }
 
     if (aPayload != null && aPayload.length() > 0) {
@@ -101,10 +117,10 @@ public class LineBotController {
       try {
         LOG.info("Start find UserProfileResponse on database...");
         UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
-        UserLine mUserLine = mDao.getUserLineById(profile.getUserId());
+        UserLine mUserLine = fDao.getUserLineById(profile.getUserId());
         if (mUserLine == null) {
           LOG.info("Start save user line to database...");
-          mDao.setUserLine(profile);
+          fDao.setUserLine(profile);
         }
         LOG.info("End find UserProfileResponse on database..." + mUserLine);
       } catch (IOException ignored) {}
@@ -123,13 +139,13 @@ public class LineBotController {
             if (message.type().equals(MESSAGE_TEXT)) {
               String text = message.text();
 
-              UserChat userChat = mDao.getUserChatById(userId);
+              UserChat userChat = fDao.getUserChatById(userId);
               if (userChat != null) {
                 LOG.info("Start updating chat history...");
-                mDao.updateUserChat(new UserChat(userId, text, timestamp));
-              }else {
+                fDao.updateUserChat(new UserChat(userId, text, timestamp));
+              } else {
                 LOG.info("Start saving chat history...");
-                mDao.setUserChat(new UserChat(userId, text, timestamp));
+                fDao.setUserChat(new UserChat(userId, text, timestamp));
               }
 
               if (text.toLowerCase().startsWith(TWITTER)) {
@@ -137,7 +153,7 @@ public class LineBotController {
 
                 if (screenName.length() > 3) {
                   LOG.info("Start find user on database..." + screenName);
-                  UserTwitter userTwitter = mDao.getUserTwitterById(screenName);
+                  UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
                   LOG.info("end find user on database..." + userTwitter);
 
                   if (userTwitter != null) {
@@ -145,11 +161,11 @@ public class LineBotController {
                     profileUserMessage(fChannelAccessToken, userId, userTwitter);
                   } else {
                     try {
-                      User twitterUser = twitterHelper.checkUsers(screenName);
+                      User twitterUser = fTwitterHelper.checkUsers(screenName);
                       LOG.info("Display from twitter server...");
                       profileUserMessage(fChannelAccessToken, userId, twitterUser);
                       LOG.info("Start adding user...");
-                      mDao.setUserTwitter(twitterUser);
+                      fDao.setUserTwitter(twitterUser);
                       LOG.info("End adding user...");
                     } catch (Exception aE) {
                       LOG.error("Getting twitter info error message : " + aE.getMessage());
@@ -178,8 +194,22 @@ public class LineBotController {
               String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
               replayMessage(fChannelAccessToken, replayToken, screenName);
               stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
-              UserTwitter userTwitter = mDao.getUserTwitterById(screenName);
-              LOG.info("Twitter {}", userTwitter);
+              UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
+
+              LOG.info("Start sentiment service..." + userTwitter);
+              Call<ApiTweets> tweets = fSentimentTweetService.apiTweets(userTwitter.getUsername(), MAX_TWEETS);
+              Response<ApiTweets> exec = tweets.execute();
+              ApiTweets apiTweets = exec.body();
+              Search resultSearch = apiTweets.getSearch();
+              List<Tweet> resultTweets = apiTweets.getTweets();
+              Related resultRelated = apiTweets.getRelated();
+
+              polarityProcess(resultTweets);
+
+              for (Message2 message2 : collectMessage) {
+                LOG.info("message2..." + message2);
+              }
+              LOG.info("End sentiment service..." + userTwitter);
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
@@ -190,4 +220,48 @@ public class LineBotController {
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
+  public void polarityProcess(List<Tweet> resultTweets) {
+    int posittiveCount = 0;
+    int negativeCount = 0;
+    int neutralCount = 0;
+    for (Tweet resultTweet : resultTweets) {
+      Content content = resultTweet.getCde().getContent();
+      Message2 message = resultTweet.getMessage();
+      if (content != null) {
+        Sentiment sentiment = content.getSentiment();
+        List<Evidence> evidences = sentiment.getEvidence();
+        if (evidences != null) {
+          for (Evidence evidence : evidences) {
+            if (evidence != null) {
+
+              for (int i = 0; i < collectEvidence.size(); i++) {
+                if (collectEvidence.get(i).getSentimentTerm()
+                    .equalsIgnoreCase(evidence.getSentimentTerm())) {
+                  evidence.setSize(collectEvidence.get(i).getSize() + 1);
+                  collectEvidence.remove(i);
+                }
+              }
+              collectMessage.add(message);
+              evidence.setId(message.getId());
+              collectEvidence.add(evidence);
+            }
+          }
+        }
+        // if (sentiment.getPolarity().equals(POSITIVE)) {
+        //   posittiveCount++;
+        //   sentimentPositivValue.setText(String.valueOf(posittiveCount));
+        // }
+        // if (sentiment.getPolarity().equals(NEGATIVE)) {
+        //   negativeCount++;
+        //   sentimentNegativeValue.setText(String.valueOf(negativeCount));
+        // }
+        // if (sentiment.getPolarity().equals(NEUTRAL)) {
+        //   neutralCount++;
+        //   sentimentNeutralValue.setText(String.valueOf(neutralCount));
+        // }
+      }
+    }
+  }
+
 }

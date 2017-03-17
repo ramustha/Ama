@@ -13,10 +13,18 @@ import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.ramusthastudio.ama.model.Content;
+import com.ramusthastudio.ama.model.Evidence;
+import com.ramusthastudio.ama.model.Message;
+import com.ramusthastudio.ama.model.Message2;
+import com.ramusthastudio.ama.model.Sentiment;
+import com.ramusthastudio.ama.model.Tweet;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +62,10 @@ public final class BotHelper {
   public static final String TWITTER_TRUE = "true:";
   public static final String TWITTER_FALSE = "false:";
   public static final String TWITTER_SENTIMENT = "sentiment:";
+
+  public static final String POSITIVE = "POSITIVE";
+  public static final String NEGATIVE = "NEGATIVE";
+  public static final String NEUTRAL = "NEUTRAL";
 
   public static UserProfileResponse getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
@@ -193,4 +205,5 @@ public final class BotHelper {
     ));
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
+
 }
