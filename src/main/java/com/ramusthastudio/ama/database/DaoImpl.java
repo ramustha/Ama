@@ -18,7 +18,7 @@ public class DaoImpl implements Dao {
   private final static String SQL_INSERT_USER_MODEL = "INSERT INTO \"user\" (id, \"name\", screen_name, location, description, profile_image_url,original_profile_image_url, original_profile_image_url_https, is_protected, followers_count, status_text, friends_count, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
   private final static String SQL_SELECT_ALL_USER_LINE = "SELECT * FROM user_line";
-  private final static String SQL_USER_LINE_GET_BY_ID = SQL_SELECT_ALL_USER_LINE + " WHERE id = ? ;";
+  private final static String SQL_USER_LINE_GET_BY_ID = SQL_SELECT_ALL_USER_LINE + " WHERE LOWER(id) LIKE LOWER(?) ;";
   private final static String SQL_INSERT_USER_LINE = "INSERT INTO user_line (id, display_name, picture_url, status_message) VALUES (?, ?, ?, ?);";
 
   private final JdbcTemplate mJdbc;
