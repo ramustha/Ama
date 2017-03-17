@@ -28,6 +28,8 @@ public class ScheduledTasks {
 
   @Scheduled(fixedRate = 5000)
   public void reportCurrentTime() {
-    log.info("The time is now {} : {}", dateFormat.format(new Date()), fUserLine.getDisplayName());
+    if (fUserLine != null) {
+      log.info("The time is now {} : {}", dateFormat.format(new Date()), fUserLine.getDisplayName());
+    }
   }
 }
