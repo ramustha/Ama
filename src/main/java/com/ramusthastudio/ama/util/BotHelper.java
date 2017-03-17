@@ -167,7 +167,7 @@ public final class BotHelper {
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Kamu mau tahu yang orang lain pikirin tentang kamu ?\n";
     greeting += "Aku bisa tau loh... asalkan kamu sering nge-tweets\n";
-    greeting += "coba tulis id twitter nya , contoh 'twitter:@idtwitter'";
+    greeting += "coba tulis id twitter nya , contoh 'twitter:idtwitter'";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
