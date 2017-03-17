@@ -123,7 +123,6 @@ public class LineBotController {
             if (message.type().equals(MESSAGE_TEXT)) {
               String text = message.text();
 
-              LOG.info("Start saving chat history...");
               UserChat userChat = mDao.getUserChatById(userId);
               if (userChat != null) {
                 LOG.info("Start updating chat history...");

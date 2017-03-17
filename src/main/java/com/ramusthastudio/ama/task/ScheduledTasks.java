@@ -37,14 +37,13 @@ public class ScheduledTasks {
   @Scheduled(fixedRate = 5000)
   public void reportCurrentTime() {
     try {
-      LocalDateTime now = LocalDateTime.now();
       LOG.info("The time is now {}", dateFormat.format(new Date()));
       List<UserChat> userChat = mDao.getAllUserChat();
       if (userChat != null && userChat.size() > 0) {
         for (UserChat chat : userChat) {
-          LocalDateTime lastTimeChat = LocalDateTime.from(Instant.ofEpochMilli(chat.getLastTime()));
-          LocalDateTime timeLimit = lastTimeChat.plusMinutes(2);
-          if (timeLimit.isAfter(now)) {
+          Timestamp lastTimeChat = new Timestamp(chat.getLastTime());
+          LocalDateTime timeLimit = lastTimeChat.toLocalDateTime().plusMinutes(2);
+          if (timeLimit.isAfter(LocalDateTime.now())) {
             LOG.info("Start push message");
             try {
               String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";

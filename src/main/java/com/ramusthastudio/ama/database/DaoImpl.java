@@ -148,7 +148,8 @@ public class DaoImpl implements Dao {
   @Override public void updateUserChat(UserChat aUser) {
     mJdbc.update(SQL_UPDATE_USER_CHAT,
         aUser.getLastChat(),
-        new Timestamp(aUser.getLastTime()));
+        new Timestamp(aUser.getLastTime()),
+        aUser.getUserId());
   }
 
   @Override public List<UserTwitter> getAllUserTwitter() {
