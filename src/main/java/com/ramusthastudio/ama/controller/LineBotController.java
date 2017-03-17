@@ -9,6 +9,7 @@ import com.ramusthastudio.ama.model.Message;
 import com.ramusthastudio.ama.model.Payload;
 import com.ramusthastudio.ama.model.Postback;
 import com.ramusthastudio.ama.model.Source;
+import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserModel;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
@@ -90,14 +91,17 @@ public class LineBotController {
 
       String userId = source.userId();
 
-      LOG.info("Getting user profile");
       try {
+        LOG.info("Start find UserProfileResponse on database...");
         Response<UserProfileResponse> profileResp = getUserProfile(fChannelAccessToken, userId);
         UserProfileResponse profile = profileResp.body();
-        LOG.info("profile {} message {}", profile, profileResp.message());
-      } catch (IOException aE) {
-        LOG.error("Message {}", aE.getMessage());
-      }
+        UserLine lineUser = mDao.getUserLineById(profile.getUserId());
+        if (lineUser == null) {
+          LOG.info("Start save user line to database...");
+          mDao.setUserLine(profile);
+        }
+        LOG.info("End find UserProfileResponse on database...");
+      } catch (IOException ignored) {}
 
       try {
         switch (eventType) {
@@ -128,7 +132,7 @@ public class LineBotController {
                       User twitterUser = twitterHelper.checkUsers(screenName);
                       profileUserMessage(fChannelAccessToken, userId, twitterUser);
                       LOG.info("Start adding user...");
-                      mDao.setUser(twitterUser);
+                      mDao.setUserModel(twitterUser);
                       LOG.info("End adding user...");
                       confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_YES, TWITTER_NO);
 
