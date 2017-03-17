@@ -14,7 +14,7 @@ import twitter4j.User;
 public class DaoImpl implements Dao {
   private final static String SQL_SELECT_ALL_USER_MODEL = "SELECT * FROM \"user\"";
   private final static String SQL_USER_MODEL_GET_BY_ID = SQL_SELECT_ALL_USER_MODEL + " WHERE id = ? ;";
-  private final static String SQL_USER_MODEL_GET_BY_SCREEN_NAME = SQL_SELECT_ALL_USER_MODEL + " WHERE LOWER(screen_name) LIKE LOWER(?) ;";
+  private final static String SQL_USER_MODEL_GET_BY_SCREEN_NAME = SQL_SELECT_ALL_USER_MODEL + " WHERE screen_name LIKE ? ;";
   private final static String SQL_INSERT_USER_MODEL = "INSERT INTO \"user\" (id, \"name\", screen_name, location, description, profile_image_url,original_profile_image_url, original_profile_image_url_https, is_protected, followers_count, status_text, friends_count, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
   private final static String SQL_SELECT_ALL_USER_LINE = "SELECT * FROM user_line";
