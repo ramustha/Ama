@@ -1,6 +1,7 @@
 package com.ramusthastudio.ama.database;
 
 import com.linecorp.bot.model.profile.UserProfileResponse;
+import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.util.List;
@@ -14,4 +15,8 @@ public interface Dao {
   List<UserLine> getAllUserLine();
   void setUserLine(UserProfileResponse aUser);
   UserLine getUserLineById(String aUserId);
+
+  List<UserChat> getAllUserChat();
+  void setUserChat(UserChat aUser);
+  UserChat getUserChatById(String aUserId);
 }

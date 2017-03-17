@@ -9,6 +9,7 @@ import com.ramusthastudio.ama.model.Message;
 import com.ramusthastudio.ama.model.Payload;
 import com.ramusthastudio.ama.model.Postback;
 import com.ramusthastudio.ama.model.Source;
+import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import com.ramusthastudio.ama.util.StickerHelper;
@@ -97,6 +98,10 @@ public class LineBotController {
 
       String userId = source.userId();
 
+      LOG.info("Start saving chat history...");
+      mDao.setUserChat(new UserChat(userId, message.text(), timestamp));
+      LOG.info("End saving chat history...");
+
       try {
         LOG.info("Start find UserProfileResponse on database...");
         UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
@@ -140,11 +145,12 @@ public class LineBotController {
                       LOG.info("Start adding user...");
                       mDao.setUserTwitter(twitterUser);
                       LOG.info("End adding user...");
-                      confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                     } catch (Exception aE) {
                       LOG.error("Getting twitter info error message : " + aE.getMessage());
                     }
                   }
+
+                  confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
@@ -165,7 +171,7 @@ public class LineBotController {
             } else if (pd.startsWith(TWITTER_TRUE)) {
               String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
               UserTwitter userTwitter = mDao.getUserTwitterById(screenName);
-              replayMessage(fChannelAccessToken, replayToken, TWITTER_YES + "tw: " + userTwitter.getUsername());
+              replayMessage(fChannelAccessToken, replayToken, userTwitter.getUsername());
               stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");

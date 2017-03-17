@@ -1,8 +1,10 @@
 package com.ramusthastudio.ama.database;
 
 import com.linecorp.bot.model.profile.UserProfileResponse;
+import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -24,7 +26,15 @@ public class DaoImpl implements Dao {
   private final static String SQL_USER_LINE_GET_BY_ID = SQL_SELECT_ALL_USER_LINE + " WHERE LOWER(id) LIKE LOWER(?) ;";
   private final static String SQL_INSERT_USER_LINE = "INSERT INTO user_line (id, display_name, picture_url, status_message) VALUES (?, ?, ?, ?);";
 
+  private final static String SQL_SELECT_ALL_USER_CHAT = "SELECT * FROM user_chat";
+  private final static String SQL_USER_CHAT_GET_BY_ID = SQL_SELECT_ALL_USER_CHAT + " WHERE LOWER(id) LIKE LOWER(?) ;";
+  private final static String SQL_INSERT_USER_CHAT = "INSERT INTO user_chat (id, last_chat, last_time) VALUES (?, ?, ?);";
+
   private final JdbcTemplate mJdbc;
+
+  public DaoImpl(DataSource aDataSource) {
+    mJdbc = new JdbcTemplate(aDataSource);
+  }
 
   private final static RowMapper<UserTwitter> SINGLE_USER_TWITTER = (aRs, rowNum) ->
       new UserTwitter(
@@ -48,6 +58,12 @@ public class DaoImpl implements Dao {
           aRs.getString("display_name"),
           aRs.getString("picture_url"),
           aRs.getString("status_message"));
+
+  private final static RowMapper<UserChat> SINGLE_USER_CHAT = (aRs, rowNum) ->
+      new UserChat(
+          aRs.getString("id"),
+          aRs.getString("last_chat"),
+          aRs.getTimestamp("last_time").getTime());
 
   private final static ResultSetExtractor<List<UserTwitter>> MULTIPLE_USER_TWITTER = aRs -> {
     List<UserTwitter> list = new ArrayList<>();
@@ -84,9 +100,17 @@ public class DaoImpl implements Dao {
     return list;
   };
 
-  public DaoImpl(DataSource aDataSource) {
-    mJdbc = new JdbcTemplate(aDataSource);
-  }
+  private final static ResultSetExtractor<List<UserChat>> MULTIPLE_USER_CHAT = aRs -> {
+    List<UserChat> list = new ArrayList<>();
+    while (aRs.next()) {
+      list.add(new UserChat(
+          aRs.getString("id"),
+          aRs.getString("last_chat"),
+          aRs.getTimestamp("last_time").getTime()
+      ));
+    }
+    return list;
+  };
 
   @Override public void setUserTwitter(User aUser) {
     mJdbc.update(SQL_INSERT_USER_TWITTER,
@@ -113,12 +137,23 @@ public class DaoImpl implements Dao {
         aUser.getStatusMessage());
   }
 
+  @Override public void setUserChat(UserChat aUser) {
+    mJdbc.update(SQL_INSERT_USER_LINE,
+        aUser.getUserId(),
+        aUser.getLastChat(),
+        new Timestamp(aUser.getLastTime()));
+  }
+
   @Override public List<UserTwitter> getAllUserTwitter() {
     return mJdbc.query(SQL_SELECT_ALL_USER_TWITTER, MULTIPLE_USER_TWITTER);
   }
 
   @Override public List<UserLine> getAllUserLine() {
     return mJdbc.query(SQL_SELECT_ALL_USER_LINE, MULTIPLE_USER_LINE);
+  }
+
+  @Override public List<UserChat> getAllUserChat() {
+    return mJdbc.query(SQL_SELECT_ALL_USER_CHAT, MULTIPLE_USER_CHAT);
   }
 
   @Override public UserTwitter getUserTwitterById(String aUserId) {
@@ -135,6 +170,15 @@ public class DaoImpl implements Dao {
       return mJdbc.queryForObject(SQL_USER_LINE_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_LINE);
     } catch (Exception e) {
       LOG.error("Error when trying get UserLine cause : " + e.getMessage());
+      return null;
+    }
+  }
+
+  @Override public UserChat getUserChatById(String aUserId) {
+    try {
+      return mJdbc.queryForObject(SQL_USER_CHAT_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_CHAT);
+    } catch (Exception e) {
+      LOG.error("Error when trying get UserChat cause : " + e.getMessage());
       return null;
     }
   }
