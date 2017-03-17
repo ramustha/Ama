@@ -118,9 +118,9 @@ public class LineBotController {
                 String screenName = text.substring(TWITTER.length(), text.length());
 
                 if (screenName.length() > 3) {
-                  LOG.info("Start find single user on database...");
+                  LOG.info("Start find user on database...");
                   UserModel userDb = mDao.getByUserScreenName(screenName);
-                  LOG.info("end find single user on database...");
+                  LOG.info("end find user on database...");
 
                   if (userDb != null) {
                     profileUserMessage(fChannelAccessToken, userId, userDb);

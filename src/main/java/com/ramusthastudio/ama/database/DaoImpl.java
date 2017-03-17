@@ -17,40 +17,25 @@ public class DaoImpl implements Dao {
 
   private JdbcTemplate mJdbc;
 
-  private final static RowMapper<UserModel> SINGLE_RS_EXTRACTOR = (aRs, rowNum) ->
-      new UserModel(
-          aRs.getInt("id"),
-          aRs.getString("name"),
-          aRs.getString("screen_name"),
-          aRs.getString("location"),
-          aRs.getString("description"),
-          aRs.getString("profile_image_url"),
-          aRs.getString("original_profile_image_url"),
-          aRs.getString("original_profile_image_url_https"),
-          aRs.getBoolean("is_protected"),
-          aRs.getInt("followers_count"),
-          aRs.getString("status_text"),
-          aRs.getInt("friends_count"),
-          aRs.getBoolean("is_verified"));
+  private final static RowMapper<UserModel> SINGLE_USER_TWITTER = (aRs, rowNum) -> {
+    if (aRs.first()) { return null; }
+    return new UserModel(
+        aRs.getInt("id"),
+        aRs.getString("name"),
+        aRs.getString("screen_name"),
+        aRs.getString("location"),
+        aRs.getString("description"),
+        aRs.getString("profile_image_url"),
+        aRs.getString("original_profile_image_url"),
+        aRs.getString("original_profile_image_url_https"),
+        aRs.getBoolean("is_protected"),
+        aRs.getInt("followers_count"),
+        aRs.getString("status_text"),
+        aRs.getInt("friends_count"),
+        aRs.getBoolean("is_verified"));
+  };
 
-  // private final static ResultSetExtractor<UserModel> SINGLE_RS_EXTRACTOR = aRs ->
-  //     new UserModel(
-  //         aRs.getInt("id"),
-  //         aRs.getString("name"),
-  //         aRs.getString("screen_name"),
-  //         aRs.getString("location"),
-  //         aRs.getString("description"),
-  //         aRs.getString("profile_image_url"),
-  //         aRs.getString("original_profile_image_url"),
-  //         aRs.getString("original_profile_image_url_https"),
-  //         aRs.getBoolean("is_protected"),
-  //         aRs.getInt("followers_count"),
-  //         aRs.getString("status_text"),
-  //         aRs.getInt("friends_count"),
-  //         aRs.getBoolean("is_verified")
-  //     );
-
-  private final static ResultSetExtractor<List<UserModel>> MULTIPLE_RS_EXTRACTOR = aRs -> {
+  private final static ResultSetExtractor<List<UserModel>> MULTIPLE_USER_TWITTER = aRs -> {
     List<UserModel> list = new ArrayList<>();
     while (aRs.next()) {
       list.add(new UserModel(
@@ -94,14 +79,14 @@ public class DaoImpl implements Dao {
   }
 
   @Override public List<UserModel> get() {
-    return mJdbc.query(SQL_SELECT_ALL, MULTIPLE_RS_EXTRACTOR);
+    return mJdbc.query(SQL_SELECT_ALL, MULTIPLE_USER_TWITTER);
   }
 
   @Override public List<UserModel> getByUserId(long aUserId) {
-    return mJdbc.query(SQL_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, MULTIPLE_RS_EXTRACTOR);
+    return mJdbc.query(SQL_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, MULTIPLE_USER_TWITTER);
   }
 
   @Override public UserModel getByUserScreenName(String aScreenName) {
-    return mJdbc.queryForObject(SQL_GET_BY_SCREEN_NAME, new Object[] {"%" + aScreenName + "%"}, SINGLE_RS_EXTRACTOR);
+    return mJdbc.queryForObject(SQL_GET_BY_SCREEN_NAME, new Object[] {"%" + aScreenName + "%"}, SINGLE_USER_TWITTER);
   }
 }
