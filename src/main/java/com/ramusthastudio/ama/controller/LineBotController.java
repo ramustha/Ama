@@ -12,7 +12,6 @@ import com.ramusthastudio.ama.model.Source;
 import com.ramusthastudio.ama.model.UserModel;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,9 +117,12 @@ public class LineBotController {
                 String screenName = text.substring(TWITTER.length(), text.length());
 
                 if (screenName.length() > 3) {
-                  LOG.info("Start find user on database...");
-                  UserModel userDb = mDao.getByUserScreenName(screenName);
-                  LOG.info("end find user on database...");
+                  UserModel userDb = null;
+                  try {
+                    LOG.info("Start find user on database...");
+                    userDb = mDao.getByUserScreenName(screenName);
+                    LOG.info("end find user on database...");
+                  } catch (Exception ignored) {}
 
                   if (userDb != null) {
                     profileUserMessage(fChannelAccessToken, userId, userDb);
