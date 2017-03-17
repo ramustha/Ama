@@ -45,12 +45,12 @@ public class ScheduledTasks {
           LocalDateTime timeLimit = lastTimeChat.toLocalDateTime().plusMinutes(2);
           if (timeLimit.isAfter(LocalDateTime.now())) {
             LOG.info("Start push message");
-            try {
-              String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";
-              pushMessage(fChannelAccessToken, chat.getUserId(), text);
-            } catch (IOException aE) {
-              LOG.error("Start push message error message : " + aE.getMessage());
-            }
+            // try {
+            //   String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";
+            //   pushMessage(fChannelAccessToken, chat.getUserId(), text);
+            // } catch (IOException aE) {
+            //   LOG.error("Start push message error message : " + aE.getMessage());
+            // }
           }
         }
       }
