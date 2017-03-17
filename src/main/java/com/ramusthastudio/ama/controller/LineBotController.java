@@ -98,10 +98,6 @@ public class LineBotController {
 
       String userId = source.userId();
 
-      LOG.info("Start saving chat history...");
-      mDao.setUserChat(new UserChat(userId, message.text(), timestamp));
-      LOG.info("End saving chat history...");
-
       try {
         LOG.info("Start find UserProfileResponse on database...");
         UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
@@ -126,6 +122,11 @@ public class LineBotController {
           case MESSAGE:
             if (message.type().equals(MESSAGE_TEXT)) {
               String text = message.text();
+
+              LOG.info("Start saving chat history...");
+              mDao.setUserChat(new UserChat(userId, text, timestamp));
+              LOG.info("End saving chat history...");
+
               if (text.toLowerCase().startsWith(TWITTER)) {
                 String screenName = text.substring(TWITTER.length(), text.length());
 
