@@ -124,8 +124,14 @@ public class LineBotController {
               String text = message.text();
 
               LOG.info("Start saving chat history...");
-              mDao.setUserChat(new UserChat(userId, text, timestamp));
-              LOG.info("End saving chat history...");
+              UserChat userChat = mDao.getUserChatById(userId);
+              if (userChat != null) {
+                LOG.info("Start updating chat history...");
+                mDao.updateUserChat(new UserChat(userId, text, timestamp));
+              }else {
+                LOG.info("Start saving chat history...");
+                mDao.setUserChat(new UserChat(userId, text, timestamp));
+              }
 
               if (text.toLowerCase().startsWith(TWITTER)) {
                 String screenName = text.substring(TWITTER.length(), text.length());
