@@ -168,7 +168,7 @@ public class DaoImpl implements Dao {
     try {
       return mJdbc.queryForObject(SQL_USER_TWITTER_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_TWITTER);
     } catch (Exception e) {
-      LOG.error("Error when trying get UserModel cause : " + e.getMessage());
+      LOG.error("Error when trying get UserTwitter cause : " + e.getMessage());
       return null;
     }
   }

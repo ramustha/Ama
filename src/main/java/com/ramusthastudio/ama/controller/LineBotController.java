@@ -176,9 +176,10 @@ public class LineBotController {
               replayMessage(fChannelAccessToken, replayToken, "Hari gini gak punya twitter ?");
             } else if (pd.startsWith(TWITTER_TRUE)) {
               String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
-              UserTwitter userTwitter = mDao.getUserTwitterById(screenName);
-              replayMessage(fChannelAccessToken, replayToken, userTwitter.getUsername());
+              replayMessage(fChannelAccessToken, replayToken, screenName);
               stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
+              UserTwitter userTwitter = mDao.getUserTwitterById(screenName);
+              LOG.info("Twitter {}", userTwitter);
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }

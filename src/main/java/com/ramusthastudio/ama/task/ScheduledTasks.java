@@ -43,22 +43,26 @@ public class ScheduledTasks {
       List<UserChat> userChat = mDao.getAllUserChat();
       if (userChat != null && userChat.size() > 0) {
         for (UserChat chat : userChat) {
-          Timestamp lastTimeChat = new Timestamp(chat.getLastTime());
-          LocalDateTime timeLimit = lastTimeChat.toLocalDateTime().plusMinutes(2);
-          if (timeLimit.isBefore(LocalDateTime.now())) {
-            LOG.info("Start push message");
-            try {
-              String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";
-              pushMessage(fChannelAccessToken, chat.getUserId(), text);
-              mDao.updateUserChat(new UserChat(chat.getUserId(), "Start push message", now.getTime()));
-            } catch (IOException aE) {
-              LOG.error("Start push message error message : " + aE.getMessage());
-            }
-          }
+          botChatOnTwoDay(now, chat);
         }
       }
     } catch (Exception aE) {
       LOG.error("ScheduledTasks error message : " + aE.getMessage());
+    }
+  }
+
+  private void botChatOnTwoDay(Date aNow, UserChat chat) {
+    Timestamp lastTimeChat = new Timestamp(chat.getLastTime());
+    LocalDateTime timeLimit = lastTimeChat.toLocalDateTime().plusDays(2);
+    if (timeLimit.isBefore(LocalDateTime.now())) {
+      LOG.info("Start push message");
+      try {
+        String text = "Kmana aja ? kok gak ngobrol sama aku lagi ?";
+        pushMessage(fChannelAccessToken, chat.getUserId(), text);
+        mDao.updateUserChat(new UserChat(chat.getUserId(), text, aNow.getTime()));
+      } catch (IOException aE) {
+        LOG.error("Start push message error message : " + aE.getMessage());
+      }
     }
   }
 }
