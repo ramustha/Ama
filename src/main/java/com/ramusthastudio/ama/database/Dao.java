@@ -6,7 +6,7 @@ import twitter4j.User;
 
 public interface Dao {
   void setUser(User aUser);
-  List<UserModel> get();
-  List<UserModel> getByUserId(long aUserId);
-  UserModel getByUserScreenName(String aScreenName);
+  List<UserModel> getAllUserModel();
+  UserModel getUserModelById(long aUserId);
+  UserModel getUserModelByScreenName(String aScreenName);
 }

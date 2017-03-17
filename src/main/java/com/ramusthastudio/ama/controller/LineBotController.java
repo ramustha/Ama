@@ -38,7 +38,6 @@ import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
 import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
-import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
 
@@ -117,12 +116,9 @@ public class LineBotController {
                 String screenName = text.substring(TWITTER.length(), text.length());
 
                 if (screenName.length() > 3) {
-                  UserModel userDb = null;
-                  try {
-                    LOG.info("Start find user on database...");
-                    userDb = mDao.getByUserScreenName(screenName);
-                    LOG.info("end find user on database...");
-                  } catch (Exception ignored) {}
+                  LOG.info("Start find user on database...");
+                  UserModel userDb = mDao.getUserModelByScreenName(screenName);
+                  LOG.info("end find user on database...");
 
                   if (userDb != null) {
                     profileUserMessage(fChannelAccessToken, userId, userDb);
@@ -137,7 +133,6 @@ public class LineBotController {
                       confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_YES, TWITTER_NO);
 
                     } catch (Exception aE) {
-                      pushMessage(fChannelAccessToken, userId, "Kayaknya ada yang salah nih, aku gak tau kenapa \ncoba cek lagi id nya");
                       LOG.error("Getting twitter info error message : " + aE.getMessage());
                     }
                     LOG.info("End find user on twitter server...");
