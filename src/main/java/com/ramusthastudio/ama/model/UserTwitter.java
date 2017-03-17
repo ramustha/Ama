@@ -1,9 +1,9 @@
 package com.ramusthastudio.ama.model;
 
-public class UserModel {
-  private long id;
-  private String name;
-  private String screenName;
+public class UserTwitter {
+  private String id;
+  private String username;
+  private String displayName;
   private String location;
   private String description;
   private String profileImageUrl;
@@ -15,12 +15,12 @@ public class UserModel {
   private int friendsCount;
   private boolean isVerified;
 
-  public UserModel() { }
+  public UserTwitter() { }
 
-  public UserModel(long aId, String aName, String aScreenName, String aLocation, String aDescription, String aProfileImageUrl, String aOriginalProfileImageUrlHttp, String aOriginalProfileImageUrlHttps, boolean aIsProtected, int aFollowersCount, String aStatus, int aFriendsCount, boolean aIsVerified) {
+  public UserTwitter(String aId, String aUsername, String aDisplayName, String aLocation, String aDescription, String aProfileImageUrl, String aOriginalProfileImageUrlHttp, String aOriginalProfileImageUrlHttps, boolean aIsProtected, int aFollowersCount, String aStatus, int aFriendsCount, boolean aIsVerified) {
     id = aId;
-    name = aName;
-    screenName = aScreenName;
+    username = aUsername;
+    displayName = aDisplayName;
     location = aLocation;
     description = aDescription;
     profileImageUrl = aProfileImageUrl;
@@ -33,9 +33,9 @@ public class UserModel {
     isVerified = aIsVerified;
   }
 
-  public long getId() { return id; }
-  public String getName() { return name; }
-  public String getScreenName() { return screenName; }
+  public String getId() { return id; }
+  public String getUsername() { return username; }
+  public String getDisplayName() { return displayName; }
   public String getLocation() { return location; }
   public String getDescription() { return description; }
   public String getProfileImageUrl() { return profileImageUrl; }
@@ -47,55 +47,55 @@ public class UserModel {
   public int getFriendsCount() { return friendsCount; }
   public boolean isVerified() { return isVerified; }
 
-  public UserModel setId(long aId) {
+  public UserTwitter setId(String aId) {
     id = aId;
     return this;
   }
-  public UserModel setName(String aName) {
-    name = aName;
+  public UserTwitter setUsername(String aUsername) {
+    username = aUsername;
     return this;
   }
-  public UserModel setScreenName(String aScreenName) {
-    screenName = aScreenName;
+  public UserTwitter setDisplayName(String aDisplayName) {
+    displayName = aDisplayName;
     return this;
   }
-  public UserModel setLocation(String aLocation) {
+  public UserTwitter setLocation(String aLocation) {
     location = aLocation;
     return this;
   }
-  public UserModel setDescription(String aDescription) {
+  public UserTwitter setDescription(String aDescription) {
     description = aDescription;
     return this;
   }
-  public UserModel setProfileImageUrl(String aProfileImageUrl) {
+  public UserTwitter setProfileImageUrl(String aProfileImageUrl) {
     profileImageUrl = aProfileImageUrl;
     return this;
   }
-  public UserModel setOriginalProfileImageUrlHttp(String aOriginalProfileImageUrlHttp) {
+  public UserTwitter setOriginalProfileImageUrlHttp(String aOriginalProfileImageUrlHttp) {
     originalProfileImageUrlHttp = aOriginalProfileImageUrlHttp;
     return this;
   }
-  public UserModel setOriginalProfileImageUrlHttps(String aOriginalProfileImageUrlHttps) {
+  public UserTwitter setOriginalProfileImageUrlHttps(String aOriginalProfileImageUrlHttps) {
     originalProfileImageUrlHttps = aOriginalProfileImageUrlHttps;
     return this;
   }
-  public UserModel setProtected(boolean aProtected) {
+  public UserTwitter setProtected(boolean aProtected) {
     isProtected = aProtected;
     return this;
   }
-  public UserModel setFollowersCount(int aFollowersCount) {
+  public UserTwitter setFollowersCount(int aFollowersCount) {
     followersCount = aFollowersCount;
     return this;
   }
-  public UserModel setStatus(String aStatus) {
+  public UserTwitter setStatus(String aStatus) {
     status = aStatus;
     return this;
   }
-  public UserModel setFriendsCount(int aFriendsCount) {
+  public UserTwitter setFriendsCount(int aFriendsCount) {
     friendsCount = aFriendsCount;
     return this;
   }
-  public UserModel setVerified(boolean aVerified) {
+  public UserTwitter setVerified(boolean aVerified) {
     isVerified = aVerified;
     return this;
   }
@@ -103,8 +103,8 @@ public class UserModel {
   @Override public String toString() {
     return "UserModel{" +
         "id=" + id + "\n" +
-        ", name='" + name + "\n" +
-        ", screenName='" + screenName + "\n" +
+        ", username='" + username + "\n" +
+        ", displayName='" + displayName + "\n" +
         ", location='" + location + "\n" +
         ", description='" + description + "\n" +
         ", profileImageUrl='" + profileImageUrl + "\n" +

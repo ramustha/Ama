@@ -2,7 +2,7 @@ package com.ramusthastudio.ama.database;
 
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.ramusthastudio.ama.model.UserLine;
-import com.ramusthastudio.ama.model.UserModel;
+import com.ramusthastudio.ama.model.UserTwitter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -16,10 +16,9 @@ import twitter4j.User;
 public class DaoImpl implements Dao {
   private static final Logger LOG = LoggerFactory.getLogger(DaoImpl.class);
 
-  private final static String SQL_SELECT_ALL_USER_MODEL = "SELECT * FROM \"user\"";
-  private final static String SQL_USER_MODEL_GET_BY_ID = SQL_SELECT_ALL_USER_MODEL + " WHERE id = ? ;";
-  private final static String SQL_USER_MODEL_GET_BY_SCREEN_NAME = SQL_SELECT_ALL_USER_MODEL + " WHERE LOWER(screen_name) = LOWER(?) ;";
-  private final static String SQL_INSERT_USER_MODEL = "INSERT INTO \"user\" (id, \"name\", screen_name, location, description, profile_image_url,original_profile_image_url, original_profile_image_url_https, is_protected, followers_count, status_text, friends_count, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+  private final static String SQL_SELECT_ALL_USER_TWITTER = "SELECT * FROM user_twitter";
+  private final static String SQL_USER_TWITTER_GET_BY_ID = SQL_SELECT_ALL_USER_TWITTER + " WHERE LOWER(id) LIKE LOWER(?) ;";
+  private final static String SQL_INSERT_USER_TWITTER = "INSERT INTO user_twitter (id, username, display_name, location, description, profile_image_url,original_profile_image_url, original_profile_image_url_https, is_protected, followers_count, status_text, friends_count, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
   private final static String SQL_SELECT_ALL_USER_LINE = "SELECT * FROM user_line";
   private final static String SQL_USER_LINE_GET_BY_ID = SQL_SELECT_ALL_USER_LINE + " WHERE LOWER(id) LIKE LOWER(?) ;";
@@ -27,11 +26,11 @@ public class DaoImpl implements Dao {
 
   private final JdbcTemplate mJdbc;
 
-  private final static RowMapper<UserModel> SINGLE_USER_TWITTER = (aRs, rowNum) ->
-      new UserModel(
-          aRs.getInt("id"),
-          aRs.getString("name"),
-          aRs.getString("screen_name"),
+  private final static RowMapper<UserTwitter> SINGLE_USER_TWITTER = (aRs, rowNum) ->
+      new UserTwitter(
+          aRs.getString("id"),
+          aRs.getString("username"),
+          aRs.getString("display_name"),
           aRs.getString("location"),
           aRs.getString("description"),
           aRs.getString("profile_image_url"),
@@ -50,13 +49,13 @@ public class DaoImpl implements Dao {
           aRs.getString("picture_url"),
           aRs.getString("status_message"));
 
-  private final static ResultSetExtractor<List<UserModel>> MULTIPLE_USER_TWITTER = aRs -> {
-    List<UserModel> list = new ArrayList<>();
+  private final static ResultSetExtractor<List<UserTwitter>> MULTIPLE_USER_TWITTER = aRs -> {
+    List<UserTwitter> list = new ArrayList<>();
     while (aRs.next()) {
-      list.add(new UserModel(
-          aRs.getInt("id"),
-          aRs.getString("name"),
-          aRs.getString("screen_name"),
+      list.add(new UserTwitter(
+          aRs.getString("id"),
+          aRs.getString("username"),
+          aRs.getString("username"),
           aRs.getString("location"),
           aRs.getString("description"),
           aRs.getString("profile_image_url"),
@@ -89,11 +88,11 @@ public class DaoImpl implements Dao {
     mJdbc = new JdbcTemplate(aDataSource);
   }
 
-  @Override public void setUserModel(User aUser) {
-    mJdbc.update(SQL_INSERT_USER_MODEL,
-        aUser.getId(),
-        aUser.getName(),
+  @Override public void setUserTwitter(User aUser) {
+    mJdbc.update(SQL_INSERT_USER_TWITTER,
         aUser.getScreenName(),
+        aUser.getScreenName(),
+        aUser.getName(),
         aUser.getLocation(),
         aUser.getDescription(),
         aUser.getProfileImageURL(),
@@ -114,17 +113,17 @@ public class DaoImpl implements Dao {
         aUser.getStatusMessage());
   }
 
-  @Override public List<UserModel> getAllUserModel() {
-    return mJdbc.query(SQL_SELECT_ALL_USER_MODEL, MULTIPLE_USER_TWITTER);
+  @Override public List<UserTwitter> getAllUserTwitter() {
+    return mJdbc.query(SQL_SELECT_ALL_USER_TWITTER, MULTIPLE_USER_TWITTER);
   }
 
   @Override public List<UserLine> getAllUserLine() {
     return mJdbc.query(SQL_SELECT_ALL_USER_LINE, MULTIPLE_USER_LINE);
   }
 
-  @Override public UserModel getUserModelById(long aUserId) {
+  @Override public UserTwitter getUserTwitterById(String aUserId) {
     try {
-      return mJdbc.queryForObject(SQL_USER_MODEL_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_TWITTER);
+      return mJdbc.queryForObject(SQL_USER_TWITTER_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_TWITTER);
     } catch (Exception e) {
       LOG.error("Error when trying get UserModel cause : " + e.getMessage());
       return null;
@@ -136,15 +135,6 @@ public class DaoImpl implements Dao {
       return mJdbc.queryForObject(SQL_USER_LINE_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_LINE);
     } catch (Exception e) {
       LOG.error("Error when trying get UserLine cause : " + e.getMessage());
-      return null;
-    }
-  }
-
-  @Override public UserModel getUserModelByScreenName(String aScreenName) {
-    try {
-      return mJdbc.queryForObject(SQL_USER_MODEL_GET_BY_SCREEN_NAME, new Object[] {"%" + aScreenName + "%"}, SINGLE_USER_TWITTER);
-    } catch (Exception e) {
-      LOG.error("Error when trying get UserModel cause : " + e.getMessage());
       return null;
     }
   }

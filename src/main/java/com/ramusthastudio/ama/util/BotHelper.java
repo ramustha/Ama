@@ -13,9 +13,7 @@ import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
-import com.ramusthastudio.ama.database.Dao;
-import com.ramusthastudio.ama.model.UserLine;
-import com.ramusthastudio.ama.model.UserModel;
+import com.ramusthastudio.ama.model.UserTwitter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -115,14 +113,14 @@ public final class BotHelper {
         .build().pushMessage(pushMessage).execute();
   }
 
-  public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, UserModel aModel) throws IOException {
+  public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, UserTwitter aModel) throws IOException {
     String desc = aModel.getDescription();
     if (aModel.getDescription().isEmpty()) {
       desc = "Gak nyantumin deskripsi";
     }
     ButtonsTemplate template = new ButtonsTemplate(
         aModel.getOriginalProfileImageUrlHttps(),
-        aModel.getScreenName(),
+        aModel.getDisplayName(),
         desc,
         Collections.singletonList(
             new PostbackAction("Apa kata orang ?", TWITTER_SENTIMENT + " " + aModel.getId())

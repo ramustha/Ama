@@ -10,7 +10,7 @@ import com.ramusthastudio.ama.model.Payload;
 import com.ramusthastudio.ama.model.Postback;
 import com.ramusthastudio.ama.model.Source;
 import com.ramusthastudio.ama.model.UserLine;
-import com.ramusthastudio.ama.model.UserModel;
+import com.ramusthastudio.ama.model.UserTwitter;
 import com.ramusthastudio.ama.util.StickerHelper;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
@@ -126,19 +126,19 @@ public class LineBotController {
 
                 if (screenName.length() > 3) {
                   LOG.info("Start find user on database..." + screenName);
-                  UserModel userModel = mDao.getUserModelByScreenName(screenName);
-                  LOG.info("end find user on database..." + userModel);
+                  UserTwitter userTwitter = mDao.getUserTwitterById(screenName);
+                  LOG.info("end find user on database..." + userTwitter);
 
-                  if (userModel != null) {
+                  if (userTwitter != null) {
                     LOG.info("Display from database...");
-                    profileUserMessage(fChannelAccessToken, userId, userModel);
+                    profileUserMessage(fChannelAccessToken, userId, userTwitter);
                   } else {
                     try {
                       User twitterUser = twitterHelper.checkUsers(screenName);
                       LOG.info("Display from twitter server...");
                       profileUserMessage(fChannelAccessToken, userId, twitterUser);
                       LOG.info("Start adding user...");
-                      mDao.setUserModel(twitterUser);
+                      mDao.setUserTwitter(twitterUser);
                       LOG.info("End adding user...");
                       confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                     } catch (Exception aE) {
@@ -164,8 +164,8 @@ public class LineBotController {
               replayMessage(fChannelAccessToken, replayToken, "Hari gini gak punya twitter ?");
             } else if (pd.startsWith(TWITTER_TRUE)) {
               String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
-              UserModel userModel = mDao.getUserModelByScreenName(screenName);
-              replayMessage(fChannelAccessToken, replayToken, TWITTER_YES + "tw: " + userModel.getName());
+              UserTwitter userTwitter = mDao.getUserTwitterById(screenName);
+              replayMessage(fChannelAccessToken, replayToken, TWITTER_YES + "tw: " + userTwitter.getUsername());
               stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");

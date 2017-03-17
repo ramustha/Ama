@@ -2,17 +2,16 @@ package com.ramusthastudio.ama.database;
 
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.ramusthastudio.ama.model.UserLine;
-import com.ramusthastudio.ama.model.UserModel;
+import com.ramusthastudio.ama.model.UserTwitter;
 import java.util.List;
 import twitter4j.User;
 
 public interface Dao {
-  void setUserModel(User aUser);
-  List<UserModel> getAllUserModel();
-  UserModel getUserModelById(long aUserId);
-  UserModel getUserModelByScreenName(String aScreenName);
+  List<UserTwitter> getAllUserTwitter();
+  void setUserTwitter(User aUser);
+  UserTwitter getUserTwitterById(String aUserId);
 
-  void setUserLine(UserProfileResponse aUser);
   List<UserLine> getAllUserLine();
+  void setUserLine(UserProfileResponse aUser);
   UserLine getUserLineById(String aUserId);
 }
