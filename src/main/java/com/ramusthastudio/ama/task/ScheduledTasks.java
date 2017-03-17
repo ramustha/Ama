@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
+import static org.apache.tomcat.jni.Time.now;
 
 @Component
 public class ScheduledTasks {
@@ -43,8 +44,9 @@ public class ScheduledTasks {
         for (UserChat chat : userChat) {
           Timestamp lastTimeChat = new Timestamp(chat.getLastTime());
           LocalDateTime timeLimit = lastTimeChat.toLocalDateTime().plusMinutes(2);
-          if (timeLimit.isAfter(LocalDateTime.now())) {
+          if (timeLimit.isBefore(LocalDateTime.now())) {
             LOG.info("Start push message");
+            mDao.updateUserChat(new UserChat(chat.getUserId(), "Start push message", now()));
             // try {
             //   String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";
             //   pushMessage(fChannelAccessToken, chat.getUserId(), text);
