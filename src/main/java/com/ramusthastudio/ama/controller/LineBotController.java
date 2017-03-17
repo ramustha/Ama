@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,10 +64,7 @@ public class LineBotController {
   @Autowired
   Dao mDao;
 
-  private UserLine mUserLine;
   private Twitter4JHelper twitterHelper;
-
-  @Bean public UserLine getUserLine() { return mUserLine; }
 
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
   public ResponseEntity<String> callback(
@@ -104,12 +100,12 @@ public class LineBotController {
       try {
         LOG.info("Start find UserProfileResponse on database...");
         UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
-        mUserLine = mDao.getUserLineById(profile.getUserId());
+        UserLine mUserLine = mDao.getUserLineById(profile.getUserId());
         if (mUserLine == null) {
           LOG.info("Start save user line to database...");
           mDao.setUserLine(profile);
         }
-        LOG.info("End find UserProfileResponse on database...");
+        LOG.info("End find UserProfileResponse on database..." + mUserLine);
       } catch (IOException ignored) {}
 
       try {

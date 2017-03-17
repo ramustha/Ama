@@ -1,5 +1,6 @@
 package com.ramusthastudio.ama.task;
 
+import com.ramusthastudio.ama.database.Dao;
 import com.ramusthastudio.ama.model.UserLine;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,12 +25,10 @@ public class ScheduledTasks {
   String fChannelAccessToken;
 
   @Autowired
-  UserLine fUserLine;
+  Dao mDao;
 
   @Scheduled(fixedRate = 5000)
   public void reportCurrentTime() {
-    if (fUserLine != null) {
-      log.info("The time is now {} : {}", dateFormat.format(new Date()), fUserLine.getDisplayName());
-    }
+    // log.info("The time is now {}", dateFormat.format(new Date()));
   }
 }
