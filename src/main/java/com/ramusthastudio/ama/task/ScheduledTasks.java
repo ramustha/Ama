@@ -38,7 +38,8 @@ public class ScheduledTasks {
   @Scheduled(fixedRate = 5000)
   public void reportCurrentTime() {
     try {
-      LOG.info("The time is now {}", dateFormat.format(new Date()));
+      Date now = new Date();
+      LOG.info("The time is now {}", dateFormat.format(now));
       List<UserChat> userChat = mDao.getAllUserChat();
       if (userChat != null && userChat.size() > 0) {
         for (UserChat chat : userChat) {
@@ -46,13 +47,13 @@ public class ScheduledTasks {
           LocalDateTime timeLimit = lastTimeChat.toLocalDateTime().plusMinutes(2);
           if (timeLimit.isBefore(LocalDateTime.now())) {
             LOG.info("Start push message");
-            mDao.updateUserChat(new UserChat(chat.getUserId(), "Start push message", new Date().getTime()));
-            // try {
-            //   String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";
-            //   pushMessage(fChannelAccessToken, chat.getUserId(), text);
-            // } catch (IOException aE) {
-            //   LOG.error("Start push message error message : " + aE.getMessage());
-            // }
+            try {
+              String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";
+              pushMessage(fChannelAccessToken, chat.getUserId(), text);
+              mDao.updateUserChat(new UserChat(chat.getUserId(), "Start push message", now.getTime()));
+            } catch (IOException aE) {
+              LOG.error("Start push message error message : " + aE.getMessage());
+            }
           }
         }
       }
