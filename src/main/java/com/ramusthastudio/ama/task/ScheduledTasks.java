@@ -3,6 +3,7 @@ package com.ramusthastudio.ama.task;
 import com.ramusthastudio.ama.database.Dao;
 import com.ramusthastudio.ama.model.UserChat;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
 
 @Component
 public class ScheduledTasks {
@@ -43,11 +46,12 @@ public class ScheduledTasks {
           LocalDateTime timeLimit = lastTimeChat.plusMinutes(2);
           if (timeLimit.isAfter(now)) {
             LOG.info("Start push message");
-            // try {
-            //   pushMessage(fChannelAccessToken, chat.getUserId(), "Kok kamu aja ? kok gak ngobrol sama aku lagi ?");
-            // } catch (IOException aE) {
-            //   LOG.error("Start push message error message : " + aE.getMessage());
-            // }
+            try {
+              String text = "Kok kamu aja ? kok gak ngobrol sama aku lagi ?";
+              pushMessage(fChannelAccessToken, chat.getUserId(), text);
+            } catch (IOException aE) {
+              LOG.error("Start push message error message : " + aE.getMessage());
+            }
           }
         }
       }

@@ -18,5 +18,6 @@ public interface Dao {
 
   List<UserChat> getAllUserChat();
   void setUserChat(UserChat aUser);
+  void updateUserChat(UserChat aUser);
   UserChat getUserChatById(String aUserId);
 }

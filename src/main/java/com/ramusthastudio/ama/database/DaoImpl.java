@@ -29,6 +29,7 @@ public class DaoImpl implements Dao {
   private final static String SQL_SELECT_ALL_USER_CHAT = "SELECT * FROM user_chat";
   private final static String SQL_USER_CHAT_GET_BY_ID = SQL_SELECT_ALL_USER_CHAT + " WHERE LOWER(id) LIKE LOWER(?) ;";
   private final static String SQL_INSERT_USER_CHAT = "INSERT INTO user_chat (id, last_chat, last_time) VALUES (?, ?, ?);";
+  private final static String SQL_UPDATE_USER_CHAT = "UPDATE user_chat SET last_chat = ?, last_time = ? WHERE LOWER(id) LIKE LOWER(?);";
 
   private final JdbcTemplate mJdbc;
 
@@ -138,8 +139,14 @@ public class DaoImpl implements Dao {
   }
 
   @Override public void setUserChat(UserChat aUser) {
-    mJdbc.update(SQL_INSERT_USER_LINE,
+    mJdbc.update(SQL_INSERT_USER_CHAT,
         aUser.getUserId(),
+        aUser.getLastChat(),
+        new Timestamp(aUser.getLastTime()));
+  }
+
+  @Override public void updateUserChat(UserChat aUser) {
+    mJdbc.update(SQL_UPDATE_USER_CHAT,
         aUser.getLastChat(),
         new Timestamp(aUser.getLastTime()));
   }
