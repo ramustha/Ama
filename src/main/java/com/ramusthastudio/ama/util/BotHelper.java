@@ -51,11 +51,11 @@ public final class BotHelper {
   public static final String MESSAGE_STICKER = "sticker";
 
   public static final String TWITTER = "twitter:";
-  public static final String TWITTER_YES = "twitter_yes";
-  public static final String TWITTER_NO = "twitter_no";
-  public static final String TWITTER_TRUE = "twitter_true";
-  public static final String TWITTER_FALSE = "twitter_false";
-  public static final String TWITTER_SENTIMENT = "twitter_sentiment";
+  public static final String TWITTER_YES = "yes:";
+  public static final String TWITTER_NO = "no:";
+  public static final String TWITTER_TRUE = "true:";
+  public static final String TWITTER_FALSE = "false:";
+  public static final String TWITTER_SENTIMENT = "sentiment:";
 
   public static UserProfileResponse getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
@@ -188,10 +188,10 @@ public final class BotHelper {
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
 
-  public static Response<BotApiResponse> confirmTwitterMessage(String aChannelAccessToken, String aUserId, String aMsg, String aYes, String aNo) throws IOException {
+  public static Response<BotApiResponse> confirmTwitterMessage(String aChannelAccessToken, String aUserId, String aMsg, String aDataYes, String aDataNo) throws IOException {
     ConfirmTemplate template = new ConfirmTemplate(aMsg, Arrays.asList(
-        new PostbackAction("Bener", aYes),
-        new PostbackAction("Salah", aNo)
+        new PostbackAction("Bener", aDataYes),
+        new PostbackAction("Salah", aDataNo)
     ));
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
