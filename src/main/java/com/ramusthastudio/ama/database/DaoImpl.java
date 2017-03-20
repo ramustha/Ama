@@ -44,7 +44,7 @@ public class DaoImpl implements Dao {
 
   private final static String SQL_SELECT_ALL_USER_EVIDENCE = "SELECT * FROM user_evidence";
   private final static String SQL_USER_EVIDENCE_GET_BY_MESSAGE_ID = SQL_SELECT_ALL_USER_EVIDENCE + " WHERE LOWER(message_id) LIKE LOWER(?) ;";
-  private final static String SQL_INSERT_USER_EVIDENCE = "INSERT INTO user_evidence (message_id, polarity, polarity_term, polarity_term_size) VALUES (?, ?, ?, ?);";
+  private final static String SQL_INSERT_USER_EVIDENCE = "INSERT INTO user_evidence (twitter_id, polarity, polarity_term, polarity_term_size) VALUES (?, ?, ?, ?);";
 
   private final JdbcTemplate mJdbc;
 
@@ -94,7 +94,7 @@ public class DaoImpl implements Dao {
 
   private final static RowMapper<Evidence> SINGLE_USER_EVIDENCE = (aRs, rowNum) ->
       new Evidence(
-          aRs.getString("message_id"),
+          aRs.getString("twitter_id"),
           aRs.getString("polarity"),
           aRs.getString("polarity_term"),
           aRs.getInt("polarity_term_size"));
@@ -166,7 +166,7 @@ public class DaoImpl implements Dao {
     List<Evidence> list = new ArrayList<>();
     while (aRs.next()) {
       list.add(new Evidence(
-          aRs.getString("message_id"),
+          aRs.getString("twitter_id"),
           aRs.getString("polarity"),
           aRs.getString("polarity_term"),
           aRs.getInt("polarity_term_size")));
@@ -217,7 +217,7 @@ public class DaoImpl implements Dao {
       } catch (ParseException aE) {
         LOG.error("parse error message :" + aE.getMessage());
       }
-      LOG.info("date :" + date);
+      // LOG.info("date :" + date);
       if (date != null) {
         Actor actor = aMessage2.getActor();
         mJdbc.update(SQL_INSERT_USER_MESSAGE,
@@ -271,38 +271,23 @@ public class DaoImpl implements Dao {
     return mJdbc.query(SQL_SELECT_ALL_USER_EVIDENCE, MULTIPLE_USER_EVIDENCE);
   }
 
+  @Override public List<Message2> getUserMessageByLineId(String aLineId) {
+    return mJdbc.query(SQL_USER_MESSAGE_GET_BY_LINE_ID, new Object[] {"%" + aLineId + "%"}, MULTIPLE_USER_MESSAGE);
+  }
+
+  @Override public List<Message2> getUserMessageByTwitterId(String aTwitterId) {
+    return mJdbc.query(SQL_USER_MESSAGE_GET_BY_TWITTER_ID, new Object[] {"%" + aTwitterId + "%"}, MULTIPLE_USER_MESSAGE);
+  }
+
+  @Override public List<Evidence> getUserEvidenceByMessageId(String aTwitterId) {
+    return mJdbc.query(SQL_USER_EVIDENCE_GET_BY_MESSAGE_ID, new Object[] {"%" + aTwitterId + "%"}, MULTIPLE_USER_EVIDENCE);
+  }
+
   @Override public UserTwitter getUserTwitterById(String aUserId) {
     try {
       return mJdbc.queryForObject(SQL_USER_TWITTER_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_TWITTER);
     } catch (Exception e) {
       LOG.error("Error when trying get UserTwitter cause : " + e.getMessage());
-      return null;
-    }
-  }
-
-  @Override public Message2 getUserMessageByLineId(String aLineId) {
-    try {
-      return mJdbc.queryForObject(SQL_USER_MESSAGE_GET_BY_LINE_ID, new Object[] {"%" + aLineId + "%"}, SINGLE_USER_MESSAGE);
-    } catch (Exception e) {
-      LOG.error("Error when trying get Message2 cause : " + e.getMessage());
-      return null;
-    }
-  }
-
-  @Override public Message2 getUserMessageByTwitterId(String aTwitterId) {
-    try {
-      return mJdbc.queryForObject(SQL_USER_MESSAGE_GET_BY_TWITTER_ID, new Object[] {"%" + aTwitterId + "%"}, SINGLE_USER_MESSAGE);
-    } catch (Exception e) {
-      LOG.error("Error when trying get Message2 cause : " + e.getMessage());
-      return null;
-    }
-  }
-
-  @Override public Evidence getUserEvidenceByMessageId(String aMessageId) {
-    try {
-      return mJdbc.queryForObject(SQL_USER_EVIDENCE_GET_BY_MESSAGE_ID, new Object[] {"%" + aMessageId + "%"}, SINGLE_USER_EVIDENCE);
-    } catch (Exception e) {
-      LOG.error("Error when trying get Evidence cause : " + e.getMessage());
       return null;
     }
   }

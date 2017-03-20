@@ -25,10 +25,10 @@ public interface Dao {
 
   List<Message2> getAllUserMessage();
   void setUserMessage(Message2 aMessage2);
-  Message2 getUserMessageByLineId(String aLineId);
-  Message2 getUserMessageByTwitterId(String aTwitterId);
+  List<Message2> getUserMessageByLineId(String aLineId);
+  List<Message2> getUserMessageByTwitterId(String aTwitterId);
 
   List<Evidence> getAllUserEvidence();
   void setUserEvidence(Evidence aUser);
-  Evidence getUserEvidenceByMessageId(String aMessId);
+  List<Evidence> getUserEvidenceByMessageId(String aTwitterId);
 }

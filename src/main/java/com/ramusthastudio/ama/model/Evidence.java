@@ -12,8 +12,8 @@ public class Evidence implements Serializable {
   private String id;
   private int size = 1;
 
-  public Evidence(String aMessageId, String aPolarity, String aPolarityTerm, int aPolarityTermSize) {
-    id = aMessageId;
+  public Evidence(String aTwitterId, String aPolarity, String aPolarityTerm, int aPolarityTermSize) {
+    id = aTwitterId;
     polarity = aPolarity;
     sentimentTerm = aPolarityTerm;
     size = aPolarityTermSize;

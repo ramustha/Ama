@@ -24,6 +24,7 @@ import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,20 +195,42 @@ public class LineBotController {
               stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
               UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
 
-              LOG.info("Start sentiment service..." + userTwitter);
-              Call<ApiTweets> tweets = fSentimentTweetService.apiTweets(userTwitter.getUsername(), MAX_TWEETS);
-              Response<ApiTweets> exec = tweets.execute();
-              ApiTweets apiTweets = exec.body();
-              // Search resultSearch = apiTweets.getSearch();
-              List<Tweet> resultTweets = apiTweets.getTweets();
-              // Related resultRelated = apiTweets.getRelated();
+              List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
+              List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
+              if (message2.size() > 0 && evidence.size() > 0) {
+                LOG.info("Start find sentiment from database..." + userTwitter);
 
-              polarityProcess(userId, userTwitter.getId(), resultTweets);
+                StringBuilder b = new StringBuilder("Kata orang kamu tuh ");
 
-              for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
-              for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
+                if (message2.size() > 3) {
+                  Random rand1 = new Random();
+                  Random rand2 = new Random();
+                  Random rand3 = new Random();
+                  rand1.nextInt(message2.size());
+                  rand2.nextInt(message2.size());
+                  rand3.nextInt(message2.size());
+                  b.append(evidence.get(rand1.nextInt(message2.size())).getSentimentTerm());
+                  b.append(", ").append(evidence.get(rand2.nextInt(message2.size())).getSentimentTerm());
+                  b.append(", ").append(evidence.get(rand3.nextInt(message2.size())).getSentimentTerm());
+                } else if (message2.size() > 2) {
+                  Random rand1 = new Random();
+                  Random rand2 = new Random();
+                  rand1.nextInt(message2.size());
+                  rand2.nextInt(message2.size());
+                  b.append(evidence.get(rand1.nextInt(message2.size())).getSentimentTerm());
+                  b.append(", ").append(evidence.get(rand2.nextInt(message2.size())).getSentimentTerm());
+                } else if (message2.size() > 1) {
+                  Random rand1 = new Random();
+                  rand1.nextInt(message2.size());
+                  b.append(evidence.get(rand1.nextInt(message2.size())).getSentimentTerm());
+                }
 
-              LOG.info("End sentiment service..." + userTwitter);
+                replayMessage(fChannelAccessToken, replayToken, b.toString());
+                LOG.info("End find sentiment from database..." + userTwitter);
+              } else {
+                sentimentService(userId, userTwitter);
+              }
+
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
@@ -219,7 +242,21 @@ public class LineBotController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  public void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
+  private void sentimentService(String aUserId, UserTwitter aUserTwitter) throws IOException {
+    LOG.info("Start sentiment service..." + aUserTwitter);
+    Call<ApiTweets> tweets = fSentimentTweetService.apiTweets(aUserTwitter.getUsername(), MAX_TWEETS);
+    Response<ApiTweets> exec = tweets.execute();
+    ApiTweets apiTweets = exec.body();
+    // Search resultSearch = apiTweets.getSearch();
+    List<Tweet> resultTweets = apiTweets.getTweets();
+    // Related resultRelated = apiTweets.getRelated();
+    polarityProcess(aUserId, aUserTwitter.getId(), resultTweets);
+    for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
+    for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
+    LOG.info("End sentiment service..." + aUserTwitter);
+  }
+
+  private void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
     int posittiveCount = 0;
     int negativeCount = 0;
     int neutralCount = 0;
@@ -243,7 +280,7 @@ public class LineBotController {
                 }
               }
               collectMessage.add(message);
-              evidence.setId(message.getId());
+              evidence.setId(aTwitterId);
               collectEvidence.add(evidence);
             }
           }
