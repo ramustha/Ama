@@ -205,6 +205,7 @@ public class DaoImpl implements Dao {
   }
 
   @Override public void setUserMessage(Message2 aMessage2) {
+    LOG.info("setUserMessage "+aMessage2);
     if (aMessage2.getActor() != null) {
       Actor actor = aMessage2.getActor();
       mJdbc.update(SQL_INSERT_USER_MESSAGE,
@@ -220,12 +221,13 @@ public class DaoImpl implements Dao {
     }
   }
 
-  @Override public void setUserEvidence(Evidence aMessage2) {
+  @Override public void setUserEvidence(Evidence aEvidence) {
+    LOG.info("setUserEvidence "+aEvidence);
     mJdbc.update(SQL_INSERT_USER_EVIDENCE,
-        aMessage2.getId(),
-        aMessage2.getPolarity(),
-        aMessage2.getSentimentTerm(),
-        aMessage2.getSize()
+        aEvidence.getId(),
+        aEvidence.getPolarity(),
+        aEvidence.getSentimentTerm(),
+        aEvidence.getSize()
     );
   }
 
