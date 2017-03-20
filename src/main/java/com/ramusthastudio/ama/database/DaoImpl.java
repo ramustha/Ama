@@ -40,7 +40,7 @@ public class DaoImpl implements Dao {
   private final static String SQL_SELECT_ALL_USER_MESSAGE = "SELECT * FROM user_message";
   private final static String SQL_USER_MESSAGE_GET_BY_LINE_ID = SQL_SELECT_ALL_USER_MESSAGE + " WHERE LOWER(line_id) LIKE LOWER(?) ;";
   private final static String SQL_USER_MESSAGE_GET_BY_TWITTER_ID = SQL_SELECT_ALL_USER_MESSAGE + " WHERE LOWER(twitter_id) LIKE LOWER(?) ;";
-  private final static String SQL_INSERT_USER_MESSAGE = "INSERT INTO user_message (line_id, twitter_id, profile_link, posted_time, tweet_link, msg_body, profile_name, friendscount) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+  private final static String SQL_INSERT_USER_MESSAGE = "INSERT INTO user_message (line_id, twitter_id, profile_link, posted_time, tweet_link, msg_body, profile_name, friends_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
   private final static String SQL_SELECT_ALL_USER_EVIDENCE = "SELECT * FROM user_evidence";
   private final static String SQL_USER_EVIDENCE_GET_BY_MESSAGE_ID = SQL_SELECT_ALL_USER_EVIDENCE + " WHERE LOWER(message_id) LIKE LOWER(?) ;";
