@@ -209,10 +209,11 @@ public class DaoImpl implements Dao {
   @Override public void setUserMessage(Message2 aMessage2) {
     if (aMessage2.getActor() != null) {
       // 2015-05-15T04:32:42.000   Z'
-      SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+      SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
       Date date = null;
       try {
-        date = f.parse(aMessage2.getPostedTime());
+        String postedTime = aMessage2.getPostedTime();
+        date = f.parse(postedTime.substring(0, postedTime.length() - 1));
       } catch (ParseException aE) {
         LOG.error("parse error message :" + aE.getMessage());
       }

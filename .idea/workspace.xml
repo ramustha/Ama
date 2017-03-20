@@ -124,27 +124,27 @@
       <file leaf-file-name="DaoImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="211" column="74" lean-forward="false" selection-start-line="211" selection-start-column="74" selection-end-line="211" selection-end-column="74" />
+            <state relative-caret-position="221">
+              <caret line="212" column="24" lean-forward="false" selection-start-line="212" selection-start-column="24" selection-end-line="212" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1489994489469" expanded="true" signature="988:1014" ph="SELECT * FRO... user_twitter" />
-                <marker date="1489994489469" expanded="true" signature="1107:1137" ph="SELECT * FRO... user_twitter" />
-                <marker date="1489994489469" expanded="true" signature="1199:1474" ph="INSERT INTO user_twitter... " />
-                <marker date="1489994489469" expanded="true" signature="1537:1560" ph="SELECT * FRO... user_line" />
-                <marker date="1489994489469" expanded="true" signature="1647:1677" ph="SELECT * FRO... user_line" />
-                <marker date="1489994489469" expanded="true" signature="1736:1825" ph="INSERT INTO user_line... " />
-                <marker date="1489994489469" expanded="true" signature="1888:1911" ph="SELECT * FRO... user_chat" />
-                <marker date="1489994489469" expanded="true" signature="1998:2028" ph="SELECT * FRO... user_chat" />
-                <marker date="1489994489469" expanded="true" signature="2087:2152" ph="INSERT INTO user_chat... " />
-                <marker date="1489994489469" expanded="true" signature="2210:2289" ph="UPDATE user_... " />
-                <marker date="1489994489469" expanded="true" signature="2355:2381" ph="SELECT * FRO... user_message" />
-                <marker date="1489994489469" expanded="true" signature="2479:2514" ph="SELECT * FRO... user_message" />
-                <marker date="1489994489469" expanded="true" signature="2617:2655" ph="SELECT * FRO... user_message" />
-                <marker date="1489994489469" expanded="true" signature="2717:2872" ph="INSERT INTO user_message... " />
-                <marker date="1489994489469" expanded="true" signature="2939:2966" ph="SELECT * FRO... user_evidence" />
-                <marker date="1489994489469" expanded="true" signature="3069:3107" ph="SELECT * FRO... user_evidence" />
-                <marker date="1489994489469" expanded="true" signature="3170:3273" ph="INSERT INTO user_evidence... " />
+                <marker date="1489994616164" expanded="true" signature="988:1014" ph="SELECT * FRO... user_twitter" />
+                <marker date="1489994616164" expanded="true" signature="1107:1137" ph="SELECT * FRO... user_twitter" />
+                <marker date="1489994616164" expanded="true" signature="1199:1474" ph="INSERT INTO user_twitter... " />
+                <marker date="1489994616164" expanded="true" signature="1537:1560" ph="SELECT * FRO... user_line" />
+                <marker date="1489994616164" expanded="true" signature="1647:1677" ph="SELECT * FRO... user_line" />
+                <marker date="1489994616164" expanded="true" signature="1736:1825" ph="INSERT INTO user_line... " />
+                <marker date="1489994616164" expanded="true" signature="1888:1911" ph="SELECT * FRO... user_chat" />
+                <marker date="1489994616164" expanded="true" signature="1998:2028" ph="SELECT * FRO... user_chat" />
+                <marker date="1489994616164" expanded="true" signature="2087:2152" ph="INSERT INTO user_chat... " />
+                <marker date="1489994616164" expanded="true" signature="2210:2289" ph="UPDATE user_... " />
+                <marker date="1489994616164" expanded="true" signature="2355:2381" ph="SELECT * FRO... user_message" />
+                <marker date="1489994616164" expanded="true" signature="2479:2514" ph="SELECT * FRO... user_message" />
+                <marker date="1489994616164" expanded="true" signature="2617:2655" ph="SELECT * FRO... user_message" />
+                <marker date="1489994616164" expanded="true" signature="2717:2872" ph="INSERT INTO user_message... " />
+                <marker date="1489994616164" expanded="true" signature="2939:2966" ph="SELECT * FRO... user_evidence" />
+                <marker date="1489994616164" expanded="true" signature="3069:3107" ph="SELECT * FRO... user_evidence" />
+                <marker date="1489994616164" expanded="true" signature="3170:3273" ph="INSERT INTO user_evidence... " />
               </folding>
             </state>
           </provider>
@@ -1410,12 +1410,12 @@
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
       <workItem from="1489565847515" duration="71540000" />
-      <workItem from="1489974093115" duration="10606000" />
+      <workItem from="1489974093115" duration="10732000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="185702000" />
+    <option name="totallyTimeSpent" value="185828000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1865,27 +1865,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="211" column="74" lean-forward="false" selection-start-line="211" selection-start-column="74" selection-end-line="211" selection-end-column="74" />
+        <state relative-caret-position="221">
+          <caret line="212" column="24" lean-forward="false" selection-start-line="212" selection-start-column="24" selection-end-line="212" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1489994489469" expanded="true" signature="988:1014" ph="SELECT * FRO... user_twitter" />
-            <marker date="1489994489469" expanded="true" signature="1107:1137" ph="SELECT * FRO... user_twitter" />
-            <marker date="1489994489469" expanded="true" signature="1199:1474" ph="INSERT INTO user_twitter... " />
-            <marker date="1489994489469" expanded="true" signature="1537:1560" ph="SELECT * FRO... user_line" />
-            <marker date="1489994489469" expanded="true" signature="1647:1677" ph="SELECT * FRO... user_line" />
-            <marker date="1489994489469" expanded="true" signature="1736:1825" ph="INSERT INTO user_line... " />
-            <marker date="1489994489469" expanded="true" signature="1888:1911" ph="SELECT * FRO... user_chat" />
-            <marker date="1489994489469" expanded="true" signature="1998:2028" ph="SELECT * FRO... user_chat" />
-            <marker date="1489994489469" expanded="true" signature="2087:2152" ph="INSERT INTO user_chat... " />
-            <marker date="1489994489469" expanded="true" signature="2210:2289" ph="UPDATE user_... " />
-            <marker date="1489994489469" expanded="true" signature="2355:2381" ph="SELECT * FRO... user_message" />
-            <marker date="1489994489469" expanded="true" signature="2479:2514" ph="SELECT * FRO... user_message" />
-            <marker date="1489994489469" expanded="true" signature="2617:2655" ph="SELECT * FRO... user_message" />
-            <marker date="1489994489469" expanded="true" signature="2717:2872" ph="INSERT INTO user_message... " />
-            <marker date="1489994489469" expanded="true" signature="2939:2966" ph="SELECT * FRO... user_evidence" />
-            <marker date="1489994489469" expanded="true" signature="3069:3107" ph="SELECT * FRO... user_evidence" />
-            <marker date="1489994489469" expanded="true" signature="3170:3273" ph="INSERT INTO user_evidence... " />
+            <marker date="1489994616164" expanded="true" signature="988:1014" ph="SELECT * FRO... user_twitter" />
+            <marker date="1489994616164" expanded="true" signature="1107:1137" ph="SELECT * FRO... user_twitter" />
+            <marker date="1489994616164" expanded="true" signature="1199:1474" ph="INSERT INTO user_twitter... " />
+            <marker date="1489994616164" expanded="true" signature="1537:1560" ph="SELECT * FRO... user_line" />
+            <marker date="1489994616164" expanded="true" signature="1647:1677" ph="SELECT * FRO... user_line" />
+            <marker date="1489994616164" expanded="true" signature="1736:1825" ph="INSERT INTO user_line... " />
+            <marker date="1489994616164" expanded="true" signature="1888:1911" ph="SELECT * FRO... user_chat" />
+            <marker date="1489994616164" expanded="true" signature="1998:2028" ph="SELECT * FRO... user_chat" />
+            <marker date="1489994616164" expanded="true" signature="2087:2152" ph="INSERT INTO user_chat... " />
+            <marker date="1489994616164" expanded="true" signature="2210:2289" ph="UPDATE user_... " />
+            <marker date="1489994616164" expanded="true" signature="2355:2381" ph="SELECT * FRO... user_message" />
+            <marker date="1489994616164" expanded="true" signature="2479:2514" ph="SELECT * FRO... user_message" />
+            <marker date="1489994616164" expanded="true" signature="2617:2655" ph="SELECT * FRO... user_message" />
+            <marker date="1489994616164" expanded="true" signature="2717:2872" ph="INSERT INTO user_message... " />
+            <marker date="1489994616164" expanded="true" signature="2939:2966" ph="SELECT * FRO... user_evidence" />
+            <marker date="1489994616164" expanded="true" signature="3069:3107" ph="SELECT * FRO... user_evidence" />
+            <marker date="1489994616164" expanded="true" signature="3170:3273" ph="INSERT INTO user_evidence... " />
           </folding>
         </state>
       </provider>
