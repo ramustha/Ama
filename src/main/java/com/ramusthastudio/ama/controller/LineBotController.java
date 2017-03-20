@@ -191,44 +191,16 @@ public class LineBotController {
               replayMessage(fChannelAccessToken, replayToken, "Hari gini gak punya twitter ?");
             } else if (pd.startsWith(TWITTER_TRUE)) {
               String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
-              replayMessage(fChannelAccessToken, replayToken, screenName);
-              stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
               UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
 
               List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
               List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
               if (message2.size() > 0 && evidence.size() > 0) {
                 LOG.info("Start find sentiment from database..." + userTwitter);
-
-                StringBuilder b = new StringBuilder("Kata orang kamu tuh ");
-
-                if (message2.size() > 3) {
-                  Random rand1 = new Random();
-                  Random rand2 = new Random();
-                  Random rand3 = new Random();
-                  rand1.nextInt(message2.size());
-                  rand2.nextInt(message2.size());
-                  rand3.nextInt(message2.size());
-                  b.append(evidence.get(rand1.nextInt(message2.size())).getSentimentTerm());
-                  b.append(", ").append(evidence.get(rand2.nextInt(message2.size())).getSentimentTerm());
-                  b.append(", ").append(evidence.get(rand3.nextInt(message2.size())).getSentimentTerm());
-                } else if (message2.size() > 2) {
-                  Random rand1 = new Random();
-                  Random rand2 = new Random();
-                  rand1.nextInt(message2.size());
-                  rand2.nextInt(message2.size());
-                  b.append(evidence.get(rand1.nextInt(message2.size())).getSentimentTerm());
-                  b.append(", ").append(evidence.get(rand2.nextInt(message2.size())).getSentimentTerm());
-                } else if (message2.size() > 1) {
-                  Random rand1 = new Random();
-                  rand1.nextInt(message2.size());
-                  b.append(evidence.get(rand1.nextInt(message2.size())).getSentimentTerm());
-                }
-
-                replayMessage(fChannelAccessToken, replayToken, b.toString());
+                pushSentiment(replayToken, userId, message2, evidence);
                 LOG.info("End find sentiment from database..." + userTwitter);
               } else {
-                sentimentService(userId, userTwitter);
+                sentimentService(replayToken, userId, userTwitter);
               }
 
             } else if (pd.startsWith(TWITTER_FALSE)) {
@@ -242,7 +214,7 @@ public class LineBotController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  private void sentimentService(String aUserId, UserTwitter aUserTwitter) throws IOException {
+  private void sentimentService(String aReplayToken, String aUserId, UserTwitter aUserTwitter) throws IOException {
     LOG.info("Start sentiment service..." + aUserTwitter);
     Call<ApiTweets> tweets = fSentimentTweetService.apiTweets(aUserTwitter.getUsername(), MAX_TWEETS);
     Response<ApiTweets> exec = tweets.execute();
@@ -253,7 +225,38 @@ public class LineBotController {
     polarityProcess(aUserId, aUserTwitter.getId(), resultTweets);
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
+    pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
     LOG.info("End sentiment service..." + aUserTwitter);
+  }
+
+  private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
+    StringBuilder b = new StringBuilder("Kata orang kamu tuh ");
+
+    if (aMessage2.size() > 3) {
+      Random rand1 = new Random();
+      Random rand2 = new Random();
+      Random rand3 = new Random();
+      rand1.nextInt(aMessage2.size());
+      rand2.nextInt(aMessage2.size());
+      rand3.nextInt(aMessage2.size());
+      b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
+      b.append(", ").append(aEvidence.get(rand2.nextInt(aMessage2.size())).getSentimentTerm());
+      b.append(", ").append(aEvidence.get(rand3.nextInt(aMessage2.size())).getSentimentTerm());
+    } else if (aMessage2.size() > 2) {
+      Random rand1 = new Random();
+      Random rand2 = new Random();
+      rand1.nextInt(aMessage2.size());
+      rand2.nextInt(aMessage2.size());
+      b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
+      b.append(", ").append(aEvidence.get(rand2.nextInt(aMessage2.size())).getSentimentTerm());
+    } else if (aMessage2.size() > 1) {
+      Random rand1 = new Random();
+      rand1.nextInt(aMessage2.size());
+      b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
+    }
+
+    replayMessage(fChannelAccessToken, aReplayToken, b.toString());
+    stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
   }
 
   private void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
