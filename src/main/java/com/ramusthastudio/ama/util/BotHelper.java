@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
@@ -48,6 +50,8 @@ public final class BotHelper {
   public static final String MESSAGE_AUDIO = "audio";
   public static final String MESSAGE_LOCATION = "location";
   public static final String MESSAGE_STICKER = "sticker";
+
+  public static final String KEY_TWITTER = "twitter";
 
   public static final String TWITTER = "twitter:";
   public static final String TWITTER_YES = "yes:";
@@ -202,5 +206,31 @@ public final class BotHelper {
   public static int generateRandom(int min, int max) {
     Random r = new Random();
     return r.nextInt(max - min) + min;
+  }
+
+  public static String predictWord(String aText, String aFind) {
+    Pattern word = Pattern.compile(aFind);
+    Matcher match = word.matcher(aText);
+    String result = "";
+    while (match.find()) {
+      String predictAfterKey = removeAnySymbol(aText.substring(match.end(), aText.length())).trim();
+
+      if (predictAfterKey.length() > 0) {
+        if (predictAfterKey.contains(" ")) {
+          String[] predictAfterKeySplit = predictAfterKey.split(" ");
+          result = predictAfterKeySplit[0];
+        } else {
+          result = predictAfterKey;
+        }
+        return result;
+      }
+    }
+    return result;
+  }
+
+  public static String removeAnySymbol(String s) {
+    Pattern pattern = Pattern.compile("[^a-z A-Z^0-9]");
+    Matcher matcher = pattern.matcher(s);
+    return matcher.replaceAll(" ");
   }
 }

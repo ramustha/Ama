@@ -24,6 +24,8 @@ import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ import retrofit2.Response;
 import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
@@ -54,11 +57,11 @@ import static com.ramusthastudio.ama.util.BotHelper.generateRandom;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
 import static com.ramusthastudio.ama.util.BotHelper.instructionTweetsMessage;
+import static com.ramusthastudio.ama.util.BotHelper.predictWord;
 import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.stickerMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
-import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_CHEERS;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SHOCK;
 
 @RestController
@@ -137,6 +140,8 @@ public class LineBotController {
           case MESSAGE:
             if (message.type().equals(MESSAGE_TEXT)) {
               String text = message.text();
+              Pattern word = Pattern.compile(KEY_TWITTER);
+              Matcher match = word.matcher(text);
 
               UserChat userChat = fDao.getUserChatById(userId);
               if (userChat != null) {
@@ -175,8 +180,12 @@ public class LineBotController {
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
+              }
+              if (match.find()) {
+                replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ?" + predictWord(text, KEY_TWITTER));
+                confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
               } else {
-                replayMessage(fChannelAccessToken, replayToken, message.text());
+                replayMessage(fChannelAccessToken, replayToken, message.text() + " ?");
               }
             }
             break;
@@ -184,7 +193,6 @@ public class LineBotController {
             String pd = postback.data();
 
             if (pd.startsWith(TWITTER_YES)) {
-              replayMessage(fChannelAccessToken, replayToken, TWITTER_YES);
               instructionTweetsMessage(fChannelAccessToken, userId);
             } else if (pd.startsWith(TWITTER_NO)) {
               stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SHOCK));
@@ -245,7 +253,7 @@ public class LineBotController {
     }
 
     replayMessage(fChannelAccessToken, aReplayToken, b.toString());
-    stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
+    // stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
   }
 
   private void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
