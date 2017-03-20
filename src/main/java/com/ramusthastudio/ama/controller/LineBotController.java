@@ -182,7 +182,8 @@ public class LineBotController {
                 }
               }
               if (match.find()) {
-                replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ?" + predictWord(text, KEY_TWITTER));
+                String screenName = predictWord(text, KEY_TWITTER);
+                replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ?" + screenName);
                 confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
               } else {
                 replayMessage(fChannelAccessToken, replayToken, message.text() + " ?");
