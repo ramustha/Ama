@@ -231,7 +231,7 @@ public class LineBotController {
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
     StringBuilder b = new StringBuilder("Kata orang kamu tuh ");
-    int size = aMessage2.size();
+    int size = aEvidence.size();
 
     if (size > 3) {
       b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
