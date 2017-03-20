@@ -204,11 +204,13 @@ public class LineBotController {
               List<Tweet> resultTweets = apiTweets.getTweets();
               // Related resultRelated = apiTweets.getRelated();
 
-              polarityProcess(resultTweets);
-              LOG.info("message2..." + collectMessage.get(0));
-              // for (Message2 message2 : collectMessage) {
-              //   LOG.info("message2..." + message2);
-              // }
+              for (Message2 message2 : collectMessage) {
+                LOG.info("message2..." + message2);
+              }
+
+              for (Evidence evidence : collectEvidence) {
+                LOG.info("evidence..." + evidence);
+              }
               LOG.info("End sentiment service..." + userTwitter);
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
