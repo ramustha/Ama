@@ -17,6 +17,7 @@ import com.ramusthastudio.ama.model.UserTwitter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -198,4 +199,8 @@ public final class BotHelper {
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
 
+  public static int generateRandom(int min, int max) {
+    Random r = new Random();
+    return r.nextInt(max - min) + min;
+  }
 }

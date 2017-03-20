@@ -24,7 +24,6 @@ import com.ramusthastudio.ama.util.Twitter4JHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +50,7 @@ import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
+import static com.ramusthastudio.ama.util.BotHelper.generateRandom;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
 import static com.ramusthastudio.ama.util.BotHelper.instructionTweetsMessage;
@@ -196,9 +196,9 @@ public class LineBotController {
               List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
               List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
               if (message2.size() > 0 && evidence.size() > 0) {
-                LOG.info("Start find sentiment from database..." + userTwitter);
+                LOG.info("Start find sentiment from database...");
                 pushSentiment(replayToken, userId, message2, evidence);
-                LOG.info("End find sentiment from database..." + userTwitter);
+                LOG.info("End find sentiment from database...");
               } else {
                 sentimentService(replayToken, userId, userTwitter);
               }
@@ -215,7 +215,7 @@ public class LineBotController {
   }
 
   private void sentimentService(String aReplayToken, String aUserId, UserTwitter aUserTwitter) throws IOException {
-    LOG.info("Start sentiment service..." + aUserTwitter);
+    LOG.info("Start sentiment service...");
     Call<ApiTweets> tweets = fSentimentTweetService.apiTweets(aUserTwitter.getUsername(), MAX_TWEETS);
     Response<ApiTweets> exec = tweets.execute();
     ApiTweets apiTweets = exec.body();
@@ -226,33 +226,22 @@ public class LineBotController {
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
     pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
-    LOG.info("End sentiment service..." + aUserTwitter);
+    LOG.info("End sentiment service...");
   }
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
     StringBuilder b = new StringBuilder("Kata orang kamu tuh ");
+    int size = aMessage2.size();
 
-    if (aMessage2.size() > 3) {
-      Random rand1 = new Random();
-      Random rand2 = new Random();
-      Random rand3 = new Random();
-      rand1.nextInt(aMessage2.size() - 1);
-      rand2.nextInt(aMessage2.size() - 1);
-      rand3.nextInt(aMessage2.size() - 1);
-      b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(rand2.nextInt(aMessage2.size())).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(rand3.nextInt(aMessage2.size())).getSentimentTerm());
-    } else if (aMessage2.size() > 2) {
-      Random rand1 = new Random();
-      Random rand2 = new Random();
-      rand1.nextInt(aMessage2.size() - 1);
-      rand2.nextInt(aMessage2.size() - 1);
-      b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(rand2.nextInt(aMessage2.size())).getSentimentTerm());
-    } else if (aMessage2.size() > 1) {
-      Random rand1 = new Random();
-      rand1.nextInt(aMessage2.size() - 1);
-      b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
+    if (size > 3) {
+      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    } else if (size > 2) {
+      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    } else if (size > 1) {
+      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
     }
 
     replayMessage(fChannelAccessToken, aReplayToken, b.toString());
