@@ -30,5 +30,5 @@ public interface Dao {
 
   List<Evidence> getAllUserEvidence();
   void setUserEvidence(Evidence aUser);
-  Evidence getUserEvidenceByMessageId(String aMessageId);
+  Evidence getUserEvidenceByMessageId(String aMessId);
 }

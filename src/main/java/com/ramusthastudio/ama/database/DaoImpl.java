@@ -7,9 +7,11 @@ import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.sql.DataSource;
 import org.slf4j.Logger;
@@ -205,24 +207,33 @@ public class DaoImpl implements Dao {
   }
 
   @Override public void setUserMessage(Message2 aMessage2) {
-    LOG.info("setUserMessage "+aMessage2);
     if (aMessage2.getActor() != null) {
-      Actor actor = aMessage2.getActor();
-      mJdbc.update(SQL_INSERT_USER_MESSAGE,
-          aMessage2.getLineId(),
-          aMessage2.getTwitterId(),
-          actor.getLink(),
-          Date.valueOf(aMessage2.getPostedTime()),
-          aMessage2.getLink(),
-          aMessage2.getBody(),
-          actor.getDisplayName(),
-          actor.getFriendsCount()
-      );
+      // 2015-05-15T04:32:42.000   Z'
+      SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+      Date date = null;
+      try {
+        date = f.parse(aMessage2.getPostedTime());
+      } catch (ParseException aE) {
+        LOG.error("parse error message :" + aE.getMessage());
+      }
+      LOG.info("date :" + date);
+      if (date != null) {
+        Actor actor = aMessage2.getActor();
+        mJdbc.update(SQL_INSERT_USER_MESSAGE,
+            aMessage2.getLineId(),
+            aMessage2.getTwitterId(),
+            actor.getLink(),
+            new Timestamp(date.getTime()),
+            aMessage2.getLink(),
+            aMessage2.getBody(),
+            actor.getDisplayName(),
+            actor.getFriendsCount()
+        );
+      }
     }
   }
 
   @Override public void setUserEvidence(Evidence aEvidence) {
-    LOG.info("setUserEvidence "+aEvidence);
     mJdbc.update(SQL_INSERT_USER_EVIDENCE,
         aEvidence.getId(),
         aEvidence.getPolarity(),

@@ -204,13 +204,9 @@ public class LineBotController {
 
               polarityProcess(userId, userTwitter.getId(), resultTweets);
 
-              for (Message2 message2 : collectMessage) {
-                fDao.setUserMessage(message2);
-              }
+              for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
+              for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
 
-              for (Evidence evidence : collectEvidence) {
-                fDao.setUserEvidence(evidence);
-              }
               LOG.info("End sentiment service..." + userTwitter);
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");

@@ -39,7 +39,7 @@ public class ScheduledTasks {
   public void reportCurrentTime() {
     try {
       Date now = new Date();
-      LOG.info("The time is now {}", dateFormat.format(now));
+      // LOG.info("The time is now {}", dateFormat.format(now));
       List<UserChat> userChat = mDao.getAllUserChat();
       if (userChat != null && userChat.size() > 0) {
         for (UserChat chat : userChat) {
