@@ -236,22 +236,22 @@ public class LineBotController {
       Random rand1 = new Random();
       Random rand2 = new Random();
       Random rand3 = new Random();
-      rand1.nextInt(aMessage2.size());
-      rand2.nextInt(aMessage2.size());
-      rand3.nextInt(aMessage2.size());
+      rand1.nextInt(aMessage2.size() - 1);
+      rand2.nextInt(aMessage2.size() - 1);
+      rand3.nextInt(aMessage2.size() - 1);
       b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
       b.append(", ").append(aEvidence.get(rand2.nextInt(aMessage2.size())).getSentimentTerm());
       b.append(", ").append(aEvidence.get(rand3.nextInt(aMessage2.size())).getSentimentTerm());
     } else if (aMessage2.size() > 2) {
       Random rand1 = new Random();
       Random rand2 = new Random();
-      rand1.nextInt(aMessage2.size());
-      rand2.nextInt(aMessage2.size());
+      rand1.nextInt(aMessage2.size() - 1);
+      rand2.nextInt(aMessage2.size() - 1);
       b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
       b.append(", ").append(aEvidence.get(rand2.nextInt(aMessage2.size())).getSentimentTerm());
     } else if (aMessage2.size() > 1) {
       Random rand1 = new Random();
-      rand1.nextInt(aMessage2.size());
+      rand1.nextInt(aMessage2.size() - 1);
       b.append(aEvidence.get(rand1.nextInt(aMessage2.size())).getSentimentTerm());
     }
 
