@@ -204,6 +204,8 @@ public class LineBotController {
               List<Tweet> resultTweets = apiTweets.getTweets();
               // Related resultRelated = apiTweets.getRelated();
 
+              polarityProcess(resultTweets);
+
               for (Message2 message2 : collectMessage) {
                 LOG.info("message2..." + message2);
               }
