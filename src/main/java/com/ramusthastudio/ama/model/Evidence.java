@@ -12,6 +12,13 @@ public class Evidence implements Serializable {
   private String id;
   private int size = 1;
 
+  public Evidence(String aMessageId, String aPolarity, String aPolarityTerm, int aPolarityTermSize) {
+    id = aMessageId;
+    polarity = aPolarity;
+    sentimentTerm = aPolarityTerm;
+    size = aPolarityTermSize;
+  }
+
   public String getId() { return id; }
   public void setId(String aId) { id = aId; }
   public Integer getSize() { return size; }

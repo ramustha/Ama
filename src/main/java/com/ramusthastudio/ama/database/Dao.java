@@ -1,6 +1,8 @@
 package com.ramusthastudio.ama.database;
 
 import com.linecorp.bot.model.profile.UserProfileResponse;
+import com.ramusthastudio.ama.model.Evidence;
+import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
@@ -20,4 +22,13 @@ public interface Dao {
   void setUserChat(UserChat aUser);
   void updateUserChat(UserChat aUser);
   UserChat getUserChatById(String aUserId);
+
+  List<Message2> getAllUserMessage();
+  void setUserMessage(Message2 aMessage2);
+  Message2 getUserMessageByLineId(String aLineId);
+  Message2 getUserMessageByTwitterId(String aTwitterId);
+
+  List<Evidence> getAllUserEvidence();
+  void setUserEvidence(Evidence aUser);
+  Evidence getUserEvidenceByMessageId(String aMessageId);
 }

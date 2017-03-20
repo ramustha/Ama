@@ -12,8 +12,6 @@ import com.ramusthastudio.ama.model.Message;
 import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.Payload;
 import com.ramusthastudio.ama.model.Postback;
-import com.ramusthastudio.ama.model.Related;
-import com.ramusthastudio.ama.model.Search;
 import com.ramusthastudio.ama.model.Sentiment;
 import com.ramusthastudio.ama.model.SentimentTweetService;
 import com.ramusthastudio.ama.model.Source;
@@ -204,14 +202,14 @@ public class LineBotController {
               List<Tweet> resultTweets = apiTweets.getTweets();
               // Related resultRelated = apiTweets.getRelated();
 
-              polarityProcess(resultTweets);
+              polarityProcess(userId, userTwitter.getId(), resultTweets);
 
               for (Message2 message2 : collectMessage) {
-                LOG.info("message2..." + message2);
+                fDao.setUserMessage(message2);
               }
 
               for (Evidence evidence : collectEvidence) {
-                LOG.info("evidence..." + evidence);
+                fDao.setUserEvidence(evidence);
               }
               LOG.info("End sentiment service..." + userTwitter);
             } else if (pd.startsWith(TWITTER_FALSE)) {
@@ -225,13 +223,15 @@ public class LineBotController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  public void polarityProcess(List<Tweet> resultTweets) {
+  public void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
     int posittiveCount = 0;
     int negativeCount = 0;
     int neutralCount = 0;
     for (Tweet resultTweet : resultTweets) {
       Content content = resultTweet.getCde().getContent();
       Message2 message = resultTweet.getMessage();
+      message.setLineId(aLineId);
+      message.setTwitterId(aTwitterId);
       if (content != null) {
         Sentiment sentiment = content.getSentiment();
         List<Evidence> evidences = sentiment.getEvidence();

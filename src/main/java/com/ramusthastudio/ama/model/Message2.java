@@ -3,8 +3,12 @@ package com.ramusthastudio.ama.model;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Message2 implements Serializable {
+  private String lineId;
+  private String twitterId;
+
   @SerializedName("postedTime")
   private String postedTime;
   @SerializedName("verb")
@@ -37,169 +41,161 @@ public class Message2 implements Serializable {
   private Gnip gnip;
   @SerializedName("object")
   private Object object;
+  public Message2(String aLineId, String aTwitterId, String aProfileLink, long aPostedTime, String aTweetLink, String aMsgBody, String aProfileName, int aFriendsCount) {
 
-  public String getPostedTime()
-  {
+    lineId = aLineId;
+    twitterId = aTwitterId;
+    Actor a = new Actor();
+    a.setDisplayName(aProfileName);
+    a.setLink(aProfileLink);
+    a.setFriendsCount(aFriendsCount);
+    actor = a;
+    postedTime = new Date(aPostedTime).toString();
+    link = aTweetLink;
+    body = aMsgBody;
+  }
+
+  public String getLineId() {
+    return lineId;
+  }
+  public void setLineId(String aLineId) {
+    lineId = aLineId;
+  }
+  public String getTwitterId() {
+    return twitterId;
+  }
+  public void setTwitterId(String aTwitterId) {
+    twitterId = aTwitterId;
+  }
+  public String getPostedTime() {
     return postedTime;
   }
 
-  public void setPostedTime(String postedTime)
-  {
+  public void setPostedTime(String postedTime) {
     this.postedTime = postedTime;
   }
 
-  public String getVerb()
-  {
+  public String getVerb() {
     return verb;
   }
 
-  public void setVerb(String verb)
-  {
+  public void setVerb(String verb) {
     this.verb = verb;
   }
 
-  public String getLink()
-  {
+  public String getLink() {
     return link;
   }
 
-  public void setLink(String link)
-  {
+  public void setLink(String link) {
     this.link = link;
   }
 
-  public Generator getGenerator()
-  {
+  public Generator getGenerator() {
     return generator;
   }
 
-  public void setGenerator(Generator generator)
-  {
+  public void setGenerator(Generator generator) {
     this.generator = generator;
   }
 
-  public String getBody()
-  {
+  public String getBody() {
     return body;
   }
 
-  public void setBody(String body)
-  {
+  public void setBody(String body) {
     this.body = body;
   }
 
-  public int getFavoritesCount()
-  {
+  public int getFavoritesCount() {
     return favoritesCount;
   }
 
-  public void setFavoritesCount(int favoritesCount)
-  {
+  public void setFavoritesCount(int favoritesCount) {
     this.favoritesCount = favoritesCount;
   }
 
-  public String getObjectType()
-  {
+  public String getObjectType() {
     return objectType;
   }
 
-  public void setObjectType(String objectType)
-  {
+  public void setObjectType(String objectType) {
     this.objectType = objectType;
   }
 
-  public Actor getActor()
-  {
+  public Actor getActor() {
     return actor;
   }
 
-  public void setActor(Actor actor)
-  {
+  public void setActor(Actor actor) {
     this.actor = actor;
   }
 
-  public Provider getProvider()
-  {
+  public Provider getProvider() {
     return provider;
   }
 
-  public void setProvider(Provider provider)
-  {
+  public void setProvider(Provider provider) {
     this.provider = provider;
   }
 
-  public String getTwitterFilterLevel()
-  {
+  public String getTwitterFilterLevel() {
     return twitterFilterLevel;
   }
 
-  public void setTwitterFilterLevel(String twitterFilterLevel)
-  {
+  public void setTwitterFilterLevel(String twitterFilterLevel) {
     this.twitterFilterLevel = twitterFilterLevel;
   }
 
-  public TwitterEntities getTwitterEntities()
-  {
+  public TwitterEntities getTwitterEntities() {
     return twitterEntities;
   }
 
-  public void setTwitterEntities(TwitterEntities twitterEntities)
-  {
+  public void setTwitterEntities(TwitterEntities twitterEntities) {
     this.twitterEntities = twitterEntities;
   }
 
-  public String getTwitterLang()
-  {
+  public String getTwitterLang() {
     return twitterLang;
   }
 
-  public void setTwitterLang(String twitterLang)
-  {
+  public void setTwitterLang(String twitterLang) {
     this.twitterLang = twitterLang;
   }
 
-  public String getId()
-  {
+  public String getId() {
     return id;
   }
 
-  public void setId(String id)
-  {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public int getRetweetCount()
-  {
+  public int getRetweetCount() {
     return retweetCount;
   }
 
-  public void setRetweetCount(int retweetCount)
-  {
+  public void setRetweetCount(int retweetCount) {
     this.retweetCount = retweetCount;
   }
 
-  public Gnip getGnip()
-  {
+  public Gnip getGnip() {
     return gnip;
   }
 
-  public void setGnip(Gnip gnip)
-  {
+  public void setGnip(Gnip gnip) {
     this.gnip = gnip;
   }
 
-  public Object getObject()
-  {
+  public Object getObject() {
     return object;
   }
 
-  public void setObject(Object object)
-  {
+  public void setObject(Object object) {
     this.object = object;
   }
 
-  @Override public String toString()
-  {
+  @Override public String toString() {
     return "Message{" +
         "postedTime='" + postedTime + '\'' +
         ", verb='" + verb + '\'' +

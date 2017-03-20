@@ -147,7 +147,7 @@ public final class BotHelper {
       desc = "Gak nyantumin deskripsi";
     }
     ButtonsTemplate template = new ButtonsTemplate(
-        aModel.getOriginalProfileImageURLHttps(),
+        aModel.getOriginalProfileImageURL(),
         aModel.getScreenName(),
         desc,
         Collections.singletonList(
