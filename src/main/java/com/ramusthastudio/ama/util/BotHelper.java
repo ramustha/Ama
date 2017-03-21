@@ -140,7 +140,7 @@ public final class BotHelper {
         aModel.getDisplayName(),
         desc,
         Collections.singletonList(
-            new PostbackAction("Apa kata orang ?", TWITTER_SENTIMENT + " " + aModel.getId())
+            new PostbackAction("Profile ?", KEY_TWITTER + " " + aModel.getDisplayName())
         ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);

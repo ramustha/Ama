@@ -297,7 +297,35 @@ public class LineBotController {
 
             }
             if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
-              replayMessage(fChannelAccessToken, replayToken, KEY_TWITTER + " posback");
+              if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
+                String screenName = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
+
+                if (screenName.length() > 3) {
+                  LOG.info("Start find user on database..." + screenName);
+                  UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
+                  LOG.info("end find user on database..." + userTwitter);
+
+                  if (userTwitter != null) {
+                    LOG.info("Display from database...");
+                    profileUserMessage(fChannelAccessToken, userId, userTwitter);
+                  } else {
+                    try {
+                      User twitterUser = fTwitterHelper.checkUsers(screenName);
+                      LOG.info("Display from twitter server...");
+                      profileUserMessage(fChannelAccessToken, userId, twitterUser);
+                      LOG.info("Start adding user...");
+                      fDao.setUserTwitter(twitterUser);
+                      LOG.info("End adding user...");
+                    } catch (Exception aE) {
+                      LOG.error("Getting twitter info error message : " + aE.getMessage());
+                    }
+                  }
+
+                  confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
+                } else {
+                  replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
+                }
+              }
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
