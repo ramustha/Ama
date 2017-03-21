@@ -56,6 +56,7 @@ import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
+import static com.ramusthastudio.ama.util.BotHelper.instructionSentimentMessage;
 import static com.ramusthastudio.ama.util.BotHelper.instructionTweetsMessage;
 import static com.ramusthastudio.ama.util.BotHelper.predictWord;
 import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
@@ -139,7 +140,7 @@ public class LineBotController {
           case FOLLOW:
             LOG.info("Greeting Message");
             greetingMessage(fChannelAccessToken, userId);
-            instructionTweetsMessage(fChannelAccessToken, userId);
+            instructionSentimentMessage(fChannelAccessToken, userId);
             confirmTwitterMessage(fChannelAccessToken, userId);
             break;
           case MESSAGE:
@@ -297,6 +298,7 @@ public class LineBotController {
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
     pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
+    instructionTweetsMessage(fChannelAccessToken, aUserId);
     LOG.info("End sentiment service...");
   }
 
@@ -312,37 +314,20 @@ public class LineBotController {
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
     pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
+    instructionTweetsMessage(fChannelAccessToken, aUserId);
     LOG.info("End sentiment service...");
   }
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
     StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n\n");
-    // int size = aEvidence.size();
-    //
-    // if (size > 4) {
-    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    // } else if (size > 3) {
-    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    // } else if (size > 2) {
-    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    // } else if (size > 1) {
-    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    // }
-
-    for (Evidence evidence : aEvidence) {
-      b.append(evidence.getSentimentTerm()).append(", ");
-    }
-    String sentiment = b.toString();
-    if (sentiment.length() > 3) {
+    if (aEvidence.size() > 0) {
+      for (Evidence evidence : aEvidence) {
+        b.append(evidence.getSentimentTerm()).append(", ");
+      }
+      String sentiment = b.toString();
       sentiment.substring(0, sentiment.length() - 2);
       replayMessage(fChannelAccessToken, aReplayToken, sentiment.trim());
-    }else {
+    } else {
       replayMessage(fChannelAccessToken, aReplayToken, "hmm.. belum ada sentiment nih, gak begitu populer kayaknya");
     }
   }

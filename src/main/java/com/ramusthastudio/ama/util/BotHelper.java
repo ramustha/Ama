@@ -211,18 +211,18 @@ public final class BotHelper {
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
-  public static void instructionTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
+  public static void instructionSentimentMessage(String aChannelAccessToken, String aUserId) throws IOException {
     String greeting = "Contoh jika kamu pengen tau nih pendapat orang lain tentang indonesia,";
     greeting += "Kamu tinggal bilang sentiment indonesia, ";
     greeting += "nanti aku kumpulin infonya terus aku kasih tau ke kamu apa pendapat orang lain tentang indonesia";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
-  public static void errorHandleTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
+  public static void instructionTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
-    greeting += "Ah kamu jarang nge-tweets nih\n";
-    greeting += "Aku gak bisa tau kalau kamu jarang nge-tweets\n";
+    greeting += "Aku juga bisa nih lihat profile twitter orang, kamu tinggal tulis aja id twitternya\n";
+    greeting += "Contoh twitter dicoding";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_AFRAID));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
