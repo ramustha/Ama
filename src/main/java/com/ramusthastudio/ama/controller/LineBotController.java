@@ -160,8 +160,8 @@ public class LineBotController {
               Pattern keyFriend = Pattern.compile(KEY_FRIEND);
               Matcher matchFriend = keyFriend.matcher(text);
 
-              if (text.toLowerCase().startsWith(TWITTER)) {
-                String screenName = text.substring(TWITTER.length(), text.length());
+              if (text.toLowerCase().startsWith(KEY_TWITTER)) {
+                String screenName = text.substring(KEY_TWITTER.length(), text.length()).trim();
 
                 if (screenName.length() > 3) {
                   LOG.info("Start find user on database..." + screenName);
@@ -226,8 +226,7 @@ public class LineBotController {
               } else {
                 sentimentService(replayToken, userId, userTwitter);
               }
-              LOG.info("Count..." + count);
-              count++;
+              LOG.info("Count..." + count++);
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
