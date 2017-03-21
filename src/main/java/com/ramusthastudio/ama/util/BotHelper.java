@@ -10,6 +10,8 @@ import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
+import com.linecorp.bot.model.message.template.CarouselColumn;
+import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
@@ -17,8 +19,10 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -159,16 +163,35 @@ public final class BotHelper {
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
 
-  public static Response<BotApiResponse> buttonMessage(String aChannelAccessToken, UserLine aUserLine) throws IOException {
-    String status = aUserLine.getStatusMessage() == null ? "Gak nyantumin status" : aUserLine.getStatusMessage();
+  public static Response<BotApiResponse> carouselMessage(String aChannelAccessToken, String aUserId,
+      List<UserLine> aUserLines, int aMax) throws IOException {
+    List<CarouselColumn> carouselColumn = buildCarouselColumn(aUserLines, aMax);
+    CarouselTemplate template = new CarouselTemplate(carouselColumn);
+    return templateMessage(aChannelAccessToken, aUserId, template);
+  }
 
-    LOG.info("buttonMessage {} " + aUserLine);
-    ButtonsTemplate template = new ButtonsTemplate(
-        aUserLine.getPictureUrl(), aUserLine.getDisplayName(), status,
-        Collections.singletonList(
-            new URIAction("Lihat profile ?", aUserLine.getPictureUrl()))
-    );
-    return templateMessage(aChannelAccessToken, aUserLine.getUserId(), template);
+  public static List<CarouselColumn> buildCarouselColumn(List<UserLine> aUserLines, int aMin) {
+    List<CarouselColumn> carouselColumn = new ArrayList<>();
+    List<UserLine> userLines;
+    if (aUserLines.size() > 5) {
+      int max = aMin + 5;
+      max = max > aUserLines.size() ? aUserLines.size() : max;
+      userLines = aUserLines.subList(aMin, max);
+    } else {
+      userLines = aUserLines;
+    }
+
+    for (UserLine userLine : userLines) {
+      String status = userLine.getStatusMessage() == null ? "Gak nyantumin status" : userLine.getStatusMessage();
+
+      carouselColumn.add(
+          new CarouselColumn(
+              userLine.getPictureUrl(), userLine.getDisplayName(), status,
+              Collections.singletonList(
+                  new URIAction("Poster", userLine.getPictureUrl()))));
+    }
+
+    return carouselColumn;
   }
 
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {

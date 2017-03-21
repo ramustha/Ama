@@ -53,7 +53,7 @@ import static com.ramusthastudio.ama.util.BotHelper.TWITTER_SENTIMENT;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
-import static com.ramusthastudio.ama.util.BotHelper.buttonMessage;
+import static com.ramusthastudio.ama.util.BotHelper.carouselMessage;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
@@ -205,9 +205,7 @@ public class LineBotController {
                 // String friendSuggest = predictWord(text, KEY_FRIEND);
                 replayMessage(fChannelAccessToken, replayToken, "Kamu mau tau siapa aja teman aku ?");
                 List<UserLine> mUserLine = fDao.getAllUserLine();
-                for (UserLine userLine : mUserLine) {
-                  buttonMessage(fChannelAccessToken, userLine);
-                }
+                carouselMessage(fChannelAccessToken, userId, mUserLine, 5);
 
               } else {
                 isValid = false;
