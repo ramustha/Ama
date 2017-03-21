@@ -184,10 +184,10 @@ public final class BotHelper {
 
   public static void instructionTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
-    String greeting = "Hi " + userProfile.getDisplayName() + "\n";
-    greeting += "Kamu mau tahu yang orang lain pikirin tentang kamu ?\n";
-    greeting += "Aku bisa tau loh... asalkan kamu sering nge-tweets\n";
-    greeting += "coba tulis id twitter nya , contoh 'twitter:idtwitter'";
+    String greeting = "Punya ?\n";
+    greeting += "Kamu mau tahu yang orang lain pikirin tentang kamu ? ";
+    greeting += "Aku bisa tau loh... asalkan kamu sering nge-tweets ";
+    greeting += "coba mana id twitter nya (twitter idtwitter)'";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 

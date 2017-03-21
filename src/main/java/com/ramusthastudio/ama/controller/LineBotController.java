@@ -87,6 +87,8 @@ public class LineBotController {
   @Autowired
   SentimentTweetService fSentimentTweetService;
 
+  private static int count = 0;
+
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
   public ResponseEntity<String> callback(
       @RequestHeader("X-Line-Signature") String aXLineSignature,
@@ -224,7 +226,8 @@ public class LineBotController {
               } else {
                 sentimentService(replayToken, userId, userTwitter);
               }
-
+              LOG.info("Count..." + count);
+              count++;
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
