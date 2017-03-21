@@ -230,17 +230,14 @@ public class LineBotController {
                 if (userChat != null) {
                   LOG.info("Start updating false count...");
                   int count = userChat.getFalseCount();
-                  if (count > 3) {
+                  if (count == 2) {
                     stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_USELESS));
                     pushMessage(fChannelAccessToken, userId, "Aku gak ngerti nih kamu ngomong apa, " +
                         "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
+                    fDao.updateUserChat(new UserChat(userId, text, timestamp, 0));
                   } else {
                     count++;
                     fDao.updateUserChat(new UserChat(userId, text, timestamp, count));
-                  }
-
-                  if (count == 5) {
-                    fDao.updateUserChat(new UserChat(userId, text, timestamp, 0));
                   }
                   LOG.info("count..." + count);
                 }
@@ -274,6 +271,9 @@ public class LineBotController {
                 stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
               }
 
+            }
+            if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
+              replayMessage(fChannelAccessToken, replayToken, KEY_TWITTER + " posback");
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
@@ -316,7 +316,7 @@ public class LineBotController {
   }
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
-    StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n ");
+    StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n\n");
     // int size = aEvidence.size();
     //
     // if (size > 4) {

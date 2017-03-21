@@ -143,17 +143,17 @@ public final class BotHelper {
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
 
-  public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, User aModel) throws IOException {
-    String desc = aModel.getDescription();
-    if (aModel.getDescription().isEmpty()) {
+  public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, User aUser) throws IOException {
+    String desc = aUser.getDescription();
+    if (aUser.getDescription().isEmpty()) {
       desc = "Gak nyantumin deskripsi";
     }
     ButtonsTemplate template = new ButtonsTemplate(
-        aModel.getOriginalProfileImageURL(),
-        aModel.getScreenName(),
+        aUser.getProfileImageURL(),
+        aUser.getScreenName(),
         desc,
         Collections.singletonList(
-            new PostbackAction("Apa kata orang ?", TWITTER_SENTIMENT + " " + aModel.getId())
+            new PostbackAction("Apa kata orang ?", KEY_TWITTER + " " + aUser.getName())
         ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
@@ -162,6 +162,7 @@ public final class BotHelper {
   public static Response<BotApiResponse> buttonMessage(String aChannelAccessToken, UserLine aUserLine) throws IOException {
     String status = aUserLine.getStatusMessage() == null ? "Gak nyantumin status" : aUserLine.getStatusMessage();
 
+    LOG.info("buttonMessage {} " + aUserLine);
     ButtonsTemplate template = new ButtonsTemplate(
         aUserLine.getPictureUrl(), aUserLine.getDisplayName(), status,
         Collections.singletonList(
