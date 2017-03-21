@@ -5,6 +5,7 @@ import com.linecorp.bot.model.Multicast;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
@@ -164,7 +165,7 @@ public final class BotHelper {
     ButtonsTemplate template = new ButtonsTemplate(
         aUserLine.getPictureUrl(), aUserLine.getDisplayName(), status,
         Collections.singletonList(
-            new PostbackAction("Lihat gambar ?", aUserLine.getPictureUrl()))
+            new URIAction("Lihat profile ?", aUserLine.getPictureUrl()))
     );
     return templateMessage(aChannelAccessToken, aUserLine.getUserId(), template);
   }

@@ -34,8 +34,8 @@ public class DaoImpl implements Dao {
 
   private final static String SQL_SELECT_ALL_USER_CHAT = "SELECT * FROM user_chat";
   private final static String SQL_USER_CHAT_GET_BY_ID = SQL_SELECT_ALL_USER_CHAT + " WHERE LOWER(id) LIKE LOWER(?) ;";
-  private final static String SQL_INSERT_USER_CHAT = "INSERT INTO user_chat (id, last_chat, last_time) VALUES (?, ?, ?);";
-  private final static String SQL_UPDATE_USER_CHAT = "UPDATE user_chat SET last_chat = ?, last_time = ? WHERE LOWER(id) LIKE LOWER(?);";
+  private final static String SQL_INSERT_USER_CHAT = "INSERT INTO user_chat (id, last_chat, last_time, false_count) VALUES (?, ?, ?, ?);";
+  private final static String SQL_UPDATE_USER_CHAT = "UPDATE user_chat SET last_chat = ?, last_time = ?, false_count = ? WHERE LOWER(id) LIKE LOWER(?);";
 
   private final static String SQL_SELECT_ALL_USER_MESSAGE = "SELECT * FROM user_message";
   private final static String SQL_USER_MESSAGE_GET_BY_LINE_ID = SQL_SELECT_ALL_USER_MESSAGE + " WHERE LOWER(line_id) LIKE LOWER(?) ;";
@@ -79,7 +79,9 @@ public class DaoImpl implements Dao {
       new UserChat(
           aRs.getString("id"),
           aRs.getString("last_chat"),
-          aRs.getTimestamp("last_time").getTime());
+          aRs.getTimestamp("last_time").getTime(),
+          aRs.getInt("false_count")
+      );
 
   private final static RowMapper<Message2> SINGLE_USER_MESSAGE = (aRs, rowNum) ->
       new Message2(
@@ -140,7 +142,8 @@ public class DaoImpl implements Dao {
       list.add(new UserChat(
           aRs.getString("id"),
           aRs.getString("last_chat"),
-          aRs.getTimestamp("last_time").getTime()
+          aRs.getTimestamp("last_time").getTime(),
+          aRs.getInt("false_count")
       ));
     }
     return list;
@@ -203,7 +206,9 @@ public class DaoImpl implements Dao {
     mJdbc.update(SQL_INSERT_USER_CHAT,
         aUser.getUserId(),
         aUser.getLastChat(),
-        new Timestamp(aUser.getLastTime()));
+        aUser.getFalseCount(),
+        new Timestamp(aUser.getLastTime())
+    );
   }
 
   @Override public void setUserMessage(Message2 aMessage2) {
@@ -246,6 +251,7 @@ public class DaoImpl implements Dao {
   @Override public void updateUserChat(UserChat aUser) {
     mJdbc.update(SQL_UPDATE_USER_CHAT,
         aUser.getLastChat(),
+        aUser.getFalseCount(),
         new Timestamp(aUser.getLastTime()),
         aUser.getUserId()
     );

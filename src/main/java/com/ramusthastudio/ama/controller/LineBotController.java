@@ -144,27 +144,13 @@ public class LineBotController {
           case MESSAGE:
             if (message.type().equals(MESSAGE_TEXT)) {
               String text = message.text();
-
-              UserChat userChat = fDao.getUserChatById(userId);
-              if (userChat != null) {
-                LOG.info("Start updating chat history...");
-                fDao.updateUserChat(new UserChat(userId, text, timestamp));
-              } else {
-                LOG.info("Start saving chat history...");
-                fDao.setUserChat(new UserChat(userId, text, timestamp));
-              }
+              boolean isValid = true;
 
               Pattern keyTwitter = Pattern.compile(KEY_TWITTER);
               Matcher matchTwitter = keyTwitter.matcher(text);
 
               Pattern keyFriend = Pattern.compile(KEY_FRIEND);
               Matcher matchFriend = keyFriend.matcher(text);
-
-              Pattern keyPositive = Pattern.compile(KEY_POSITIVE);
-              Matcher matchPositive = keyPositive.matcher(text);
-
-              Pattern keyNegative = Pattern.compile(KEY_NEGATIVE);
-              Matcher matchNegative = keyNegative.matcher(text);
 
               if (text.toLowerCase().startsWith(KEY_TWITTER)) {
                 String screenName = text.substring(KEY_TWITTER.length(), text.length()).trim();
@@ -195,10 +181,23 @@ public class LineBotController {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
               } else if (matchTwitter.find()) {
-                String twitterSuggest = predictWord(text, KEY_TWITTER);
-                if (twitterSuggest.length() > 3) {
-                  replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ? " + twitterSuggest);
-                  confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
+                Pattern keyPositive = Pattern.compile(KEY_POSITIVE);
+                Matcher matchPositive = keyPositive.matcher(text);
+
+                Pattern keyNegative = Pattern.compile(KEY_NEGATIVE);
+                Matcher matchNegative = keyNegative.matcher(text);
+
+                if (matchPositive.find()) {
+                  replayMessage(fChannelAccessToken, replayToken, "Kamu positif");
+
+                  String twitterSuggest = predictWord(text, KEY_TWITTER);
+                  if (twitterSuggest.length() > 3) {
+                    replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ? " + twitterSuggest);
+                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
+                  }
+
+                } else if (matchNegative.find()) {
+                  replayMessage(fChannelAccessToken, replayToken, "Kamu negatif");
                 }
               } else if (matchFriend.find()) {
                 // String friendSuggest = predictWord(text, KEY_FRIEND);
@@ -208,12 +207,35 @@ public class LineBotController {
                   buttonMessage(fChannelAccessToken, userLine);
                 }
 
-              } else if (matchPositive.find()) {
-                replayMessage(fChannelAccessToken, replayToken, "Kamu positif");
-              } else if (matchNegative.find()) {
-                replayMessage(fChannelAccessToken, replayToken, "Kamu negatif");
               } else {
+                isValid = false;
                 replayMessage(fChannelAccessToken, replayToken, message.text() + " ?");
+              }
+
+              if (isValid) {
+                LOG.info("isValid...");
+                UserChat userChat = fDao.getUserChatById(userId);
+                if (userChat != null) {
+                  LOG.info("Start updating chat history...");
+                  fDao.updateUserChat(new UserChat(userId, text, timestamp));
+                } else {
+                  LOG.info("Start saving chat history...");
+                  fDao.setUserChat(new UserChat(userId, text, timestamp));
+                }
+              } else {
+                LOG.info("isNotValid...");
+                UserChat userChat = fDao.getUserChatById(userId);
+                if (userChat != null) {
+                  LOG.info("Start updating false count...");
+                  int count = userChat.getFalseCount();
+                  if (count == 3) {
+                    fDao.updateUserChat(new UserChat(userId, text, timestamp, 0));
+                  } else {
+                    count++;
+                    fDao.updateUserChat(new UserChat(userId, text, timestamp, count));
+                  }
+                  LOG.info("count..." + count);
+                }
               }
             }
             break;
