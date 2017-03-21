@@ -43,8 +43,6 @@ import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
-import static com.ramusthastudio.ama.util.BotHelper.KEY_NEGATIVE;
-import static com.ramusthastudio.ama.util.BotHelper.KEY_POSITIVE;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
@@ -181,23 +179,10 @@ public class LineBotController {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
               } else if (matchTwitter.find()) {
-                Pattern keyPositive = Pattern.compile(KEY_POSITIVE);
-                Matcher matchPositive = keyPositive.matcher(text);
-
-                Pattern keyNegative = Pattern.compile(KEY_NEGATIVE);
-                Matcher matchNegative = keyNegative.matcher(text);
-
-                if (matchPositive.find()) {
-                  replayMessage(fChannelAccessToken, replayToken, "Kamu positif");
-
-                  String twitterSuggest = predictWord(text, KEY_TWITTER);
-                  if (twitterSuggest.length() > 3) {
-                    replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ? " + twitterSuggest);
-                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
-                  }
-
-                } else if (matchNegative.find()) {
-                  replayMessage(fChannelAccessToken, replayToken, "Kamu negatif");
+                String twitterSuggest = predictWord(text, KEY_TWITTER);
+                if (twitterSuggest.length() > 3) {
+                  replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ? " + twitterSuggest);
+                  confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
                 }
               } else if (matchFriend.find()) {
                 // String friendSuggest = predictWord(text, KEY_FRIEND);
