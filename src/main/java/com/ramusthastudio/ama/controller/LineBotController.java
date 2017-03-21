@@ -165,6 +165,7 @@ public class LineBotController {
                   if (userTwitter != null) {
                     LOG.info("Display from database...");
                     profileUserMessage(fChannelAccessToken, userId, userTwitter);
+                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                   } else {
                     try {
                       User twitterUser = fTwitterHelper.checkUsers(screenName);
@@ -173,12 +174,11 @@ public class LineBotController {
                       LOG.info("Start adding user...");
                       fDao.setUserTwitter(twitterUser);
                       LOG.info("End adding user...");
+                      confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                     } catch (Exception aE) {
                       LOG.error("Getting twitter info error message : " + aE.getMessage());
                     }
                   }
-
-                  confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
@@ -297,34 +297,21 @@ public class LineBotController {
 
             }
             if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
-              if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
-                String screenName = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
-
-                if (screenName.length() > 3) {
-                  LOG.info("Start find user on database..." + screenName);
-                  UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
-                  LOG.info("end find user on database..." + userTwitter);
-
-                  if (userTwitter != null) {
-                    LOG.info("Display from database...");
-                    profileUserMessage(fChannelAccessToken, userId, userTwitter);
-                  } else {
-                    try {
-                      User twitterUser = fTwitterHelper.checkUsers(screenName);
-                      LOG.info("Display from twitter server...");
-                      profileUserMessage(fChannelAccessToken, userId, twitterUser);
-                      LOG.info("Start adding user...");
-                      fDao.setUserTwitter(twitterUser);
-                      LOG.info("End adding user...");
-                    } catch (Exception aE) {
-                      LOG.error("Getting twitter info error message : " + aE.getMessage());
-                    }
-                  }
-
-                  confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
+              String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
+              UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
+              if (userTwitter != null) {
+                List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
+                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
+                if (message2.size() > 0 && evidence.size() > 0) {
+                  LOG.info("Start find sentiment from database...");
+                  pushSentiment(replayToken, userId, message2, evidence);
+                  LOG.info("End find sentiment from database...");
                 } else {
-                  replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
+                  sentimentService(replayToken, userId, userTwitter);
                 }
+              } else {
+                replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
+                stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
               }
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
