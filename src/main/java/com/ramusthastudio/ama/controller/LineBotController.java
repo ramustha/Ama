@@ -297,7 +297,7 @@ public class LineBotController {
             }
             if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
               String screenName = pd.substring(KEY_TWITTER.length(), pd.length());
-              // replayMessage(fChannelAccessToken, replayToken, screenName + " " + pd);
+              replayMessage(fChannelAccessToken, replayToken, screenName + " " + pd);
 
               UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
               if (userTwitter != null) {
