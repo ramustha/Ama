@@ -156,9 +156,7 @@ public final class BotHelper {
         aUser.getProfileImageURL(),
         aUser.getScreenName(),
         desc,
-        Collections.singletonList(
-            new PostbackAction("Apa kata orang ?", KEY_TWITTER + " " + aUser.getName())
-        ));
+        Collections.emptyList());
 
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
