@@ -297,23 +297,23 @@ public class LineBotController {
             }
             if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
               String screenName = pd.substring(KEY_TWITTER.length(), pd.length());
-              replayMessage(fChannelAccessToken, replayToken, screenName + " " + pd);
+              // replayMessage(fChannelAccessToken, replayToken, screenName + " " + pd);
 
-              // UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
-              // if (userTwitter != null) {
-              //   List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
-              //   List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
-              //   if (message2.size() > 0 && evidence.size() > 0) {
-              //     LOG.info("Start find sentiment from database...");
-              //     pushSentiment(replayToken, userId, message2, evidence);
-              //     LOG.info("End find sentiment from database...");
-              //   } else {
-              //     sentimentService(replayToken, userId, userTwitter);
-              //   }
-              // } else {
-              //   replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
-              //   stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
-              // }
+              UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
+              if (userTwitter != null) {
+                List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
+                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
+                if (message2.size() > 0 && evidence.size() > 0) {
+                  LOG.info("Start find sentiment from database...");
+                  pushSentiment(replayToken, userId, message2, evidence);
+                  LOG.info("End find sentiment from database...");
+                } else {
+                  sentimentService(replayToken, userId, userTwitter);
+                }
+              } else {
+                replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
+                stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
+              }
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
