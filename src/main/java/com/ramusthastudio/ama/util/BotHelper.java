@@ -188,7 +188,7 @@ public final class BotHelper {
           new CarouselColumn(
               userLine.getPictureUrl(), userLine.getDisplayName(), status,
               Collections.singletonList(
-                  new URIAction("Poster", userLine.getPictureUrl()))));
+                  new URIAction("Profile", userLine.getPictureUrl()))));
     }
 
     return carouselColumn;

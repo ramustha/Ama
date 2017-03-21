@@ -203,9 +203,9 @@ public class LineBotController {
                 }
               } else if (matchFriend.find()) {
                 // String friendSuggest = predictWord(text, KEY_FRIEND);
-                replayMessage(fChannelAccessToken, replayToken, "Kamu mau tau siapa aja teman aku ?");
                 List<UserLine> mUserLine = fDao.getAllUserLine();
-                carouselMessage(fChannelAccessToken, userId, mUserLine, 5);
+                replayMessage(fChannelAccessToken, replayToken, "Teman aku ? aku gak punya teman banyak nih, " +
+                    "kenalin donk sama aku supaya teman ku banyak");
 
               } else {
                 isValid = false;
@@ -385,5 +385,4 @@ public class LineBotController {
       }
     }
   }
-
 }
