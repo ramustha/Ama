@@ -63,7 +63,7 @@ public final class BotHelper {
   public static final String TWITTER_NO = "no:";
   public static final String TWITTER_TRUE = "true:";
   public static final String TWITTER_FALSE = "false:";
-  public static final String TWITTER_SENTIMENT = "sentiment:";
+  public static final String TWITTER_SENTIMENT = "sentiment";
 
   public static final String POSITIVE = "POSITIVE";
   public static final String NEGATIVE = "NEGATIVE";
@@ -173,7 +173,9 @@ public final class BotHelper {
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
-    greeting += "Terima kasih telah menambahkan saya sebagai teman!";
+    greeting += "Terima kasih telah menambahkan saya sebagai teman!\n";
+    greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
@@ -186,11 +188,9 @@ public final class BotHelper {
   }
 
   public static void instructionTweetsMessage(String aChannelAccessToken, String aUserId) throws IOException {
-    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
-    String greeting = "Punya ?\n";
-    greeting += "Kamu mau tahu yang orang lain pikirin tentang kamu ? ";
-    greeting += "Aku bisa tau loh... asalkan kamu sering nge-tweets ";
-    greeting += "coba mana id twitter nya (twitter idtwitter)'";
+    String greeting = "Contoh jika kamu pengen tau nih pendapat orang lain tentang indonesia,";
+    greeting += "Kamu tinggal bilang sentiment indonesia, ";
+    greeting += "nanti aku kumpulin infonya terus aku kasih tau ke kamu apa pendapat orang lain tentang indonesia";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 

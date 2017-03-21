@@ -49,6 +49,7 @@ import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_FALSE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_NO;
+import static com.ramusthastudio.ama.util.BotHelper.TWITTER_SENTIMENT;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
@@ -63,8 +64,10 @@ import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.stickerMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
+import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_CHEERS;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SAD_PRAY;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SHOCK;
+import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_USELESS;
 
 @RestController
 @RequestMapping(value = "/linebot")
@@ -137,6 +140,7 @@ public class LineBotController {
           case FOLLOW:
             LOG.info("Greeting Message");
             greetingMessage(fChannelAccessToken, userId);
+            instructionTweetsMessage(fChannelAccessToken, userId);
             confirmTwitterMessage(fChannelAccessToken, userId);
             break;
           case MESSAGE:
@@ -178,6 +182,10 @@ public class LineBotController {
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
+              } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
+                String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
+
+                replayMessage(fChannelAccessToken, replayToken, sentiment);
               } else if (matchTwitter.find()) {
                 String twitterSuggest = predictWord(text, KEY_TWITTER);
                 if (twitterSuggest.length() > 3) {
@@ -214,6 +222,9 @@ public class LineBotController {
                   LOG.info("Start updating false count...");
                   int count = userChat.getFalseCount();
                   if (count == 3) {
+                    stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_USELESS));
+                    replayMessage(fChannelAccessToken, replayToken, "Aku gak ngerti nih kamu ngomong apa, " +
+                        "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
                     fDao.updateUserChat(new UserChat(userId, text, timestamp, 0));
                   } else {
                     count++;
@@ -228,7 +239,8 @@ public class LineBotController {
             String pd = postback.data();
 
             if (pd.startsWith(TWITTER_YES)) {
-              instructionTweetsMessage(fChannelAccessToken, userId);
+              stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
+              replayMessage(fChannelAccessToken, replayToken, "Coba kamu tulis sentiment indonesia");
             } else if (pd.startsWith(TWITTER_NO)) {
               stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SHOCK));
               replayMessage(fChannelAccessToken, replayToken, "Hari gini gak punya twitter ?");
