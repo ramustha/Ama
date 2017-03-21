@@ -55,7 +55,6 @@ import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.buttonMessage;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
-import static com.ramusthastudio.ama.util.BotHelper.generateRandom;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
 import static com.ramusthastudio.ama.util.BotHelper.instructionTweetsMessage;
@@ -318,25 +317,30 @@ public class LineBotController {
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
     StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n ");
-    int size = aEvidence.size();
+    // int size = aEvidence.size();
+    //
+    // if (size > 4) {
+    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    // } else if (size > 3) {
+    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    // } else if (size > 2) {
+    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    //   b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    // } else if (size > 1) {
+    //   b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    // }
 
-    if (size < 5) {
-      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    } else if (size < 4) {
-      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    } else if (size < 3) {
-      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    } else if (size < 2) {
-      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    for (Evidence evidence : aEvidence) {
+      b.append(evidence.getSentimentTerm()).append(", ");
     }
-
-    replayMessage(fChannelAccessToken, aReplayToken, b.toString());
+    String sentiment = b.toString();
+    sentiment.substring(0, sentiment.length() - 1);
+    replayMessage(fChannelAccessToken, aReplayToken, sentiment.trim());
   }
 
   private void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
