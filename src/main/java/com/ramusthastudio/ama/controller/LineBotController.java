@@ -61,6 +61,7 @@ import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
 import static com.ramusthastudio.ama.util.BotHelper.instructionTweetsMessage;
 import static com.ramusthastudio.ama.util.BotHelper.predictWord;
 import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
+import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.stickerMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
@@ -185,7 +186,16 @@ public class LineBotController {
               } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
                 String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
 
-                replayMessage(fChannelAccessToken, replayToken, sentiment);
+                List<Message2> message2 = fDao.getUserMessageByLineId(userId);
+                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
+                if (message2.size() > 0 && evidence.size() > 0) {
+                  LOG.info("Start find sentiment from database...");
+                  pushSentiment(replayToken, userId, message2, evidence);
+                  LOG.info("End find sentiment from database...");
+                } else {
+                  sentimentService(replayToken, userId, sentiment);
+                }
+
               } else if (matchTwitter.find()) {
                 String twitterSuggest = predictWord(text, KEY_TWITTER);
                 if (twitterSuggest.length() > 3) {
@@ -221,14 +231,17 @@ public class LineBotController {
                 if (userChat != null) {
                   LOG.info("Start updating false count...");
                   int count = userChat.getFalseCount();
-                  if (count == 3) {
+                  if (count > 3) {
                     stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_USELESS));
-                    replayMessage(fChannelAccessToken, replayToken, "Aku gak ngerti nih kamu ngomong apa, " +
+                    pushMessage(fChannelAccessToken, userId, "Aku gak ngerti nih kamu ngomong apa, " +
                         "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
-                    fDao.updateUserChat(new UserChat(userId, text, timestamp, 0));
                   } else {
                     count++;
                     fDao.updateUserChat(new UserChat(userId, text, timestamp, count));
+                  }
+
+                  if (count == 5) {
+                    fDao.updateUserChat(new UserChat(userId, text, timestamp, 0));
                   }
                   LOG.info("count..." + count);
                 }
@@ -254,11 +267,8 @@ public class LineBotController {
                   LOG.info("Start find sentiment from database...");
                   pushSentiment(replayToken, userId, message2, evidence);
                   LOG.info("End find sentiment from database...");
-
-                  replayMessage(fChannelAccessToken, replayToken, "Itu yang positif, yang negatif juga ada\n kalau kamu mau tau coba tulis twitter positif idtwitter");
                 } else {
                   sentimentService(replayToken, userId, userTwitter);
-                  replayMessage(fChannelAccessToken, replayToken, "Itu yang positif, yang negatif juga ada\n kalau kamu mau tau coba tulis twitter positif idtwitter");
                 }
               } else {
                 replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
@@ -291,18 +301,38 @@ public class LineBotController {
     LOG.info("End sentiment service...");
   }
 
+  private void sentimentService(String aReplayToken, String aUserId, String aSentiment) throws IOException {
+    LOG.info("Start sentiment service...");
+    Call<ApiTweets> tweets = fSentimentTweetService.apiTweets(aSentiment, MAX_TWEETS);
+    Response<ApiTweets> exec = tweets.execute();
+    ApiTweets apiTweets = exec.body();
+    // Search resultSearch = apiTweets.getSearch();
+    List<Tweet> resultTweets = apiTweets.getTweets();
+    // Related resultRelated = apiTweets.getRelated();
+    polarityProcess(aUserId, aSentiment, resultTweets);
+    for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
+    for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
+    pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
+    LOG.info("End sentiment service...");
+  }
+
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
     StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n ");
     int size = aEvidence.size();
 
-    if (size > 3) {
+    if (size < 5) {
       b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
       b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
       b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    } else if (size > 2) {
+      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    } else if (size < 4) {
       b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
       b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
-    } else if (size > 1) {
+      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    } else if (size < 3) {
+      b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+      b.append(", ").append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
+    } else if (size < 2) {
       b.append(aEvidence.get(generateRandom(0, size)).getSentimentTerm());
     }
 
