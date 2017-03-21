@@ -165,7 +165,6 @@ public class LineBotController {
                   if (userTwitter != null) {
                     LOG.info("Display from database...");
                     profileUserMessage(fChannelAccessToken, userId, userTwitter);
-                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                   } else {
                     try {
                       User twitterUser = fTwitterHelper.checkUsers(screenName);
@@ -174,10 +173,11 @@ public class LineBotController {
                       LOG.info("Start adding user...");
                       fDao.setUserTwitter(twitterUser);
                       LOG.info("End adding user...");
-                      confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                     } catch (Exception aE) {
                       LOG.error("Getting twitter info error message : " + aE.getMessage());
                     }
+
+                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                   }
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
@@ -297,7 +297,7 @@ public class LineBotController {
 
             }
             if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
-              String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
+              String screenName = pd.substring(KEY_TWITTER.length(), pd.length());
               UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
               if (userTwitter != null) {
                 List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
