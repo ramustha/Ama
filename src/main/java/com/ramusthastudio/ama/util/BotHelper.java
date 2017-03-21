@@ -139,7 +139,9 @@ public final class BotHelper {
         aModel.getOriginalProfileImageUrlHttps(),
         aModel.getDisplayName(),
         desc,
-        Collections.emptyList());
+        Collections.singletonList(
+            new PostbackAction("Apa kata orang ?", TWITTER_SENTIMENT + " " + aModel.getId())
+        ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
