@@ -4,7 +4,6 @@
     <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -99,99 +98,79 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.53408295">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="Evidence.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Evidence.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="160">
-                  <caret line="14" column="12" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="267">
-                  <caret line="206" column="70" lean-forward="false" selection-start-line="206" selection-start-column="70" selection-end-line="206" selection-end-column="88" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="SentimentTweetService.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/SentimentTweetService.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="102">
-                  <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DaoImpl.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="219">
-                  <caret line="44" column="81" lean-forward="false" selection-start-line="44" selection-start-column="81" selection-end-line="44" selection-end-column="81" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <marker date="1490082472750" expanded="true" signature="988:1014" ph="SELECT * FRO... user_twitter" />
-                    <marker date="1490082472750" expanded="true" signature="1107:1137" ph="SELECT * FRO... user_twitter" />
-                    <marker date="1490082472750" expanded="true" signature="1199:1474" ph="INSERT INTO user_twitter... " />
-                    <marker date="1490082472750" expanded="true" signature="1537:1560" ph="SELECT * FRO... user_line" />
-                    <marker date="1490082472750" expanded="true" signature="1647:1677" ph="SELECT * FRO... user_line" />
-                    <marker date="1490082472750" expanded="true" signature="1736:1825" ph="INSERT INTO user_line... " />
-                    <marker date="1490082472750" expanded="true" signature="1888:1911" ph="SELECT * FRO... user_chat" />
-                    <marker date="1490082472750" expanded="true" signature="1998:2028" ph="SELECT * FRO... user_chat" />
-                    <marker date="1490082472750" expanded="true" signature="2087:2168" ph="INSERT INTO user_chat... " />
-                    <marker date="1490082472750" expanded="true" signature="2226:2322" ph="UPDATE user_... " />
-                    <marker date="1490082472750" expanded="true" signature="2388:2414" ph="SELECT * FRO... user_message" />
-                    <marker date="1490082472750" expanded="true" signature="2512:2547" ph="SELECT * FRO... user_message" />
-                    <marker date="1490082472750" expanded="true" signature="2650:2688" ph="SELECT * FRO... user_message" />
-                    <marker date="1490082472750" expanded="true" signature="2750:2906" ph="INSERT INTO user_message... " />
-                    <marker date="1490082472750" expanded="true" signature="2973:3000" ph="SELECT * FRO... user_evidence" />
-                    <marker date="1490082472750" expanded="true" signature="3103:3141" ph="SELECT * FRO... user_evidence" />
-                    <marker date="1490082472750" expanded="true" signature="3204:3307" ph="INSERT INTO user_evidence... " />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Twitter4JHelper.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="523">
-                  <caret line="224" column="28" lean-forward="true" selection-start-line="224" selection-start-column="28" selection-end-line="224" selection-end-column="28" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="BotHelper.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="56">
-                  <caret line="166" column="41" lean-forward="true" selection-start-line="166" selection-start-column="31" selection-end-line="166" selection-end-column="41" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="Evidence.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Evidence.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="14" column="12" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="196" column="71" lean-forward="false" selection-start-line="196" selection-start-column="71" selection-end-line="196" selection-end-column="71" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SentimentTweetService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/SentimentTweetService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DaoImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="219">
+              <caret line="44" column="81" lean-forward="false" selection-start-line="44" selection-start-column="81" selection-end-line="44" selection-end-column="81" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <marker date="1490082472750" expanded="true" signature="988:1014" ph="SELECT * FRO... user_twitter" />
+                <marker date="1490082472750" expanded="true" signature="1107:1137" ph="SELECT * FRO... user_twitter" />
+                <marker date="1490082472750" expanded="true" signature="1199:1474" ph="INSERT INTO user_twitter... " />
+                <marker date="1490082472750" expanded="true" signature="1537:1560" ph="SELECT * FRO... user_line" />
+                <marker date="1490082472750" expanded="true" signature="1647:1677" ph="SELECT * FRO... user_line" />
+                <marker date="1490082472750" expanded="true" signature="1736:1825" ph="INSERT INTO user_line... " />
+                <marker date="1490082472750" expanded="true" signature="1888:1911" ph="SELECT * FRO... user_chat" />
+                <marker date="1490082472750" expanded="true" signature="1998:2028" ph="SELECT * FRO... user_chat" />
+                <marker date="1490082472750" expanded="true" signature="2087:2168" ph="INSERT INTO user_chat... " />
+                <marker date="1490082472750" expanded="true" signature="2226:2322" ph="UPDATE user_... " />
+                <marker date="1490082472750" expanded="true" signature="2388:2414" ph="SELECT * FRO... user_message" />
+                <marker date="1490082472750" expanded="true" signature="2512:2547" ph="SELECT * FRO... user_message" />
+                <marker date="1490082472750" expanded="true" signature="2650:2688" ph="SELECT * FRO... user_message" />
+                <marker date="1490082472750" expanded="true" signature="2750:2906" ph="INSERT INTO user_message... " />
+                <marker date="1490082472750" expanded="true" signature="2973:3000" ph="SELECT * FRO... user_evidence" />
+                <marker date="1490082472750" expanded="true" signature="3103:3141" ph="SELECT * FRO... user_evidence" />
+                <marker date="1490082472750" expanded="true" signature="3204:3307" ph="INSERT INTO user_evidence... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Twitter4JHelper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="523">
+              <caret line="224" column="28" lean-forward="true" selection-start-line="224" selection-start-column="28" selection-end-line="224" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -1382,12 +1361,12 @@
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
       <workItem from="1489565847515" duration="71540000" />
-      <workItem from="1489974093115" duration="42491000" />
+      <workItem from="1489974093115" duration="43294000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="217587000" />
+    <option name="totallyTimeSpent" value="218390000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1864,8 +1843,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="166" column="41" lean-forward="true" selection-start-line="166" selection-start-column="31" selection-end-line="166" selection-end-column="41" />
+        <state relative-caret-position="243">
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1874,8 +1853,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="206" column="70" lean-forward="false" selection-start-line="206" selection-start-column="70" selection-end-line="206" selection-end-column="88" />
+        <state relative-caret-position="270">
+          <caret line="196" column="71" lean-forward="false" selection-start-line="196" selection-start-column="71" selection-end-line="196" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

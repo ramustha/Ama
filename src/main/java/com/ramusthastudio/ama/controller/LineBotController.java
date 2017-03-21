@@ -53,7 +53,6 @@ import static com.ramusthastudio.ama.util.BotHelper.TWITTER_SENTIMENT;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
-import static com.ramusthastudio.ama.util.BotHelper.carouselMessage;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
@@ -184,15 +183,18 @@ public class LineBotController {
                 }
               } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
                 String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
-
-                List<Message2> message2 = fDao.getUserMessageByLineId(userId);
-                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
-                if (message2.size() > 0 && evidence.size() > 0) {
-                  LOG.info("Start find sentiment from database...");
-                  pushSentiment(replayToken, userId, message2, evidence);
-                  LOG.info("End find sentiment from database...");
+                if (sentiment.length() > 3) {
+                  List<Message2> message2 = fDao.getUserMessageByLineId(userId);
+                  List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
+                  if (message2.size() > 0 && evidence.size() > 0) {
+                    LOG.info("Start find sentiment from database...");
+                    pushSentiment(replayToken, userId, message2, evidence);
+                    LOG.info("End find sentiment from database...");
+                  } else {
+                    sentimentService(replayToken, userId, sentiment);
+                  }
                 } else {
-                  sentimentService(replayToken, userId, sentiment);
+                  replayMessage(fChannelAccessToken, replayToken, "hmmm...");
                 }
 
               } else if (matchTwitter.find()) {
@@ -337,8 +339,12 @@ public class LineBotController {
       b.append(evidence.getSentimentTerm()).append(", ");
     }
     String sentiment = b.toString();
-    sentiment.substring(0, sentiment.length() - 1);
-    replayMessage(fChannelAccessToken, aReplayToken, sentiment.trim());
+    if (sentiment.length() > 3) {
+      sentiment.substring(0, sentiment.length() - 2);
+      replayMessage(fChannelAccessToken, aReplayToken, sentiment.trim());
+    }else {
+      replayMessage(fChannelAccessToken, aReplayToken, "hmm.. belum ada sentiment nih, gak begitu populer kayaknya");
+    }
   }
 
   private void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
