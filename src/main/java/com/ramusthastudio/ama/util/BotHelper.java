@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 import twitter4j.User;
 
-import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_AFRAID;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_TWO_THUMBS;
 
 public final class BotHelper {
@@ -140,9 +139,7 @@ public final class BotHelper {
         aModel.getOriginalProfileImageUrlHttps(),
         aModel.getDisplayName(),
         desc,
-        Collections.singletonList(
-            new PostbackAction("Apa kata orang ?", TWITTER_SENTIMENT + " " + aModel.getId())
-        ));
+        Collections.emptyList());
 
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
@@ -221,7 +218,6 @@ public final class BotHelper {
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Aku juga bisa nih lihat profile twitter orang, kamu tinggal tulis aja id twitternya\n";
     greeting += "Contoh twitter dicoding";
-    stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_AFRAID));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 

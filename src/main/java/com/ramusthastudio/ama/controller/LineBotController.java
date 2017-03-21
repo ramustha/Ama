@@ -201,12 +201,32 @@ public class LineBotController {
               } else if (matchTwitter.find()) {
                 String twitterSuggest = predictWord(text, KEY_TWITTER);
                 if (twitterSuggest.length() > 3) {
-                  replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ? " + twitterSuggest);
+                  LOG.info("Start find user on database..." + twitterSuggest);
+                  UserTwitter userTwitter = fDao.getUserTwitterById(twitterSuggest);
+                  LOG.info("end find user on database..." + userTwitter);
+
+                  if (userTwitter != null) {
+                    LOG.info("Display from database...");
+                    profileUserMessage(fChannelAccessToken, userId, userTwitter);
+                  } else {
+                    try {
+                      User twitterUser = fTwitterHelper.checkUsers(twitterSuggest);
+                      LOG.info("Display from twitter server...");
+                      profileUserMessage(fChannelAccessToken, userId, twitterUser);
+                      LOG.info("Start adding user...");
+                      fDao.setUserTwitter(twitterUser);
+                      LOG.info("End adding user...");
+                    } catch (Exception aE) {
+                      LOG.error("Getting twitter info error message : " + aE.getMessage());
+                    }
+                  }
                   confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
+                } else {
+                  replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
               } else if (matchFriend.find()) {
                 // String friendSuggest = predictWord(text, KEY_FRIEND);
-                List<UserLine> mUserLine = fDao.getAllUserLine();
+                // List<UserLine> mUserLine = fDao.getAllUserLine();
                 replayMessage(fChannelAccessToken, replayToken, "Teman aku ? aku gak punya teman banyak nih, " +
                     "kenalin donk sama aku supaya teman ku banyak");
 
