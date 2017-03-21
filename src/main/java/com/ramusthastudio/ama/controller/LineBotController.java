@@ -47,7 +47,6 @@ import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
-import static com.ramusthastudio.ama.util.BotHelper.TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_FALSE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_NO;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
@@ -64,6 +63,8 @@ import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.stickerMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
+import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_AFRAID;
+import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SAD_PRAY;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SHOCK;
 
 @RestController
@@ -86,8 +87,6 @@ public class LineBotController {
   Dao fDao;
   @Autowired
   SentimentTweetService fSentimentTweetService;
-
-  private static int count = 0;
 
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
   public ResponseEntity<String> callback(
@@ -217,16 +216,21 @@ public class LineBotController {
             } else if (pd.startsWith(TWITTER_TRUE)) {
               String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
               UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
-              List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
-              List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
-              if (message2.size() > 0 && evidence.size() > 0) {
-                LOG.info("Start find sentiment from database...");
-                pushSentiment(replayToken, userId, message2, evidence);
-                LOG.info("End find sentiment from database...");
+              if (userTwitter != null) {
+                List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
+                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
+                if (message2.size() > 0 && evidence.size() > 0) {
+                  LOG.info("Start find sentiment from database...");
+                  pushSentiment(replayToken, userId, message2, evidence);
+                  LOG.info("End find sentiment from database...");
+                } else {
+                  sentimentService(replayToken, userId, userTwitter);
+                }
               } else {
-                sentimentService(replayToken, userId, userTwitter);
+                replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin?");
+                stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
               }
-              LOG.info("Count..." + count++);
+
             } else if (pd.startsWith(TWITTER_FALSE)) {
               replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
             }
