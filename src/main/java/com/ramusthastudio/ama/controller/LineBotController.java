@@ -43,6 +43,8 @@ import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_NEGATIVE;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_POSITIVE;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
@@ -63,7 +65,6 @@ import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.stickerMessage;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
-import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_AFRAID;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SAD_PRAY;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SHOCK;
 
@@ -159,6 +160,12 @@ public class LineBotController {
               Pattern keyFriend = Pattern.compile(KEY_FRIEND);
               Matcher matchFriend = keyFriend.matcher(text);
 
+              Pattern keyPositive = Pattern.compile(KEY_POSITIVE);
+              Matcher matchPositive = keyPositive.matcher(text);
+
+              Pattern keyNegative = Pattern.compile(KEY_NEGATIVE);
+              Matcher matchNegative = keyNegative.matcher(text);
+
               if (text.toLowerCase().startsWith(KEY_TWITTER)) {
                 String screenName = text.substring(KEY_TWITTER.length(), text.length()).trim();
 
@@ -195,11 +202,16 @@ public class LineBotController {
                 }
               } else if (matchFriend.find()) {
                 // String friendSuggest = predictWord(text, KEY_FRIEND);
-                replayMessage(fChannelAccessToken, replayToken, "Kamu mau tau siapa aja temen aku ? ");
-                UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
-                UserLine mUserLine = fDao.getUserLineById(profile.getUserId());
-                buttonMessage(fChannelAccessToken, mUserLine);
+                replayMessage(fChannelAccessToken, replayToken, "Kamu mau tau siapa aja teman aku ?");
+                List<UserLine> mUserLine = fDao.getAllUserLine();
+                for (UserLine userLine : mUserLine) {
+                  buttonMessage(fChannelAccessToken, userLine);
+                }
 
+              } else if (matchPositive.find()) {
+                replayMessage(fChannelAccessToken, replayToken, "Kamu positif");
+              } else if (matchNegative.find()) {
+                replayMessage(fChannelAccessToken, replayToken, "Kamu negatif");
               } else {
                 replayMessage(fChannelAccessToken, replayToken, message.text() + " ?");
               }
@@ -223,11 +235,14 @@ public class LineBotController {
                   LOG.info("Start find sentiment from database...");
                   pushSentiment(replayToken, userId, message2, evidence);
                   LOG.info("End find sentiment from database...");
+
+                  replayMessage(fChannelAccessToken, replayToken, "Itu yang positif, yang negatif juga ada\n kalau kamu mau tau coba tulis twitter positif idtwitter");
                 } else {
                   sentimentService(replayToken, userId, userTwitter);
+                  replayMessage(fChannelAccessToken, replayToken, "Itu yang positif, yang negatif juga ada\n kalau kamu mau tau coba tulis twitter positif idtwitter");
                 }
               } else {
-                replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin?");
+                replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
                 stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
               }
 
@@ -258,7 +273,7 @@ public class LineBotController {
   }
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
-    StringBuilder b = new StringBuilder("Ini yang orang lain katakan tentang kamu\n ");
+    StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n ");
     int size = aEvidence.size();
 
     if (size > 3) {
