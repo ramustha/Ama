@@ -42,6 +42,7 @@ import retrofit2.Response;
 import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
@@ -52,6 +53,7 @@ import static com.ramusthastudio.ama.util.BotHelper.TWITTER_NO;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
+import static com.ramusthastudio.ama.util.BotHelper.buttonMessage;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.generateRandom;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
@@ -140,8 +142,6 @@ public class LineBotController {
           case MESSAGE:
             if (message.type().equals(MESSAGE_TEXT)) {
               String text = message.text();
-              Pattern word = Pattern.compile(KEY_TWITTER);
-              Matcher match = word.matcher(text);
 
               UserChat userChat = fDao.getUserChatById(userId);
               if (userChat != null) {
@@ -151,6 +151,12 @@ public class LineBotController {
                 LOG.info("Start saving chat history...");
                 fDao.setUserChat(new UserChat(userId, text, timestamp));
               }
+
+              Pattern keyTwitter = Pattern.compile(KEY_TWITTER);
+              Matcher matchTwitter = keyTwitter.matcher(text);
+
+              Pattern keyFriend = Pattern.compile(KEY_FRIEND);
+              Matcher matchFriend = keyFriend.matcher(text);
 
               if (text.toLowerCase().startsWith(TWITTER)) {
                 String screenName = text.substring(TWITTER.length(), text.length());
@@ -180,11 +186,19 @@ public class LineBotController {
                 } else {
                   replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
                 }
-              }
-              if (match.find()) {
-                String screenName = predictWord(text, KEY_TWITTER);
-                replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ?" + screenName);
-                confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
+              } else if (matchTwitter.find()) {
+                String twitterSuggest = predictWord(text, KEY_TWITTER);
+                if (twitterSuggest.length() > 3) {
+                  replayMessage(fChannelAccessToken, replayToken, "Bener ini twitter nya ? " + twitterSuggest);
+                  confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
+                }
+              } else if (matchFriend.find()) {
+                // String friendSuggest = predictWord(text, KEY_FRIEND);
+                replayMessage(fChannelAccessToken, replayToken, "Kamu mau tau siapa aja temen aku ? ");
+                UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
+                UserLine mUserLine = fDao.getUserLineById(profile.getUserId());
+                buttonMessage(fChannelAccessToken, mUserLine);
+
               } else {
                 replayMessage(fChannelAccessToken, replayToken, message.text() + " ?");
               }
@@ -201,7 +215,6 @@ public class LineBotController {
             } else if (pd.startsWith(TWITTER_TRUE)) {
               String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
               UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
-
               List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
               List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
               if (message2.size() > 0 && evidence.size() > 0) {
@@ -239,7 +252,7 @@ public class LineBotController {
   }
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
-    StringBuilder b = new StringBuilder("Kata orang kamu tuh ");
+    StringBuilder b = new StringBuilder("Ini yang orang lain katakan tentang kamu\n ");
     int size = aEvidence.size();
 
     if (size > 3) {
@@ -254,7 +267,6 @@ public class LineBotController {
     }
 
     replayMessage(fChannelAccessToken, aReplayToken, b.toString());
-    // stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
   }
 
   private void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {

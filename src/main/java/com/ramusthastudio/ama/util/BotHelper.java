@@ -13,6 +13,7 @@ import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
+import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -52,6 +53,7 @@ public final class BotHelper {
   public static final String MESSAGE_STICKER = "sticker";
 
   public static final String KEY_TWITTER = "twitter";
+  public static final String KEY_FRIEND = "teman";
 
   public static final String TWITTER = "twitter:";
   public static final String TWITTER_YES = "yes:";
@@ -152,6 +154,17 @@ public final class BotHelper {
         ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
+  }
+
+  public static Response<BotApiResponse> buttonMessage(String aChannelAccessToken, UserLine aUserLine) throws IOException {
+    String status = aUserLine.getStatusMessage() == null ? "Gak nyantumin status" : aUserLine.getStatusMessage();
+
+    ButtonsTemplate template = new ButtonsTemplate(
+        aUserLine.getPictureUrl(), aUserLine.getDisplayName(), status,
+        Collections.singletonList(
+            new PostbackAction("Lihat gambar ?", aUserLine.getPictureUrl()))
+    );
+    return templateMessage(aChannelAccessToken, aUserLine.getUserId(), template);
   }
 
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {
