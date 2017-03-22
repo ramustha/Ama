@@ -43,6 +43,7 @@ import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.JOIN;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_AMA;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.LEAVE;
@@ -156,6 +157,9 @@ public class LineBotController {
         case MESSAGE:
           if (aMessage.type().equals(MESSAGE_TEXT)) {
             String text = aMessage.text();
+            Pattern word = Pattern.compile(KEY_AMA);
+            Matcher match = word.matcher(text);
+
             if (text.toLowerCase().startsWith(KEY_TWITTER)) {
               String screenName = text.substring(KEY_TWITTER.length(), text.length()).trim();
 
@@ -200,6 +204,9 @@ public class LineBotController {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
               }
 
+            } else if (match.find()) {
+              greetingMessageGroup(fChannelAccessToken, aSource.groupId());
+              instructionSentimentMessage(fChannelAccessToken, aSource.groupId());
             }
           }
           break;
@@ -272,7 +279,7 @@ public class LineBotController {
                 } else {
                   try {
                     User twitterUser = fTwitterHelper.checkUsers(screenName);
-                    LOG.info("Display from twitter server..."+twitterUser.getName());
+                    LOG.info("Display from twitter server..." + twitterUser.getName());
                     profileUserMessage(fChannelAccessToken, aUserId, twitterUser);
                     LOG.info("Start adding user...");
                     fDao.setUserTwitter(twitterUser);
