@@ -131,13 +131,19 @@ public final class BotHelper {
   }
 
   public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, UserTwitter aModel) throws IOException {
+    String title = aModel.getDisplayName();
+    title = title.length() > 39 ? title.substring(0, 34) + "..." : title;
+
     String desc = aModel.getDescription();
     if (aModel.getDescription().isEmpty()) {
       desc = "Gak nyantumin deskripsi";
+    }else {
+      desc = desc.length() > 59 ? desc.substring(0, 54) + "..." : desc;
     }
+
     ButtonsTemplate template = new ButtonsTemplate(
         aModel.getOriginalProfileImageUrlHttps(),
-        aModel.getDisplayName(),
+        title,
         desc,
         Collections.singletonList(
             new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aModel.getUsername())
