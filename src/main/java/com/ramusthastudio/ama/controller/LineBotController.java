@@ -272,7 +272,7 @@ public class LineBotController {
                 } else {
                   try {
                     User twitterUser = fTwitterHelper.checkUsers(screenName);
-                    LOG.info("Display from twitter server..."+twitterUser);
+                    LOG.info("Display from twitter server..."+twitterUser.getName());
                     profileUserMessage(fChannelAccessToken, aUserId, twitterUser);
                     LOG.info("Start adding user...");
                     fDao.setUserTwitter(twitterUser);

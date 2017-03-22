@@ -153,15 +153,23 @@ public final class BotHelper {
   }
 
   public static Response<BotApiResponse> profileUserMessage(String aChannelAccessToken, String aUserId, User aUser) throws IOException {
+    String title = aUser.getName();
+    title = title.length() > 39 ? title.substring(0, 34) + "..." : title;
+
     String desc = aUser.getDescription();
     if (aUser.getDescription().isEmpty()) {
       desc = "Gak nyantumin deskripsi";
+    }else {
+      desc = desc.length() > 59 ? desc.substring(0, 54) + "..." : desc;
     }
+
     ButtonsTemplate template = new ButtonsTemplate(
-        aUser.getProfileImageURL(),
-        aUser.getScreenName(),
+        aUser.getOriginalProfileImageURL(),
+        title,
         desc,
-        Collections.emptyList());
+        Collections.singletonList(
+            new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aUser.getScreenName())
+        ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
   }
