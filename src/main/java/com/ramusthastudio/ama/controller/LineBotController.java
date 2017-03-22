@@ -488,7 +488,7 @@ public class LineBotController {
     int negativeCount = 0;
     int neutralCount = 0;
     for (Tweet resultTweet : resultTweets) {
-      Content content = resultTweet.getCde().getContent();
+      com.ramusthastudio.ama.model.Content content = resultTweet.getCde().getContent();
       Message2 message = resultTweet.getMessage();
       message.setLineId(aLineId);
       message.setTwitterId(aTwitterId);
