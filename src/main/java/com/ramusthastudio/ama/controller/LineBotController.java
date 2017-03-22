@@ -153,16 +153,55 @@ public class LineBotController {
           LOG.info("Greeting Message join group");
           greetingMessageGroup(fChannelAccessToken, aSource.groupId());
           instructionSentimentMessage(fChannelAccessToken, aSource.groupId());
-          confirmTwitterMessage(fChannelAccessToken, aSource.groupId());
           break;
         case MESSAGE:
           if (aMessage.type().equals(MESSAGE_TEXT)) {
             String text = aMessage.text();
+            if (text.toLowerCase().startsWith(KEY_TWITTER)) {
+              String screenName = text.substring(KEY_TWITTER.length(), text.length()).trim();
 
-            replayMessage(fChannelAccessToken, aReplayToken, text + " ?");
-          } else {
-            pushMessage(fChannelAccessToken, aSource.groupId(), "Aku gak ngerti nih, " +
-                "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
+              if (screenName.length() > 3) {
+                LOG.info("Start find user on database..." + screenName);
+                UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
+                LOG.info("end find user on database..." + userTwitter);
+
+                if (userTwitter != null) {
+                  LOG.info("Display from database...");
+                  profileUserMessage(fChannelAccessToken, aSource.groupId(), userTwitter);
+                } else {
+                  try {
+                    User twitterUser = fTwitterHelper.checkUsers(screenName);
+                    LOG.info("Display from twitter server...");
+                    profileUserMessage(fChannelAccessToken, aSource.groupId(), twitterUser);
+                    LOG.info("Start adding user...");
+                    fDao.setUserTwitter(twitterUser);
+                    LOG.info("End adding user...");
+                  } catch (Exception aE) {
+                    LOG.error("Getting twitter info error message : " + aE.getMessage());
+                  }
+
+                  confirmTwitterMessage(fChannelAccessToken, aSource.groupId(), "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
+              }
+            } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
+              String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
+              if (sentiment.length() > 3) {
+                List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
+                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
+                if (message2.size() > 0 && evidence.size() > 0) {
+                  LOG.info("Start find sentiment from database...");
+                  pushSentiment(aReplayToken, aSource.groupId(), message2, evidence);
+                  LOG.info("End find sentiment from database...");
+                } else {
+                  sentimentService(aReplayToken, aSource.groupId(), sentiment);
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
+              }
+
+            }
           }
           break;
       }
@@ -247,42 +286,7 @@ public class LineBotController {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
               }
 
-            }
-            // else if (matchTwitter.find()) {
-            //   String twitterSuggest = predictWord(text, KEY_TWITTER);
-            //   if (twitterSuggest.length() > 3) {
-            //     LOG.info("Start find user on database..." + twitterSuggest);
-            //     UserTwitter userTwitter = fDao.getUserTwitterById(twitterSuggest);
-            //     LOG.info("end find user on database..." + userTwitter);
-            //
-            //     if (userTwitter != null) {
-            //       LOG.info("Display from database...");
-            //       profileUserMessage(fChannelAccessToken, userId, userTwitter);
-            //     } else {
-            //       try {
-            //         User twitterUser = fTwitterHelper.checkUsers(twitterSuggest);
-            //         LOG.info("Display from twitter server...");
-            //         profileUserMessage(fChannelAccessToken, userId, twitterUser);
-            //         LOG.info("Start adding user...");
-            //         fDao.setUserTwitter(twitterUser);
-            //         LOG.info("End adding user...");
-            //       } catch (Exception aE) {
-            //         LOG.error("Getting twitter info error message : " + aE.getMessage());
-            //       }
-            //     }
-            //     confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
-            //   } else {
-            //     replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
-            //   }
-            // }
-            // else if (matchFriend.find()) {
-            //   // String friendSuggest = predictWord(text, KEY_FRIEND);
-            //   // List<UserLine> mUserLine = fDao.getAllUserLine();
-            //   replayMessage(fChannelAccessToken, replayToken, "Teman aku ? aku gak punya teman banyak nih, " +
-            //       "kenalin donk sama aku supaya teman ku banyak");
-            //
-            // }
-            else {
+            } else {
               isValid = false;
               replayMessage(fChannelAccessToken, aReplayToken, aMessage.text() + " ?");
             }
