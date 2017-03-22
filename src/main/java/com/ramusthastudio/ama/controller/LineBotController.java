@@ -363,7 +363,8 @@ public class LineBotController {
                 sentimentService(aReplayToken, aUserId, userTwitter);
               }
             } else {
-              replayMessage(fChannelAccessToken, aReplayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
+              replayMessage(fChannelAccessToken, aReplayToken, "Hmmm... kayak nya jarang nge tweets nih, aku gak bisa bantuin...\n" +
+                  " aku cuma bisa bantuin kalau tweets nya bahasa Inggris, Jerman, Perancis, dan Spanyol");
               stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
             }
 
