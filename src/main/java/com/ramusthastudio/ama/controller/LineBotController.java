@@ -408,17 +408,17 @@ public class LineBotController {
               Profile personality = fPersonalityInsights.getProfile(options).execute();
               List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
               StringBuilder consumptionBuilder = new StringBuilder();
-              StringBuilder likelyBuilder = new StringBuilder();
-              StringBuilder unlikelyBuilder = new StringBuilder();
+              StringBuilder likelyBuilder = new StringBuilder("Likely to...\n");
+              StringBuilder unlikelyBuilder = new StringBuilder("Unlikely to...\n");
               int removePrefix = "Likely to ".length();
               for (ConsumptionPreferences cp : consumtionPreferences) {
                 for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
                   double score = consumptionPreference.getScore();
                   String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
                   if (score == 1) {
-                    likelyBuilder.append("Likely to...\n\n").append(name);
+                    likelyBuilder.append("\n").append(name);
                   } else {
-                    unlikelyBuilder.append("Unlikely to...\n\n").append(name);
+                    unlikelyBuilder.append("\n").append(name);
                   }
                 }
               }
