@@ -69,6 +69,7 @@ import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
 import static com.ramusthastudio.ama.util.BotHelper.pushMessage;
 import static com.ramusthastudio.ama.util.BotHelper.replayMessage;
 import static com.ramusthastudio.ama.util.BotHelper.stickerMessage;
+import static com.ramusthastudio.ama.util.BotHelper.talkMessageGroup;
 import static com.ramusthastudio.ama.util.BotHelper.unfollowMessage;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_CHEERS;
 import static com.ramusthastudio.ama.util.StickerHelper.JAMES_STICKER_SAD_PRAY;
@@ -182,8 +183,6 @@ public class LineBotController {
                   } catch (Exception aE) {
                     LOG.error("Getting twitter info error message : " + aE.getMessage());
                   }
-
-                  confirmTwitterMessage(fChannelAccessToken, aSource.groupId(), "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
@@ -205,7 +204,7 @@ public class LineBotController {
               }
 
             } else if (match.find()) {
-              greetingMessageGroup(fChannelAccessToken, aSource.groupId());
+              talkMessageGroup(fChannelAccessToken, aSource.groupId());
               instructionSentimentMessage(fChannelAccessToken, aSource.groupId());
             }
           }
