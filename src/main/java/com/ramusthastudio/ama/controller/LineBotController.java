@@ -132,11 +132,10 @@ public class LineBotController {
           sourceUserProccess(eventType, replayToken, timestamp, message, postback, userId);
           break;
         case SOURCE_GROUP:
-          LOG.info("sourceType... {} {} {} {} {}", eventType, replayToken, postback, message, source);
           sourceGroupProccess(eventType, replayToken, postback, message, source);
           break;
         case SOURCE_ROOM:
-
+          sourceGroupProccess(eventType, replayToken, postback, message, source);
           break;
       }
     }
@@ -273,7 +272,7 @@ public class LineBotController {
                 } else {
                   try {
                     User twitterUser = fTwitterHelper.checkUsers(screenName);
-                    LOG.info("Display from twitter server...");
+                    LOG.info("Display from twitter server..."+twitterUser);
                     profileUserMessage(fChannelAccessToken, aUserId, twitterUser);
                     LOG.info("Start adding user...");
                     fDao.setUserTwitter(twitterUser);
