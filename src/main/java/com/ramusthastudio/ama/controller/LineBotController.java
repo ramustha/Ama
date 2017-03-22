@@ -351,14 +351,21 @@ public class LineBotController {
   }
 
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
+    StringBuilder builderPositive = new StringBuilder("Positif...\n\n");
+    StringBuilder builderNegative = new StringBuilder("Negatif...\n\n");
+    for (Evidence evidence : aEvidence) {
+      if (evidence.getPolarity().equalsIgnoreCase("POSITIVE")) {
+        builderPositive.append(evidence.getSentimentTerm()).append(", ");
+      } else if (evidence.getPolarity().equalsIgnoreCase("NEGATIVE")) {
+        builderNegative.append(evidence.getSentimentTerm()).append(", ");
+      }
+    }
+
     StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n\n");
     if (aEvidence.size() > 0) {
-      for (Evidence evidence : aEvidence) {
-        b.append(evidence.getSentimentTerm()).append(", ");
-      }
-      String sentiment = b.toString();
-      sentiment.substring(0, sentiment.length() - 2);
-      replayMessage(fChannelAccessToken, aReplayToken, sentiment.trim());
+      b.append(builderPositive.toString()).
+          append(builderNegative.toString());
+      replayMessage(fChannelAccessToken, aReplayToken, b.toString());
     } else {
       replayMessage(fChannelAccessToken, aReplayToken, "hmm.. belum ada sentiment nih, gak begitu populer kayaknya");
     }
