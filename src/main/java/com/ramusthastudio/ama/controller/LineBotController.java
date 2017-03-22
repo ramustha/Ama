@@ -69,6 +69,7 @@ import static com.ramusthastudio.ama.util.BotHelper.TWITTER_TRUE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_YES;
 import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
+import static com.ramusthastudio.ama.util.BotHelper.generateRandom;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessageGroup;
@@ -412,13 +413,17 @@ public class LineBotController {
               List<UserConsumption> userConsumption = fDao.getUserConsumptionByTwitterId(personalityCandidate);
               if (userConsumption.size() > 0) {
                 LOG.info("Start find userConsumption from database...");
-
+                boolean isLike = false;
+                boolean isunLike = false;
                 List<UserConsumption> shoppings = fDao.getUserConsumptionByTwitterIdAndCat(personalityCandidate, PI_SHOPPING);
+
                 for (UserConsumption shopping : shoppings) {
-                  if (shopping.getConsumptionScore() == 1) {
-                    likelyBuilder.append("\n").append(shopping.getConsumptionName());
-                  } else {
-                    unlikelyBuilder.append("\n").append(shopping.getConsumptionName());
+                  if (shopping.getConsumptionScore() == 1 && !isLike) {
+                    isLike = true;
+                    likelyBuilder.append("\n").append(shoppings.get(generateRandom(0, shoppings.size() - 1)));
+                  } else if (!isunLike){
+                    isunLike = true;
+                    unlikelyBuilder.append("\n").append(shoppings.get(generateRandom(0, shoppings.size() - 1)));
                   }
                 }
                 consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
