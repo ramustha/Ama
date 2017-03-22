@@ -57,6 +57,7 @@ import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.LEAVE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
+import static com.ramusthastudio.ama.util.BotHelper.PI_SHOPPING;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
 import static com.ramusthastudio.ama.util.BotHelper.SOURCE_GROUP;
 import static com.ramusthastudio.ama.util.BotHelper.SOURCE_ROOM;
@@ -411,11 +412,13 @@ public class LineBotController {
               List<UserConsumption> userConsumption = fDao.getUserConsumptionByTwitterId(personalityCandidate);
               if (userConsumption.size() > 0) {
                 LOG.info("Start find userConsumption from database...");
-                for (UserConsumption consumption : userConsumption) {
-                  if (consumption.getConsumptionScore() == 1) {
-                    likelyBuilder.append("\n").append(consumption.getConsumptionName());
-                  }else {
-                    unlikelyBuilder.append("\n").append(consumption.getConsumptionName());
+
+                List<UserConsumption> shoppings = fDao.getUserConsumptionByTwitterIdAndCat(personalityCandidate, PI_SHOPPING);
+                for (UserConsumption shopping : shoppings) {
+                  if (shopping.getConsumptionScore() == 1) {
+                    likelyBuilder.append("\n").append(shopping.getConsumptionName());
+                  } else {
+                    unlikelyBuilder.append("\n").append(shopping.getConsumptionName());
                   }
                 }
                 consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
@@ -447,7 +450,7 @@ public class LineBotController {
                     if (score == 1 && maxLike != 5) {
                       likelyBuilder.append("\n").append(name);
                       maxLike++;
-                    } else if (maxUnLike != 5){
+                    } else if (maxUnLike != 5) {
                       unlikelyBuilder.append("\n").append(name);
                       maxUnLike++;
                     }
