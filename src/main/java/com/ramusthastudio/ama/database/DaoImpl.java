@@ -5,6 +5,7 @@ import com.ramusthastudio.ama.model.Actor;
 import com.ramusthastudio.ama.model.Evidence;
 import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.UserChat;
+import com.ramusthastudio.ama.model.UserConsumption;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.sql.Timestamp;
@@ -45,6 +46,11 @@ public class DaoImpl implements Dao {
   private final static String SQL_SELECT_ALL_USER_EVIDENCE = "SELECT * FROM user_evidence";
   private final static String SQL_USER_EVIDENCE_GET_BY_MESSAGE_ID = SQL_SELECT_ALL_USER_EVIDENCE + " WHERE LOWER(twitter_id) LIKE LOWER(?) ;";
   private final static String SQL_INSERT_USER_EVIDENCE = "INSERT INTO user_evidence (twitter_id, polarity, polarity_term, polarity_term_size) VALUES (?, ?, ?, ?);";
+
+  private final static String SQL_SELECT_ALL_USER_CONSUMPTION = "SELECT * FROM user_consumption";
+  private final static String SQL_USER_CONSUMPTION_GET_BY_MESSAGE_ID = SQL_SELECT_ALL_USER_CONSUMPTION + " WHERE LOWER(twitter_id) LIKE LOWER(?) ;";
+  private final static String SQL_INSERT_USER_CONSUMPTION = "INSERT INTO user_consumption (twitter_id, consumption_category, consumption_name, consumption_score) VALUES (?, ?, ?, ?);";
+
 
   private final JdbcTemplate mJdbc;
 
@@ -100,6 +106,13 @@ public class DaoImpl implements Dao {
           aRs.getString("polarity"),
           aRs.getString("polarity_term"),
           aRs.getInt("polarity_term_size"));
+
+  private final static RowMapper<UserConsumption> SINGLE_USER_CONSUMPTION = (aRs, rowNum) ->
+      new UserConsumption(
+          aRs.getString("twitter_id"),
+          aRs.getString("consumption_category"),
+          aRs.getString("consumption_name"),
+          aRs.getDouble("consumption_score"));
 
   private final static ResultSetExtractor<List<UserTwitter>> MULTIPLE_USER_TWITTER = aRs -> {
     List<UserTwitter> list = new ArrayList<>();
@@ -177,6 +190,18 @@ public class DaoImpl implements Dao {
     return list;
   };
 
+  private final static ResultSetExtractor<List<UserConsumption>> MULTIPLE_USER_CONSUMPTION = aRs -> {
+    List<UserConsumption> list = new ArrayList<>();
+    while (aRs.next()) {
+      list.add(new UserConsumption(
+          aRs.getString("twitter_id"),
+          aRs.getString("consumption_category"),
+          aRs.getString("consumption_name"),
+          aRs.getDouble("consumption_score")));
+    }
+    return list;
+  };
+
   @Override public void setUserTwitter(User aUser) {
     mJdbc.update(SQL_INSERT_USER_TWITTER,
         aUser.getScreenName(),
@@ -248,6 +273,15 @@ public class DaoImpl implements Dao {
     );
   }
 
+  @Override public void setUserConsumption(UserConsumption aUserConsumption) {
+    mJdbc.update(SQL_INSERT_USER_CONSUMPTION,
+        aUserConsumption.getTwitterId(),
+        aUserConsumption.getConsumptionCategory(),
+        aUserConsumption.getConsumptionName(),
+        aUserConsumption.getConsumptionScore()
+    );
+  }
+
   @Override public void updateUserChat(UserChat aUser) {
     mJdbc.update(SQL_UPDATE_USER_CHAT,
         aUser.getLastChat(),
@@ -277,6 +311,10 @@ public class DaoImpl implements Dao {
     return mJdbc.query(SQL_SELECT_ALL_USER_EVIDENCE, MULTIPLE_USER_EVIDENCE);
   }
 
+  @Override public List<UserConsumption> getAllUserConsumption() {
+    return mJdbc.query(SQL_SELECT_ALL_USER_CONSUMPTION, MULTIPLE_USER_CONSUMPTION);
+  }
+
   @Override public List<Message2> getUserMessageByLineId(String aLineId) {
     return mJdbc.query(SQL_USER_MESSAGE_GET_BY_LINE_ID, new Object[] {"%" + aLineId + "%"}, MULTIPLE_USER_MESSAGE);
   }
@@ -289,6 +327,9 @@ public class DaoImpl implements Dao {
     return mJdbc.query(SQL_USER_EVIDENCE_GET_BY_MESSAGE_ID, new Object[] {"%" + aTwitterId + "%"}, MULTIPLE_USER_EVIDENCE);
   }
 
+  @Override public List<UserConsumption> getUserConsumptionByTwitterId(String aTwitterId) {
+    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_MESSAGE_ID, new Object[] {"%" + aTwitterId + "%"}, MULTIPLE_USER_CONSUMPTION);
+  }
   @Override public UserTwitter getUserTwitterById(String aUserId) {
     try {
       return mJdbc.queryForObject(SQL_USER_TWITTER_GET_BY_ID, new Object[] {"%" + aUserId + "%"}, SINGLE_USER_TWITTER);

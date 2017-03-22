@@ -4,6 +4,7 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.ramusthastudio.ama.model.Evidence;
 import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.UserChat;
+import com.ramusthastudio.ama.model.UserConsumption;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.util.List;
@@ -31,4 +32,8 @@ public interface Dao {
   List<Evidence> getAllUserEvidence();
   void setUserEvidence(Evidence aUser);
   List<Evidence> getUserEvidenceByMessageId(String aTwitterId);
+
+  List<UserConsumption> getAllUserConsumption();
+  void setUserConsumption(UserConsumption aUserConsumption);
+  List<UserConsumption> getUserConsumptionByTwitterId(String aTwitterId);
 }

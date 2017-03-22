@@ -74,6 +74,15 @@ public final class BotHelper {
   public static final String NEGATIVE = "NEGATIVE";
   public static final String NEUTRAL = "NEUTRAL";
 
+  public static final String PI_SHOPPING = "consumption_preferences_shopping";
+  public static final String PI_HEALTH_AND_ACTIVITY = "consumption_preferences_health_and_activity";
+  public static final String PI_ENVIRONMENTAL_CONCERN = "consumption_preferences_concern";
+  public static final String PI_ENTERPRENEURSHIP = "consumption_preferences_enterpreneurship";
+  public static final String PI_MOVIE = "consumption_preferences_movie";
+  public static final String PI_MUSIC = "consumption_preferences_music";
+  public static final String PI_READING = "consumption_preferences_reading";
+  public static final String PI_VOLUNTEERING = "consumption_preferences_volunteering";
+
   public static UserProfileResponse getUserProfile(String aChannelAccessToken,
       String aUserId) throws IOException {
     LOG.info("getUserProfile...");

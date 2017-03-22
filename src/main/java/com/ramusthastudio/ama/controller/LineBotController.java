@@ -6,6 +6,7 @@ import com.ibm.watson.developer_cloud.personality_insights.v3.model.ConsumptionP
 import com.ibm.watson.developer_cloud.personality_insights.v3.model.Content;
 import com.ibm.watson.developer_cloud.personality_insights.v3.model.Profile;
 import com.ibm.watson.developer_cloud.personality_insights.v3.model.ProfileOptions;
+import com.ibm.watson.developer_cloud.personality_insights.v3.model.Trait;
 import com.ibm.watson.developer_cloud.util.GsonSingleton;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.profile.UserProfileResponse;
@@ -22,6 +23,7 @@ import com.ramusthastudio.ama.model.SentimentTweetService;
 import com.ramusthastudio.ama.model.Source;
 import com.ramusthastudio.ama.model.Tweet;
 import com.ramusthastudio.ama.model.UserChat;
+import com.ramusthastudio.ama.model.UserConsumption;
 import com.ramusthastudio.ama.model.UserLine;
 import com.ramusthastudio.ama.model.UserTwitter;
 import com.ramusthastudio.ama.util.StickerHelper;
@@ -398,31 +400,63 @@ public class LineBotController {
             }
           } else if (pd.startsWith(KEY_PERSONALITY)) {
             try {
-              String sentiment = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
-              Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(sentiment, TWEETS_STEP), Content.class);
-              ProfileOptions options = new ProfileOptions.Builder()
-                  .contentItems(content.getContentItems())
-                  .consumptionPreferences(true)
-                  .rawScores(true)
-                  .build();
-              Profile personality = fPersonalityInsights.getProfile(options).execute();
-              List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
+              String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
+
               StringBuilder consumptionBuilder = new StringBuilder();
               StringBuilder likelyBuilder = new StringBuilder("Likely to...\n");
               StringBuilder unlikelyBuilder = new StringBuilder("Unlikely to...\n");
-              int removePrefix = "Likely to ".length();
-              for (ConsumptionPreferences cp : consumtionPreferences) {
-                for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
-                  double score = consumptionPreference.getScore();
-                  String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
-                  if (score == 1) {
-                    likelyBuilder.append("\n").append(name);
-                  } else {
-                    unlikelyBuilder.append("\n").append(name);
+              int maxLike = 0;
+              int maxUnLike = 0;
+
+              List<UserConsumption> userConsumption = fDao.getUserConsumptionByTwitterId(personalityCandidate);
+              if (userConsumption.size() > 0) {
+                LOG.info("Start find userConsumption from database...");
+                for (UserConsumption consumption : userConsumption) {
+                  if (consumption.getConsumptionScore() == 1) {
+                    likelyBuilder.append("\n").append(consumption.getConsumptionName());
+                  }else {
+                    unlikelyBuilder.append("\n").append(consumption.getConsumptionName());
                   }
                 }
+                consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
+              } else {
+                LOG.info("Start find userConsumption from service...");
+                Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(personalityCandidate, TWEETS_STEP), Content.class);
+                ProfileOptions options = new ProfileOptions.Builder()
+                    .contentItems(content.getContentItems())
+                    .consumptionPreferences(true)
+                    .rawScores(true)
+                    .build();
+                Profile personality = fPersonalityInsights.getProfile(options).execute();
+                List<Trait> personalities = personality.getPersonality();
+                List<Trait> needs = personality.getNeeds();
+                List<Trait> values = personality.getValues();
+                List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
+                int removePrefix = "Likely to ".length();
+                for (ConsumptionPreferences cp : consumtionPreferences) {
+                  UserConsumption uc = new UserConsumption();
+                  uc.setTwitterId(personalityCandidate);
+                  uc.setConsumptionCategory(cp.getCategoryId());
+                  for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
+                    double score = consumptionPreference.getScore();
+                    String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
+                    uc.setConsumptionName(name).setConsumptionScore(score);
+                    LOG.info("Start saving userConsumption to database..." + uc);
+                    fDao.setUserConsumption(uc);
+
+                    if (maxLike != 5 || maxUnLike != 5) {
+                      if (score == 1) {
+                        likelyBuilder.append("\n").append(name);
+                        maxLike++;
+                      } else {
+                        unlikelyBuilder.append("\n").append(name);
+                        maxUnLike++;
+                      }
+                    }
+                  }
+                }
+                consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
               }
-              consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
               pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
