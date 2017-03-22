@@ -441,17 +441,15 @@ public class LineBotController {
                     double score = consumptionPreference.getScore();
                     String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
                     uc.setConsumptionName(name).setConsumptionScore(score);
-                    LOG.info("Start saving userConsumption to database..." + uc);
+                    LOG.info("Start saving userConsumption to database...");
                     fDao.setUserConsumption(uc);
 
-                    if (maxLike != 5 || maxUnLike != 5) {
-                      if (score == 1) {
-                        likelyBuilder.append("\n").append(name);
-                        maxLike++;
-                      } else {
-                        unlikelyBuilder.append("\n").append(name);
-                        maxUnLike++;
-                      }
+                    if (score == 1 && maxLike != 5) {
+                      likelyBuilder.append("\n").append(name);
+                      maxLike++;
+                    } else if (maxUnLike != 5){
+                      unlikelyBuilder.append("\n").append(name);
+                      maxUnLike++;
                     }
                   }
                 }

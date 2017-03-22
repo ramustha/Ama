@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -115,8 +111,8 @@
       <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="428" column="34" lean-forward="false" selection-start-line="428" selection-start-column="21" selection-end-line="428" selection-end-column="34" />
+            <state relative-caret-position="236">
+              <caret line="449" column="31" lean-forward="false" selection-start-line="449" selection-start-column="24" selection-end-line="449" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -127,9 +123,41 @@
       <file leaf-file-name="BotHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="83" column="86" lean-forward="false" selection-start-line="83" selection-start-column="86" selection-end-line="83" selection-end-column="86" />
+            <state relative-caret-position="340">
+              <caret line="76" column="40" lean-forward="false" selection-start-line="76" selection-start-column="29" selection-end-line="76" selection-end-column="40" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DaoImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="217">
+              <caret line="49" column="79" lean-forward="true" selection-start-line="49" selection-start-column="79" selection-end-line="49" selection-end-column="79" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <marker date="1490174180361" expanded="true" signature="1041:1067" ph="SELECT * FRO... user_twitter" />
+                <marker date="1490174180361" expanded="true" signature="1160:1190" ph="SELECT * FRO... user_twitter" />
+                <marker date="1490174180361" expanded="true" signature="1252:1527" ph="INSERT INTO user_twitter... " />
+                <marker date="1490174180361" expanded="true" signature="1590:1613" ph="SELECT * FRO... user_line" />
+                <marker date="1490174180361" expanded="true" signature="1700:1730" ph="SELECT * FRO... user_line" />
+                <marker date="1490174180361" expanded="true" signature="1789:1878" ph="INSERT INTO user_line... " />
+                <marker date="1490174180361" expanded="true" signature="1941:1964" ph="SELECT * FRO... user_chat" />
+                <marker date="1490174180361" expanded="true" signature="2051:2081" ph="SELECT * FRO... user_chat" />
+                <marker date="1490174180361" expanded="true" signature="2140:2221" ph="INSERT INTO user_chat... " />
+                <marker date="1490174180361" expanded="true" signature="2279:2375" ph="UPDATE user_... " />
+                <marker date="1490174180361" expanded="true" signature="2441:2467" ph="SELECT * FRO... user_message" />
+                <marker date="1490174180361" expanded="true" signature="2565:2600" ph="SELECT * FRO... user_message" />
+                <marker date="1490174180361" expanded="true" signature="2703:2741" ph="SELECT * FRO... user_message" />
+                <marker date="1490174180361" expanded="true" signature="2803:2959" ph="INSERT INTO user_message... " />
+                <marker date="1490174180361" expanded="true" signature="3026:3053" ph="SELECT * FRO... user_evidence" />
+                <marker date="1490174180361" expanded="true" signature="3156:3194" ph="SELECT * FRO... user_evidence" />
+                <marker date="1490174180361" expanded="true" signature="3257:3360" ph="INSERT INTO user_evidence... " />
+                <marker date="1490174180361" expanded="true" signature="3430:3460" ph="SELECT * FRO... user_consumption" />
+                <marker date="1490174180361" expanded="true" signature="3569:3607" ph="SELECT * FRO... user_evidence" />
+                <marker date="1490174180361" expanded="true" signature="3673:3793" ph="INSERT INTO user_consumption... " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -822,7 +850,7 @@
     <property name="js.eslint.eslintPackage" value="" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://L:/XXX/DEVELOP/Ama/src/main/java/com/ramusthastudio/ama/util/BotHelper.java&#10;beacon&#9;PSI&#9;JAVA://com.linecorp.bot.model.event.BeaconEvent&#10;sticker&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/6c232e0be0300a599717881d472a4b2c8ce6e56f/line-bot-model-1.6.0.jar!/com/linecorp/bot/model/event/message/StickerMessageContent.class&#10;ok&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/OkHttpClient.java&#10;ConnectionSpecSelector&#9;PSI&#9;JAVA://okhttp3.internal.connection.ConnectionSpecSelector&#10;mess&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;push&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;Mes&#9;FILE&#9;file://D:/SANDBOX/Line/infomovies/src/main/java/com/ramusthastudio/infomovies/model/Message.java&#10;e&#9;PSI&#9;JAVA://com.ramusthastudio.infomovies.util.EGenre&#10;Confirm&#9;PSI&#9;JAVA://com.linecorp.bot.model.message.template.ConfirmTemplate" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://L:/XXX/DEVELOP/Ama/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java&#10;beacon&#9;PSI&#9;JAVA://com.linecorp.bot.model.event.BeaconEvent&#10;sticker&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/6c232e0be0300a599717881d472a4b2c8ce6e56f/line-bot-model-1.6.0.jar!/com/linecorp/bot/model/event/message/StickerMessageContent.class&#10;ok&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/7ebc06b0cc7c2752a4883747e2c70b2b301df9c0/okhttp-3.6.0-sources.jar!/okhttp3/OkHttpClient.java&#10;ConnectionSpecSelector&#9;PSI&#9;JAVA://okhttp3.internal.connection.ConnectionSpecSelector&#10;mess&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;push&#9;FILE&#9;jar://C:/Users/User/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.6.0/361eee031c7f7a2009ff5bbc3c1d61a80f149940/line-bot-model-1.6.0-sources.jar!/com/linecorp/bot/model/PushMessage.java&#10;Mes&#9;FILE&#9;file://D:/SANDBOX/Line/infomovies/src/main/java/com/ramusthastudio/infomovies/model/Message.java&#10;e&#9;PSI&#9;JAVA://com.ramusthastudio.infomovies.util.EGenre&#10;Confirm&#9;PSI&#9;JAVA://com.linecorp.bot.model.message.template.ConfirmTemplate" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Sample Program/get-started-java/pom.xml" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
   </component>
@@ -1355,12 +1383,12 @@
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
       <workItem from="1489565847515" duration="71540000" />
-      <workItem from="1489974093115" duration="73610000" />
+      <workItem from="1489974093115" duration="74654000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="248706000" />
+    <option name="totallyTimeSpent" value="249750000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1392,7 +1420,7 @@
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.4974293" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30343008" sideWeight="0.49614397" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46701846" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46701846" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.084190235" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17609255" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1845,10 +1873,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/ConsumptionPreferences.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="53" column="18" lean-forward="false" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
+          <folding>
+            <element signature="e#1472#1473#0" expanded="true" />
+            <element signature="e#1497#1498#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="76" column="35" lean-forward="false" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="76" column="40" lean-forward="false" selection-start-line="76" selection-start-column="29" selection-end-line="76" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="50" column="30" lean-forward="false" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+        <state relative-caret-position="217">
+          <caret line="49" column="79" lean-forward="true" selection-start-line="49" selection-start-column="79" selection-end-line="49" selection-end-column="79" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1490174180361" expanded="true" signature="1041:1067" ph="SELECT * FRO... user_twitter" />
@@ -1875,37 +1930,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/ConsumptionPreferences.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="53" column="18" lean-forward="false" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
-          <folding>
-            <element signature="e#1472#1473#0" expanded="true" />
-            <element signature="e#1497#1498#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="76" column="35" lean-forward="false" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="83" column="86" lean-forward="false" selection-start-line="83" selection-start-column="86" selection-end-line="83" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="428" column="34" lean-forward="false" selection-start-line="428" selection-start-column="21" selection-end-line="428" selection-end-column="34" />
+        <state relative-caret-position="236">
+          <caret line="449" column="31" lean-forward="false" selection-start-line="449" selection-start-column="24" selection-end-line="449" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
