@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -202,6 +203,61 @@ public class Twitter4JHelper implements RateLimitStatusListener {
       page.maxId(cursor);
     } while (true);
     return retval;
+  }
+
+  public static HashSet<String> langs() {
+    HashSet<String> langs = new HashSet<>();
+    langs.add("en");
+    langs.add("es");
+    langs.add("ar");
+    langs.add("ja");
+    return langs;
+  }
+
+  public String getTweets(String idOrHandle, int numberOfNonRetweets) throws Exception {
+    HashSet<String> langs = langs();
+    List<Status> retval = new ArrayList<>();
+    long userId = -1;
+    if (idOrHandle.startsWith("@")) {
+      // Check rate limit
+      checkRateLimitAndThrow();
+      User user = twitter.showUser(idOrHandle.substring(1));
+      if (user == null) {
+        throw new Exception("Handle " + idOrHandle + " is not a valid twitter handle.");
+      }
+      userId = user.getId();
+    } else if (!idOrHandle.startsWith("@")) {
+      // Check rate limit
+      checkRateLimitAndThrow();
+      User user = twitter.showUser(idOrHandle);
+      if (user == null) {
+        throw new Exception("Handle " + idOrHandle + " is not a valid twitter handle.");
+      }
+      userId = user.getId();
+    } else {
+      userId = Long.valueOf(idOrHandle);
+    }
+
+    long cursor = -1;
+    Paging page = new Paging(1, 200);
+    do {
+      checkRateLimitAndThrow();
+      ResponseList<Status> tweets = twitter.getUserTimeline(userId, page);
+      if (tweets == null || tweets.size() == 0) break;
+      for (int i = 0; i < tweets.size(); i++) {
+        Status status = tweets.get(i);
+        cursor = status.getId() - 1;
+
+        // Ignore retweets
+        if (status.isRetweet()) continue;
+        // Language
+        if (!langs.contains(status.getLang())) continue;
+        retval.add(status);
+        if (retval.size() >= numberOfNonRetweets) return convertTweetsToPIContentItems(retval);
+      }
+      page.maxId(cursor);
+    } while (true);
+    return convertTweetsToPIContentItems(retval);
   }
 
   public List<Status> getTweets(String idOrHandle, Paging paging) throws Exception {

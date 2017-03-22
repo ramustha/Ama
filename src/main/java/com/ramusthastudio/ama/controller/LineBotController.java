@@ -1,6 +1,7 @@
 package com.ramusthastudio.ama.controller;
 
 import com.google.gson.Gson;
+import com.ibm.watson.developer_cloud.personality_insights.v3.PersonalityInsights;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.ramusthastudio.ama.database.Dao;
@@ -45,6 +46,7 @@ import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.JOIN;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_AMA;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_PERSONALITY;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.LEAVE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
@@ -96,6 +98,8 @@ public class LineBotController {
   Dao fDao;
   @Autowired
   SentimentTweetService fSentimentTweetService;
+  @Autowired
+  PersonalityInsights fPersonalityInsights;
 
   @RequestMapping(value = "/callback", method = RequestMethod.POST)
   public ResponseEntity<String> callback(
@@ -374,8 +378,9 @@ public class LineBotController {
               stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
             }
 
-          }
-          if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
+          } else if (pd.startsWith(TWITTER_FALSE)) {
+            replayMessage(fChannelAccessToken, aReplayToken, "Salah ? trus ini siapa ?");
+          } else if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
 
             List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
@@ -387,8 +392,15 @@ public class LineBotController {
             } else {
               sentimentService(aReplayToken, aUserId, sentiment);
             }
-          } else if (pd.startsWith(TWITTER_FALSE)) {
-            replayMessage(fChannelAccessToken, aReplayToken, "Salah ? trus ini siapa ?");
+          } else if (pd.startsWith(KEY_PERSONALITY)) {
+            try {
+              String sentiment = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
+              String tweets = fTwitterHelper.getTweets(sentiment, TWEETS_STEP);
+              pushMessage(fChannelAccessToken, aUserId, tweets);
+            } catch (Exception aE) {
+              LOG.error("Exception when reading tweets..." + aE.getMessage());
+            }
+
           }
           break;
       }

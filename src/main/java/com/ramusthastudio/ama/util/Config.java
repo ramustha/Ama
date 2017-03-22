@@ -1,5 +1,6 @@
 package com.ramusthastudio.ama.util;
 
+import com.ibm.watson.developer_cloud.personality_insights.v3.PersonalityInsights;
 import com.ramusthastudio.ama.database.Dao;
 import com.ramusthastudio.ama.database.DaoImpl;
 import com.ramusthastudio.ama.model.SentimentTweetService;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.ibm.watson.developer_cloud.personality_insights.v3.PersonalityInsights.VERSION_DATE_2016_10_19;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Configuration
@@ -69,5 +71,13 @@ public class Config {
         .build();
 
     return retrofit.create(SentimentTweetService.class);
+  }
+
+  @Bean
+  public static PersonalityInsights getPersonalityService()
+  {
+    PersonalityInsights service = new PersonalityInsights(VERSION_DATE_2016_10_19);
+    service.setUsernameAndPassword(System.getenv("oauth.ibmpi.username"), System.getenv("oauth.ibmpi.password"));
+    return service;
   }
 }

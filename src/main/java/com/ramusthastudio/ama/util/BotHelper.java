@@ -57,6 +57,7 @@ public final class BotHelper {
   public static final String MESSAGE_STICKER = "sticker";
 
   public static final String KEY_TWITTER = "twitter";
+  public static final String KEY_PERSONALITY = "personality";
   public static final String KEY_POSITIVE = "twitter positif";
   public static final String KEY_NEGATIVE = "twitter negatif";
   public static final String KEY_FRIEND = "teman";
@@ -146,8 +147,9 @@ public final class BotHelper {
         aModel.getOriginalProfileImageUrlHttps(),
         title,
         desc,
-        Collections.singletonList(
-            new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aModel.getUsername())
+        Arrays.asList(
+            new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aModel.getUsername()),
+            new PostbackAction("Personality ?", KEY_PERSONALITY + " " + aModel.getUsername())
         ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
@@ -169,8 +171,9 @@ public final class BotHelper {
         aUser.getOriginalProfileImageURLHttps(),
         title,
         desc,
-        Collections.singletonList(
-            new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aUser.getScreenName())
+        Arrays.asList(
+            new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aUser.getScreenName()),
+            new PostbackAction("Personality ?", KEY_PERSONALITY + " " + aUser.getScreenName())
         ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
@@ -219,7 +222,8 @@ public final class BotHelper {
     String greeting = "Hi manteman\n";
     greeting += "Makasih aku udah di invite disini!\n";
     greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
-    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter\n\n";
+    greeting += "Bantuin aku donk supaya punya banyak teman, ini id aku @ape3119w";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
@@ -229,7 +233,8 @@ public final class BotHelper {
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Makasih udah nambahin aku sebagai teman!\n";
     greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
-    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter\n\n";
+    greeting += "Bantuin aku donk supaya punya banyak teman, ini id aku @ape3119w";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
