@@ -408,10 +408,20 @@ public class LineBotController {
                   .build();
               Profile personality = fPersonalityInsights.getProfile(options).execute();
               List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
+              StringBuilder consumptionBuilder = new StringBuilder();
+              int removePrefix = "Likely to ".length();
               for (ConsumptionPreferences cp : consumtionPreferences) {
-                String category = cp.getCategoryId();
-                pushMessage(fChannelAccessToken, aUserId, category);
+                for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
+                  double score = consumptionPreference.getScore();
+                  String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
+                  if (score == 1) {
+                    consumptionBuilder.append("Likely to...\n\n").append(name);
+                  } else {
+                    consumptionBuilder.append("Unlikely to...\n\n").append(name);
+                  }
+                }
               }
+              pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
