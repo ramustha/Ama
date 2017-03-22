@@ -47,6 +47,9 @@ import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
+import static com.ramusthastudio.ama.util.BotHelper.SOURCE_GROUP;
+import static com.ramusthastudio.ama.util.BotHelper.SOURCE_ROOM;
+import static com.ramusthastudio.ama.util.BotHelper.SOURCE_USER;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_FALSE;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_NO;
 import static com.ramusthastudio.ama.util.BotHelper.TWITTER_SENTIMENT;
@@ -119,203 +122,218 @@ public class LineBotController {
       Postback postback = event.postback();
 
       String userId = source.userId();
+      String sourceType = source.type();
 
-      try {
-        LOG.info("Start find UserProfileResponse on database...");
-        UserProfileResponse profile = getUserProfile(fChannelAccessToken, userId);
-        UserLine mUserLine = fDao.getUserLineById(profile.getUserId());
-        if (mUserLine == null) {
-          LOG.info("Start save user line to database...");
-          fDao.setUserLine(profile);
-        }
-        LOG.info("End find UserProfileResponse on database..." + mUserLine);
-      } catch (IOException ignored) {}
-
-      try {
-        switch (eventType) {
-          case UNFOLLOW:
-            unfollowMessage(fChannelAccessToken, userId);
-            break;
-          case FOLLOW:
-            LOG.info("Greeting Message");
-            greetingMessage(fChannelAccessToken, userId);
-            instructionSentimentMessage(fChannelAccessToken, userId);
-            confirmTwitterMessage(fChannelAccessToken, userId);
-            break;
-          case MESSAGE:
-            if (message.type().equals(MESSAGE_TEXT)) {
-              String text = message.text();
-              boolean isValid = true;
-
-              Pattern keyTwitter = Pattern.compile(KEY_TWITTER);
-              Matcher matchTwitter = keyTwitter.matcher(text);
-
-              Pattern keyFriend = Pattern.compile(KEY_FRIEND);
-              Matcher matchFriend = keyFriend.matcher(text);
-
-              if (text.toLowerCase().startsWith(KEY_TWITTER)) {
-                String screenName = text.substring(KEY_TWITTER.length(), text.length()).trim();
-
-                if (screenName.length() > 3) {
-                  LOG.info("Start find user on database..." + screenName);
-                  UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
-                  LOG.info("end find user on database..." + userTwitter);
-
-                  if (userTwitter != null) {
-                    LOG.info("Display from database...");
-                    profileUserMessage(fChannelAccessToken, userId, userTwitter);
-                  } else {
-                    try {
-                      User twitterUser = fTwitterHelper.checkUsers(screenName);
-                      LOG.info("Display from twitter server...");
-                      profileUserMessage(fChannelAccessToken, userId, twitterUser);
-                      LOG.info("Start adding user...");
-                      fDao.setUserTwitter(twitterUser);
-                      LOG.info("End adding user...");
-                    } catch (Exception aE) {
-                      LOG.error("Getting twitter info error message : " + aE.getMessage());
-                    }
-
-                    confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
-                  }
-                } else {
-                  replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
-                }
-              } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
-                String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
-                if (sentiment.length() > 3) {
-                  List<Message2> message2 = fDao.getUserMessageByLineId(userId);
-                  List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
-                  if (message2.size() > 0 && evidence.size() > 0) {
-                    LOG.info("Start find sentiment from database...");
-                    pushSentiment(replayToken, userId, message2, evidence);
-                    LOG.info("End find sentiment from database...");
-                  } else {
-                    sentimentService(replayToken, userId, sentiment);
-                  }
-                } else {
-                  replayMessage(fChannelAccessToken, replayToken, "hmmm...");
-                }
-
-              }
-              // else if (matchTwitter.find()) {
-              //   String twitterSuggest = predictWord(text, KEY_TWITTER);
-              //   if (twitterSuggest.length() > 3) {
-              //     LOG.info("Start find user on database..." + twitterSuggest);
-              //     UserTwitter userTwitter = fDao.getUserTwitterById(twitterSuggest);
-              //     LOG.info("end find user on database..." + userTwitter);
-              //
-              //     if (userTwitter != null) {
-              //       LOG.info("Display from database...");
-              //       profileUserMessage(fChannelAccessToken, userId, userTwitter);
-              //     } else {
-              //       try {
-              //         User twitterUser = fTwitterHelper.checkUsers(twitterSuggest);
-              //         LOG.info("Display from twitter server...");
-              //         profileUserMessage(fChannelAccessToken, userId, twitterUser);
-              //         LOG.info("Start adding user...");
-              //         fDao.setUserTwitter(twitterUser);
-              //         LOG.info("End adding user...");
-              //       } catch (Exception aE) {
-              //         LOG.error("Getting twitter info error message : " + aE.getMessage());
-              //       }
-              //     }
-              //     confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
-              //   } else {
-              //     replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
-              //   }
-              // }
-              // else if (matchFriend.find()) {
-              //   // String friendSuggest = predictWord(text, KEY_FRIEND);
-              //   // List<UserLine> mUserLine = fDao.getAllUserLine();
-              //   replayMessage(fChannelAccessToken, replayToken, "Teman aku ? aku gak punya teman banyak nih, " +
-              //       "kenalin donk sama aku supaya teman ku banyak");
-              //
-              // }
-              else {
-                isValid = false;
-                replayMessage(fChannelAccessToken, replayToken, message.text() + " ?");
-              }
-
-              if (isValid) {
-                LOG.info("isValid...");
-                UserChat userChat = fDao.getUserChatById(userId);
-                if (userChat != null) {
-                  LOG.info("Start updating chat history...");
-                  fDao.updateUserChat(new UserChat(userId, text, timestamp));
-                } else {
-                  LOG.info("Start saving chat history...");
-                  fDao.setUserChat(new UserChat(userId, text, timestamp));
-                }
-              } else {
-                LOG.info("isNotValid...");
-                UserChat userChat = fDao.getUserChatById(userId);
-                if (userChat != null) {
-                  LOG.info("Start updating false count...");
-                  int count = userChat.getFalseCount();
-                  if (count == 2) {
-                    stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_USELESS));
-                    pushMessage(fChannelAccessToken, userId, "Aku gak ngerti nih kamu ngomong apa, " +
-                        "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
-                    fDao.updateUserChat(new UserChat(userId, text, timestamp, 0));
-                  } else {
-                    count++;
-                    fDao.updateUserChat(new UserChat(userId, text, timestamp, count));
-                  }
-                  LOG.info("count..." + count);
-                }
-              }
-            }
-            break;
-          case POSTBACK:
-            String pd = postback.data();
-
-            if (pd.startsWith(TWITTER_YES)) {
-              stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
-              replayMessage(fChannelAccessToken, replayToken, "Coba kamu tulis sentiment indonesia");
-            } else if (pd.startsWith(TWITTER_NO)) {
-              stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SHOCK));
-              replayMessage(fChannelAccessToken, replayToken, "Hari gini gak punya twitter ?");
-            } else if (pd.startsWith(TWITTER_TRUE)) {
-              String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
-              UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
-              if (userTwitter != null) {
-                List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
-                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
-                if (message2.size() > 0 && evidence.size() > 0) {
-                  LOG.info("Start find sentiment from database...");
-                  pushSentiment(replayToken, userId, message2, evidence);
-                  LOG.info("End find sentiment from database...");
-                } else {
-                  sentimentService(replayToken, userId, userTwitter);
-                }
-              } else {
-                replayMessage(fChannelAccessToken, replayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
-                stickerMessage(fChannelAccessToken, userId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
-              }
-
-            }
-            if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
-              String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
-
-              List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
-              List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
-              if (message2.size() > 0 && evidence.size() > 0) {
-                LOG.info("Start find sentiment from database...");
-                pushSentiment(replayToken, userId, message2, evidence);
-                LOG.info("End find sentiment from database...");
-              } else {
-                sentimentService(replayToken, userId, sentiment);
-              }
-            } else if (pd.startsWith(TWITTER_FALSE)) {
-              replayMessage(fChannelAccessToken, replayToken, "Salah ? trus ini siapa ?");
-            }
-            break;
-        }
-      } catch (IOException aE) { LOG.error("Message {}", aE.getMessage()); }
+      switch (sourceType) {
+        case SOURCE_USER:
+          sourceUserProccess(eventType, replayToken, timestamp, message, postback, userId);
+          break;
+        case SOURCE_GROUP:
+          LOG.info("sourceType..."+sourceType);
+          break;
+        case SOURCE_ROOM:
+          LOG.info("sourceType..."+sourceType);
+          break;
+      }
     }
 
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  private void sourceUserProccess(String aEventType, String aReplayToken, long aTimestamp, Message aMessage, Postback aPostback, String aUserId) {
+    try {
+      LOG.info("Start find UserProfileResponse on database...");
+      UserProfileResponse profile = getUserProfile(fChannelAccessToken, aUserId);
+      UserLine mUserLine = fDao.getUserLineById(profile.getUserId());
+      if (mUserLine == null) {
+        LOG.info("Start save user line to database...");
+        fDao.setUserLine(profile);
+      }
+      LOG.info("End find UserProfileResponse on database..." + mUserLine);
+    } catch (IOException ignored) {}
+
+    try {
+      switch (aEventType) {
+        case UNFOLLOW:
+          unfollowMessage(fChannelAccessToken, aUserId);
+          break;
+        case FOLLOW:
+          LOG.info("Greeting Message");
+          greetingMessage(fChannelAccessToken, aUserId);
+          instructionSentimentMessage(fChannelAccessToken, aUserId);
+          confirmTwitterMessage(fChannelAccessToken, aUserId);
+          break;
+        case MESSAGE:
+          if (aMessage.type().equals(MESSAGE_TEXT)) {
+            String text = aMessage.text();
+            boolean isValid = true;
+
+            Pattern keyTwitter = Pattern.compile(KEY_TWITTER);
+            Matcher matchTwitter = keyTwitter.matcher(text);
+
+            Pattern keyFriend = Pattern.compile(KEY_FRIEND);
+            Matcher matchFriend = keyFriend.matcher(text);
+
+            if (text.toLowerCase().startsWith(KEY_TWITTER)) {
+              String screenName = text.substring(KEY_TWITTER.length(), text.length()).trim();
+
+              if (screenName.length() > 3) {
+                LOG.info("Start find user on database..." + screenName);
+                UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
+                LOG.info("end find user on database..." + userTwitter);
+
+                if (userTwitter != null) {
+                  LOG.info("Display from database...");
+                  profileUserMessage(fChannelAccessToken, aUserId, userTwitter);
+                } else {
+                  try {
+                    User twitterUser = fTwitterHelper.checkUsers(screenName);
+                    LOG.info("Display from twitter server...");
+                    profileUserMessage(fChannelAccessToken, aUserId, twitterUser);
+                    LOG.info("Start adding user...");
+                    fDao.setUserTwitter(twitterUser);
+                    LOG.info("End adding user...");
+                  } catch (Exception aE) {
+                    LOG.error("Getting twitter info error message : " + aE.getMessage());
+                  }
+
+                  confirmTwitterMessage(fChannelAccessToken, aUserId, "Bener ini twitter nya ?", TWITTER_TRUE + screenName, TWITTER_FALSE);
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
+              }
+            } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
+              String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
+              if (sentiment.length() > 3) {
+                List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
+                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
+                if (message2.size() > 0 && evidence.size() > 0) {
+                  LOG.info("Start find sentiment from database...");
+                  pushSentiment(aReplayToken, aUserId, message2, evidence);
+                  LOG.info("End find sentiment from database...");
+                } else {
+                  sentimentService(aReplayToken, aUserId, sentiment);
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
+              }
+
+            }
+            // else if (matchTwitter.find()) {
+            //   String twitterSuggest = predictWord(text, KEY_TWITTER);
+            //   if (twitterSuggest.length() > 3) {
+            //     LOG.info("Start find user on database..." + twitterSuggest);
+            //     UserTwitter userTwitter = fDao.getUserTwitterById(twitterSuggest);
+            //     LOG.info("end find user on database..." + userTwitter);
+            //
+            //     if (userTwitter != null) {
+            //       LOG.info("Display from database...");
+            //       profileUserMessage(fChannelAccessToken, userId, userTwitter);
+            //     } else {
+            //       try {
+            //         User twitterUser = fTwitterHelper.checkUsers(twitterSuggest);
+            //         LOG.info("Display from twitter server...");
+            //         profileUserMessage(fChannelAccessToken, userId, twitterUser);
+            //         LOG.info("Start adding user...");
+            //         fDao.setUserTwitter(twitterUser);
+            //         LOG.info("End adding user...");
+            //       } catch (Exception aE) {
+            //         LOG.error("Getting twitter info error message : " + aE.getMessage());
+            //       }
+            //     }
+            //     confirmTwitterMessage(fChannelAccessToken, userId, "Bener ini twitter nya ? ", TWITTER_TRUE + twitterSuggest, TWITTER_FALSE);
+            //   } else {
+            //     replayMessage(fChannelAccessToken, replayToken, "Yakin id nya udah bener ? coba cek lagi id nya...");
+            //   }
+            // }
+            // else if (matchFriend.find()) {
+            //   // String friendSuggest = predictWord(text, KEY_FRIEND);
+            //   // List<UserLine> mUserLine = fDao.getAllUserLine();
+            //   replayMessage(fChannelAccessToken, replayToken, "Teman aku ? aku gak punya teman banyak nih, " +
+            //       "kenalin donk sama aku supaya teman ku banyak");
+            //
+            // }
+            else {
+              isValid = false;
+              replayMessage(fChannelAccessToken, aReplayToken, aMessage.text() + " ?");
+            }
+
+            if (isValid) {
+              LOG.info("isValid...");
+              UserChat userChat = fDao.getUserChatById(aUserId);
+              if (userChat != null) {
+                LOG.info("Start updating chat history...");
+                fDao.updateUserChat(new UserChat(aUserId, text, aTimestamp));
+              } else {
+                LOG.info("Start saving chat history...");
+                fDao.setUserChat(new UserChat(aUserId, text, aTimestamp));
+              }
+            } else {
+              LOG.info("isNotValid...");
+              UserChat userChat = fDao.getUserChatById(aUserId);
+              if (userChat != null) {
+                LOG.info("Start updating false count...");
+                int count = userChat.getFalseCount();
+                if (count == 2) {
+                  stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_USELESS));
+                  pushMessage(fChannelAccessToken, aUserId, "Aku gak ngerti nih kamu ngomong apa, " +
+                      "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
+                  fDao.updateUserChat(new UserChat(aUserId, text, aTimestamp, 0));
+                } else {
+                  count++;
+                  fDao.updateUserChat(new UserChat(aUserId, text, aTimestamp, count));
+                }
+                LOG.info("count..." + count);
+              }
+            }
+          }
+          break;
+        case POSTBACK:
+          String pd = aPostback.data();
+
+          if (pd.startsWith(TWITTER_YES)) {
+            stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
+            replayMessage(fChannelAccessToken, aReplayToken, "Coba kamu tulis sentiment indonesia");
+          } else if (pd.startsWith(TWITTER_NO)) {
+            stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_SHOCK));
+            replayMessage(fChannelAccessToken, aReplayToken, "Hari gini gak punya twitter ?");
+          } else if (pd.startsWith(TWITTER_TRUE)) {
+            String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
+            UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
+            if (userTwitter != null) {
+              List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
+              List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
+              if (message2.size() > 0 && evidence.size() > 0) {
+                LOG.info("Start find sentiment from database...");
+                pushSentiment(aReplayToken, aUserId, message2, evidence);
+                LOG.info("End find sentiment from database...");
+              } else {
+                sentimentService(aReplayToken, aUserId, userTwitter);
+              }
+            } else {
+              replayMessage(fChannelAccessToken, aReplayToken, "Kamu gak pernah nge tweets nih, aku gak bisa bantuin...");
+              stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_SAD_PRAY));
+            }
+
+          }
+          if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
+            String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
+
+            List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
+            List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
+            if (message2.size() > 0 && evidence.size() > 0) {
+              LOG.info("Start find sentiment from database...");
+              pushSentiment(aReplayToken, aUserId, message2, evidence);
+              LOG.info("End find sentiment from database...");
+            } else {
+              sentimentService(aReplayToken, aUserId, sentiment);
+            }
+          } else if (pd.startsWith(TWITTER_FALSE)) {
+            replayMessage(fChannelAccessToken, aReplayToken, "Salah ? trus ini siapa ?");
+          }
+          break;
+      }
+    } catch (IOException aE) { LOG.error("Message {}", aE.getMessage()); }
   }
 
   private void sentimentService(String aReplayToken, String aUserId, UserTwitter aUserTwitter) throws IOException {
