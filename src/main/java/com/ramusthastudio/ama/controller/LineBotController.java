@@ -400,7 +400,6 @@ public class LineBotController {
             try {
               String sentiment = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
               Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(sentiment, TWEETS_STEP), Content.class);
-
               ProfileOptions options = new ProfileOptions.Builder()
                   .contentItems(content.getContentItems())
                   .consumptionPreferences(true)
@@ -409,18 +408,21 @@ public class LineBotController {
               Profile personality = fPersonalityInsights.getProfile(options).execute();
               List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
               StringBuilder consumptionBuilder = new StringBuilder();
+              StringBuilder likelyBuilder = new StringBuilder();
+              StringBuilder unlikelyBuilder = new StringBuilder();
               int removePrefix = "Likely to ".length();
               for (ConsumptionPreferences cp : consumtionPreferences) {
                 for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
                   double score = consumptionPreference.getScore();
                   String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
                   if (score == 1) {
-                    consumptionBuilder.append("Likely to...\n\n").append(name);
+                    likelyBuilder.append("Likely to...\n\n").append(name);
                   } else {
-                    consumptionBuilder.append("Unlikely to...\n\n").append(name);
+                    unlikelyBuilder.append("Unlikely to...\n\n").append(name);
                   }
                 }
               }
+              consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
               pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
