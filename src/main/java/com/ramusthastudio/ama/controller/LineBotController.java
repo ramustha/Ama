@@ -413,8 +413,14 @@ public class LineBotController {
               List<UserConsumption> userConsumption = fDao.getUserConsumptionByTwitterId(personalityCandidate);
               if (userConsumption.size() > 0) {
                 LOG.info("Start find userConsumption from database...");
-                consumptionBuilder.append(generateRandomLikeConsumption(personalityCandidate, PI_SHOPPING))
-                    .append("\n\n").append(generateRandomUnLikeConsumption(personalityCandidate, PI_SHOPPING));
+                likelyBuilder.append(generateRandomLikeConsumption(personalityCandidate, PI_SHOPPING));
+                unlikelyBuilder.append(generateRandomUnLikeConsumption(personalityCandidate, PI_SHOPPING));
+
+                consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
+
+                for (int random : generateRandomConsumption()) {
+                  LOG.info("random ::" + random);
+                }
               } else {
                 LOG.info("Start find userConsumption from service...");
                 Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(personalityCandidate, TWEETS_STEP), Content.class);
@@ -568,6 +574,16 @@ public class LineBotController {
     }
   }
 
+  private static ArrayList<Integer> generateRandomConsumption() {
+    ArrayList<Integer> numbers = new ArrayList<>();
+    while (numbers.size() < 8) {
+      int random = generateRandom(1, 8);
+      if (!numbers.contains(random)) {
+        numbers.add(random);
+      }
+    }
+    return numbers;
+  }
   private String generateRandomLikeConsumption(String aCandidate, String aCategory) {
     List<UserConsumption> consumptions = fDao.getUserConsumptionByTwitterIdAndCat(aCandidate, aCategory);
     int randomLikeShopping = generateRandom(0, consumptions.size() - 1);
