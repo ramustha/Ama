@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/ama_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/ama_main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/ama_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/ama_test.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -120,8 +114,30 @@
           <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="289">
-                  <caret line="397" column="92" lean-forward="false" selection-start-line="397" selection-start-column="92" selection-end-line="397" selection-end-column="92" />
+                <state relative-caret-position="335">
+                  <caret line="410" column="31" lean-forward="true" selection-start-line="410" selection-start-column="31" selection-end-line="410" selection-end-column="31" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ConsumptionPreferences.java" pinned="false" current-in-tab="true">
+            <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/ConsumptionPreferences.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-816">
+                  <caret line="23" column="58" lean-forward="true" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Profile.java" pinned="false" current-in-tab="false">
+            <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/Profile.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-51">
+                  <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
                   <folding />
                 </state>
               </provider>
@@ -166,11 +182,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Twitter4JHelper.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Twitter4JHelper.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="381">
-                  <caret line="236" column="12" lean-forward="true" selection-start-line="236" selection-start-column="12" selection-end-line="236" selection-end-column="12" />
+                <state relative-caret-position="234">
+                  <caret line="216" column="16" lean-forward="false" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -682,8 +698,8 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
       </list>
     </option>
   </component>
@@ -1355,12 +1371,12 @@
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
       <workItem from="1489565847515" duration="71540000" />
-      <workItem from="1489974093115" duration="66425000" />
+      <workItem from="1489974093115" duration="67582000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="241521000" />
+    <option name="totallyTimeSpent" value="242678000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1391,7 +1407,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.4974293" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30343008" sideWeight="0.49614397" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30343008" sideWeight="0.49614397" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46701846" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19730078" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1461,22 +1477,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Generator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Tweet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="39" column="33" lean-forward="false" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Cde.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1887,18 +1887,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="397" column="92" lean-forward="false" selection-start-line="397" selection-start-column="92" selection-end-line="397" selection-end-column="92" />
+        <state relative-caret-position="234">
+          <caret line="216" column="16" lean-forward="false" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/Profile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="236" column="12" lean-forward="true" selection-start-line="236" selection-start-column="12" selection-end-line="236" selection-end-column="12" />
+        <state relative-caret-position="-51">
+          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="410" column="31" lean-forward="true" selection-start-line="410" selection-start-column="31" selection-end-line="410" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/ConsumptionPreferences.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-816">
+          <caret line="23" column="58" lean-forward="true" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
           <folding />
         </state>
       </provider>

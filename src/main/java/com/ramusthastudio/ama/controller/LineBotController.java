@@ -2,11 +2,15 @@ package com.ramusthastudio.ama.controller;
 
 import com.google.gson.Gson;
 import com.ibm.watson.developer_cloud.personality_insights.v3.PersonalityInsights;
+import com.ibm.watson.developer_cloud.personality_insights.v3.model.ConsumptionPreferences;
+import com.ibm.watson.developer_cloud.personality_insights.v3.model.Content;
+import com.ibm.watson.developer_cloud.personality_insights.v3.model.Profile;
+import com.ibm.watson.developer_cloud.personality_insights.v3.model.ProfileOptions;
+import com.ibm.watson.developer_cloud.util.GsonSingleton;
 import com.linecorp.bot.client.LineSignatureValidator;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.ramusthastudio.ama.database.Dao;
 import com.ramusthastudio.ama.model.ApiTweets;
-import com.ramusthastudio.ama.model.Content;
 import com.ramusthastudio.ama.model.Events;
 import com.ramusthastudio.ama.model.Evidence;
 import com.ramusthastudio.ama.model.Message;
@@ -395,8 +399,19 @@ public class LineBotController {
           } else if (pd.startsWith(KEY_PERSONALITY)) {
             try {
               String sentiment = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
-              String tweets = fTwitterHelper.getTweets(sentiment, TWEETS_STEP);
-              pushMessage(fChannelAccessToken, aUserId, tweets);
+              Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(sentiment, TWEETS_STEP), Content.class);
+
+              ProfileOptions options = new ProfileOptions.Builder()
+                  .contentItems(content.getContentItems())
+                  .consumptionPreferences(true)
+                  .rawScores(true)
+                  .build();
+              Profile personality = fPersonalityInsights.getProfile(options).execute();
+              List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
+              for (ConsumptionPreferences cp : consumtionPreferences) {
+                String category = cp.getCategoryId();
+                pushMessage(fChannelAccessToken, aUserId, category);
+              }
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
