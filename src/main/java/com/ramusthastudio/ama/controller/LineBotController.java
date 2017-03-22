@@ -353,6 +353,8 @@ public class LineBotController {
   private void pushSentiment(String aReplayToken, String aUserId, List<Message2> aMessage2, List<Evidence> aEvidence) throws IOException {
     StringBuilder builderPositive = new StringBuilder("Positif...\n\n");
     StringBuilder builderNegative = new StringBuilder("Negatif...\n\n");
+    int positivelength = builderPositive.length();
+    int negativelength = builderNegative.length();
     for (Evidence evidence : aEvidence) {
       if (evidence.getPolarity().equalsIgnoreCase("POSITIVE")) {
         builderPositive.append(evidence.getSentimentTerm()).append(", ");
@@ -363,8 +365,14 @@ public class LineBotController {
 
     StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n\n");
     if (aEvidence.size() > 0) {
-      b.append(builderPositive.toString()).
-          append(builderNegative.toString());
+
+      if (positivelength != builderPositive.length()) {
+        b.append(builderPositive.toString()).append("\n\n");
+      }
+      if (negativelength != builderNegative.length()) {
+        b.append(builderNegative.toString());
+      }
+
       replayMessage(fChannelAccessToken, aReplayToken, b.toString());
     } else {
       replayMessage(fChannelAccessToken, aReplayToken, "hmm.. belum ada sentiment nih, gak begitu populer kayaknya");
@@ -388,8 +396,8 @@ public class LineBotController {
             if (evidence != null) {
 
               for (int i = 0; i < collectEvidence.size(); i++) {
-                if (collectEvidence.get(i).getSentimentTerm()
-                    .equalsIgnoreCase(evidence.getSentimentTerm())) {
+                if (collectEvidence.get(i).getSentimentTerm().trim()
+                    .equalsIgnoreCase(evidence.getSentimentTerm().trim())) {
                   evidence.setSize(collectEvidence.get(i).getSize() + 1);
                   collectEvidence.remove(i);
                 }
