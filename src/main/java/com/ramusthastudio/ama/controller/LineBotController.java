@@ -132,11 +132,11 @@ public class LineBotController {
           sourceUserProccess(eventType, replayToken, timestamp, message, postback, userId);
           break;
         case SOURCE_GROUP:
-          LOG.info("sourceType... {} {} {} {} {}", eventType, replayToken, timestamp, message, source);
-          sourceGroupProccess(eventType, replayToken, timestamp, message, source);
+          LOG.info("sourceType... {} {} {} {} {}", eventType, replayToken, postback, message, source);
+          sourceGroupProccess(eventType, replayToken, postback, message, source);
           break;
         case SOURCE_ROOM:
-          LOG.info("sourceType... {} {} {} {} {}", eventType, replayToken, timestamp, message, postback);
+
           break;
       }
     }
@@ -144,7 +144,7 @@ public class LineBotController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  private void sourceGroupProccess(String aEventType, String aReplayToken, long aTimestamp, Message aMessage, Source aSource) {
+  private void sourceGroupProccess(String aEventType, String aReplayToken, Postback aPostback, Message aMessage, Source aSource) {
     try {
       switch (aEventType) {
         case LEAVE:
@@ -201,6 +201,23 @@ public class LineBotController {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
               }
 
+            }
+          }
+          break;
+        case POSTBACK:
+          String pd = aPostback.data();
+
+          if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
+            String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
+
+            List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
+            List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
+            if (message2.size() > 0 && evidence.size() > 0) {
+              LOG.info("Start find sentiment from database...");
+              pushSentiment(aReplayToken, aSource.groupId(), message2, evidence);
+              LOG.info("End find sentiment from database...");
+            } else {
+              sentimentService(aReplayToken, aSource.groupId(), sentiment);
             }
           }
           break;
