@@ -42,8 +42,10 @@ import retrofit2.Response;
 import twitter4j.User;
 
 import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
+import static com.ramusthastudio.ama.util.BotHelper.JOIN;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
+import static com.ramusthastudio.ama.util.BotHelper.LEAVE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
@@ -59,6 +61,7 @@ import static com.ramusthastudio.ama.util.BotHelper.UNFOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.confirmTwitterMessage;
 import static com.ramusthastudio.ama.util.BotHelper.getUserProfile;
 import static com.ramusthastudio.ama.util.BotHelper.greetingMessage;
+import static com.ramusthastudio.ama.util.BotHelper.greetingMessageGroup;
 import static com.ramusthastudio.ama.util.BotHelper.instructionSentimentMessage;
 import static com.ramusthastudio.ama.util.BotHelper.instructionTweetsMessage;
 import static com.ramusthastudio.ama.util.BotHelper.profileUserMessage;
@@ -129,15 +132,41 @@ public class LineBotController {
           sourceUserProccess(eventType, replayToken, timestamp, message, postback, userId);
           break;
         case SOURCE_GROUP:
-          LOG.info("sourceType... {} {} {} {} {} {}", eventType, replayToken, timestamp, message, postback, userId);
+          LOG.info("sourceType... {} {} {} {} {}", eventType, replayToken, timestamp, message, source);
+          sourceGroupProccess(eventType, replayToken, timestamp, message, source);
           break;
         case SOURCE_ROOM:
-          LOG.info("sourceType... {} {} {} {} {} {}", eventType, replayToken, timestamp, message, postback, userId);
+          LOG.info("sourceType... {} {} {} {} {}", eventType, replayToken, timestamp, message, postback);
           break;
       }
     }
 
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  private void sourceGroupProccess(String aEventType, String aReplayToken, long aTimestamp, Message aMessage, Source aSource) {
+    try {
+      switch (aEventType) {
+        case LEAVE:
+          break;
+        case JOIN:
+          LOG.info("Greeting Message join group");
+          greetingMessageGroup(fChannelAccessToken, aSource.groupId());
+          instructionSentimentMessage(fChannelAccessToken, aSource.groupId());
+          confirmTwitterMessage(fChannelAccessToken, aSource.groupId());
+          break;
+        case MESSAGE:
+          if (aMessage.type().equals(MESSAGE_TEXT)) {
+            String text = aMessage.text();
+
+            replayMessage(fChannelAccessToken, aReplayToken, text + " ?");
+          } else {
+            pushMessage(fChannelAccessToken, aSource.groupId(), "Aku gak ngerti nih, " +
+                "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
+          }
+          break;
+      }
+    } catch (IOException aE) { LOG.error("Message {}", aE.getMessage()); }
   }
 
   private void sourceUserProccess(String aEventType, String aReplayToken, long aTimestamp, Message aMessage, Postback aPostback, String aUserId) {
@@ -286,6 +315,9 @@ public class LineBotController {
                 LOG.info("count..." + count);
               }
             }
+          } else {
+            pushMessage(fChannelAccessToken, aUserId, "Aku gak ngerti nih, " +
+                "aku ini cuma bot yang bisa membaca sentiment lewat twitter, jadi jangan tanya yang aneh aneh dulu yah");
           }
           break;
         case POSTBACK:

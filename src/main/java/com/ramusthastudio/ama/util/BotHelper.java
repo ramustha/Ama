@@ -197,10 +197,19 @@ public final class BotHelper {
     return carouselColumn;
   }
 
+  public static void greetingMessageGroup(String aChannelAccessToken, String aUserId) throws IOException {
+    String greeting = "Hi manteman\n";
+    greeting += "Makasih aku udah di invite disini!\n";
+    greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter";
+    stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
+    pushMessage(aChannelAccessToken, aUserId, greeting);
+  }
+
   public static void greetingMessage(String aChannelAccessToken, String aUserId) throws IOException {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
-    greeting += "Terima kasih telah menambahkan saya sebagai teman!\n";
+    greeting += "Makasih udah nambahin aku sebagai teman!\n";
     greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
     greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
