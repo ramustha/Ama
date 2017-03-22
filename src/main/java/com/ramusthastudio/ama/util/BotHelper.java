@@ -137,7 +137,7 @@ public final class BotHelper {
     String desc = aModel.getDescription();
     if (aModel.getDescription().isEmpty()) {
       desc = "Gak nyantumin deskripsi";
-    }else {
+    } else {
       desc = desc.length() > 59 ? desc.substring(0, 54) + "..." : desc;
     }
 
@@ -159,12 +159,13 @@ public final class BotHelper {
     String desc = aUser.getDescription();
     if (aUser.getDescription().isEmpty()) {
       desc = "Gak nyantumin deskripsi";
-    }else {
+    } else {
       desc = desc.length() > 59 ? desc.substring(0, 54) + "..." : desc;
     }
 
+    LOG.info("profileUserMessage {} {} {} {} ", aUser.getOriginalProfileImageURLHttps(), title, desc, aUser.getScreenName());
     ButtonsTemplate template = new ButtonsTemplate(
-        aUser.getOriginalProfileImageURL(),
+        aUser.getOriginalProfileImageURLHttps(),
         title,
         desc,
         Collections.singletonList(
