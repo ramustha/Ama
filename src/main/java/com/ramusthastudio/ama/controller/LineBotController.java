@@ -129,10 +129,10 @@ public class LineBotController {
           sourceUserProccess(eventType, replayToken, timestamp, message, postback, userId);
           break;
         case SOURCE_GROUP:
-          LOG.info("sourceType..."+sourceType);
+          LOG.info("sourceType... {} {} {} {} {} {}", eventType, replayToken, timestamp, message, postback, userId);
           break;
         case SOURCE_ROOM:
-          LOG.info("sourceType..."+sourceType);
+          LOG.info("sourceType... {} {} {} {} {} {}", eventType, replayToken, timestamp, message, postback, userId);
           break;
       }
     }
