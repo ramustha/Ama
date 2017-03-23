@@ -251,7 +251,7 @@ public final class BotHelper {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Makasih udah nambahin aku sebagai teman!\n";
-    greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
+    greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter, ";
     greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
     greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
     greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
@@ -269,12 +269,12 @@ public final class BotHelper {
   }
 
   public static void instructionSentimentMessage(String aChannelAccessToken, String aUserId) throws IOException {
-    String greeting = "Contoh jika kamu pengen tau nih pendapat orang lain tentang indonesia,";
-    greeting += "Kamu tinggal bilang sentiment 'indonesia', ";
-    greeting += "kalau pengen tau tentang personality tinggal bilang personality 'jokowi' atau ";
-    greeting += "summary dalam personality kamu cukup bilang summary 'jokowi' ";
-    greeting += "nanti aku kumpulin infonya terus aku kasih tau ke kamu apa pendapat orang lain tentang indonesia\n\n";
-    greeting += "Kalau kamu pengen tau personality dari tulisan seseorang kamu tinggal kirim file tulisanya ke sini.\n\n";
+    String greeting = "Contoh kalau kamu pengen tau nih pendapat orang lain tentang indonesia, ";
+    greeting += "Kamu tinggal tulis sentiment 'indonesia', ";
+    greeting += "kalau pengen tau tentang karakter seseorang tulis personality 'jokowi' atau ";
+    greeting += "summary 'jokowi' buat tau pribadi 'jokowi' lebih dalam seperti apa yang 'jokowi' suka dan gak suka, ";
+    greeting += "nanti aku kumpulin infonya terus aku kasih tau ke kamu.\n\n";
+    greeting += "Kalau kamu pengen tau tentang karakter seseorang dari tulisan seseorang kamu tinggal kirim file tulisanya ke sini.\n\n";
     greeting += "Saat ini aku cuma bisa baca tulisan pake bahasa inggris aja, untuk bahasa lain aku belum bisa.";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }

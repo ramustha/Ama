@@ -398,7 +398,7 @@ public class LineBotController {
 
           if (pd.startsWith(TWITTER_YES)) {
             stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_CHEERS));
-            replayMessage(fChannelAccessToken, aReplayToken, "Coba kamu tulis sentiment indonesia");
+            replayMessage(fChannelAccessToken, aReplayToken, "Coba kamu tulis twitter indonesia");
           } else if (pd.startsWith(TWITTER_NO)) {
             stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_SHOCK));
             replayMessage(fChannelAccessToken, aReplayToken, "Hari gini gak punya twitter ?");
@@ -674,6 +674,10 @@ public class LineBotController {
       }
 
       replayMessage(fChannelAccessToken, aReplayToken, b.toString());
+      if (generateRandom(0, 5) > 2) {
+        pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
+            "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
+      }
     } else {
       replayMessage(fChannelAccessToken, aReplayToken, "hmm.. belum ada sentiment nih, gak begitu populer kayaknya");
     }
