@@ -202,15 +202,7 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
               String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
               if (sentiment.length() > 3) {
-                List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
-                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
-                if (message2.size() > 0 && evidence.size() > 0) {
-                  LOG.info("Start find sentiment from database...");
-                  pushSentiment(aReplayToken, aSource.groupId(), message2, evidence);
-                  LOG.info("End find sentiment from database...");
-                } else {
-                  sentimentService(aReplayToken, aSource.groupId(), sentiment);
-                }
+                processTwitter(aReplayToken, aSource, sentiment);
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
               }
@@ -223,19 +215,9 @@ public class LineBotController {
           break;
         case POSTBACK:
           String pd = aPostback.data();
-
           if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
-
-            List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
-            List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
-            if (message2.size() > 0 && evidence.size() > 0) {
-              LOG.info("Start find sentiment from database...");
-              pushSentiment(aReplayToken, aSource.groupId(), message2, evidence);
-              LOG.info("End find sentiment from database...");
-            } else {
-              sentimentService(aReplayToken, aSource.groupId(), sentiment);
-            }
+            processTwitter(aReplayToken, aSource, sentiment);
           }
           break;
       }
@@ -307,15 +289,7 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(TWITTER_SENTIMENT)) {
               String sentiment = text.substring(TWITTER_SENTIMENT.length(), text.length()).trim();
               if (sentiment.length() > 3) {
-                List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
-                List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
-                if (message2.size() > 0 && evidence.size() > 0) {
-                  LOG.info("Start find sentiment from database...");
-                  pushSentiment(aReplayToken, aUserId, message2, evidence);
-                  LOG.info("End find sentiment from database...");
-                } else {
-                  sentimentService(aReplayToken, aUserId, sentiment);
-                }
+                processTwitter(aReplayToken, aUserId, sentiment);
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
               }
@@ -325,8 +299,12 @@ public class LineBotController {
               replayMessage(fChannelAccessToken, aReplayToken, personality);
 
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
-              String summary = text.substring(KEY_SUMMARY.length(), text.length()).trim();
-              replayMessage(fChannelAccessToken, aReplayToken, summary);
+              try {
+                String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
+                processSummary(aUserId, summaryCandidate);
+              } catch (Exception aE) {
+                LOG.error("Exception when reading tweets..." + aE.getMessage());
+              }
 
             } else {
               isValid = false;
@@ -379,15 +357,7 @@ public class LineBotController {
             String screenName = pd.substring(TWITTER_TRUE.length(), pd.length());
             UserTwitter userTwitter = fDao.getUserTwitterById(screenName);
             if (userTwitter != null) {
-              List<Message2> message2 = fDao.getUserMessageByTwitterId(userTwitter.getId());
-              List<Evidence> evidence = fDao.getUserEvidenceByMessageId(userTwitter.getId());
-              if (message2.size() > 0 && evidence.size() > 0) {
-                LOG.info("Start find sentiment from database...");
-                pushSentiment(aReplayToken, aUserId, message2, evidence);
-                LOG.info("End find sentiment from database...");
-              } else {
-                sentimentService(aReplayToken, aUserId, userTwitter);
-              }
+              processTwitter(aReplayToken, aUserId, userTwitter.getId());
             } else {
               replayMessage(fChannelAccessToken, aReplayToken, "Hmmm... kayak nya jarang nge tweets nih, aku gak bisa bantuin...\n" +
                   " aku cuma bisa bantuin kalau tweets nya bahasa Inggris, Jerman, Perancis, dan Spanyol");
@@ -398,16 +368,7 @@ public class LineBotController {
             replayMessage(fChannelAccessToken, aReplayToken, "Salah ? trus ini siapa ?");
           } else if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
-
-            List<Message2> message2 = fDao.getUserMessageByTwitterId(sentiment);
-            List<Evidence> evidence = fDao.getUserEvidenceByMessageId(sentiment);
-            if (message2.size() > 0 && evidence.size() > 0) {
-              LOG.info("Start find sentiment from database...");
-              pushSentiment(aReplayToken, aUserId, message2, evidence);
-              LOG.info("End find sentiment from database...");
-            } else {
-              sentimentService(aReplayToken, aUserId, sentiment);
-            }
+            processTwitter(aReplayToken, aUserId, sentiment);
           } else if (pd.startsWith(KEY_PERSONALITY)) {
             String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
             replayMessage(fChannelAccessToken, aReplayToken, personalityCandidate);
@@ -415,78 +376,7 @@ public class LineBotController {
           } else if (pd.startsWith(KEY_SUMMARY)) {
             try {
               String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
-
-              StringBuilder consumptionBuilder = new StringBuilder();
-              StringBuilder likelyBuilder = new StringBuilder("Likely to...\n");
-              StringBuilder unlikelyBuilder = new StringBuilder("Unlikely to...\n");
-              int maxLike = 0;
-              int maxUnLike = 0;
-
-              List<UserConsumption> userConsumptionsLike = fDao.getUserConsumptionByTwitterIdAndScore(summaryCandidate, 1);
-              List<UserConsumption> userConsumptionsUnLike = fDao.getUserConsumptionByTwitterIdAndScore(summaryCandidate, 0);
-              if (userConsumptionsLike.size() > 0 && userConsumptionsUnLike.size() > 0) {
-                LOG.info("Start find userConsumptionsLike from database...");
-
-                List<UserConsumption> userConsumptionsMiddle = fDao.getUserConsumptionByTwitterIdAndScore(summaryCandidate, 0.5);
-                StringBuilder middleBuilder = null;
-                if (userConsumptionsMiddle.size() > 0) {
-                  middleBuilder = new StringBuilder("Like or unlike sometimes...\n");
-                  ArrayList<String> mm = generateRandomLikeConsumption(userConsumptionsLike);
-                  for (String s : mm) { middleBuilder.append("\n-").append(s); }
-                }
-
-                ArrayList<String> likeConsumption = generateRandomLikeConsumption(userConsumptionsLike);
-                ArrayList<String> unLikeConsumption = generateRandomLikeConsumption(userConsumptionsUnLike);
-                for (String s : likeConsumption) { likelyBuilder.append("\n-").append(s); }
-                for (String s : unLikeConsumption) { unlikelyBuilder.append("\n-").append(s); }
-
-                consumptionBuilder.append(likelyBuilder).append("\n\n");
-                if (middleBuilder != null) {
-                  consumptionBuilder.append(middleBuilder).append("\n\n");
-                }
-                consumptionBuilder.append(unlikelyBuilder);
-
-              } else {
-                LOG.info("Start find userConsumptionsLike from service...");
-                Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(summaryCandidate, TWEETS_STEP), Content.class);
-                ProfileOptions options = new ProfileOptions.Builder()
-                    .contentItems(content.getContentItems())
-                    .consumptionPreferences(true)
-                    .rawScores(true)
-                    .build();
-                Profile personality = fPersonalityInsights.getProfile(options).execute();
-                List<Trait> personalities = personality.getPersonality();
-                List<Trait> needs = personality.getNeeds();
-                List<Trait> values = personality.getValues();
-                List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
-                int removePrefix = "Likely to ".length();
-                for (ConsumptionPreferences cp : consumtionPreferences) {
-                  UserConsumption uc = new UserConsumption();
-                  uc.setTwitterId(summaryCandidate);
-                  uc.setConsumptionCategory(cp.getCategoryId());
-                  for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
-                    double score = consumptionPreference.getScore();
-                    String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
-                    uc.setConsumptionName(name).setConsumptionScore(score);
-                    LOG.info("Start saving userConsumptionsLike to database...");
-                    fDao.setUserConsumption(uc);
-
-                    if (score == 1 && maxLike != 5) {
-                      likelyBuilder.append("\n").append(name);
-                      maxLike++;
-                    } else if (maxUnLike != 5) {
-                      unlikelyBuilder.append("\n").append(name);
-                      maxUnLike++;
-                    }
-                  }
-                }
-                consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
-              }
-              pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
-              if (generateRandom(0, 1) == 1) {
-                pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
-                    "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
-              }
+              processSummary(aUserId, summaryCandidate);
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
@@ -495,6 +385,104 @@ public class LineBotController {
           break;
       }
     } catch (IOException aE) { LOG.error("Message {}", aE.getMessage()); }
+  }
+
+  private void processTwitter(String aReplayToken, Source aSource, String aSentiment) throws IOException {
+    List<Message2> message2 = fDao.getUserMessageByTwitterId(aSentiment);
+    List<Evidence> evidence = fDao.getUserEvidenceByMessageId(aSentiment);
+    if (message2.size() > 0 && evidence.size() > 0) {
+      LOG.info("Start find sentiment from database...");
+      pushSentiment(aReplayToken, aSource.groupId(), message2, evidence);
+      LOG.info("End find sentiment from database...");
+    } else {
+      sentimentService(aReplayToken, aSource.groupId(), aSentiment);
+    }
+  }
+
+  private void processTwitter(String aReplayToken, String aUserId, String aSentiment) throws IOException {
+    List<Message2> message2 = fDao.getUserMessageByTwitterId(aSentiment);
+    List<Evidence> evidence = fDao.getUserEvidenceByMessageId(aSentiment);
+    if (message2.size() > 0 && evidence.size() > 0) {
+      LOG.info("Start find sentiment from database...");
+      pushSentiment(aReplayToken, aUserId, message2, evidence);
+      LOG.info("End find sentiment from database...");
+    } else {
+      sentimentService(aReplayToken, aUserId, aSentiment);
+    }
+  }
+
+  private void processSummary(String aUserId, String aSummaryCandidate) throws Exception {
+    StringBuilder consumptionBuilder = new StringBuilder();
+    StringBuilder likelyBuilder = new StringBuilder("Likely to...\n");
+    StringBuilder unlikelyBuilder = new StringBuilder("Unlikely to...\n");
+    int maxLike = 0;
+    int maxUnLike = 0;
+
+    List<UserConsumption> userConsumptionsLike = fDao.getUserConsumptionByTwitterIdAndScore(aSummaryCandidate, 1);
+    List<UserConsumption> userConsumptionsUnLike = fDao.getUserConsumptionByTwitterIdAndScore(aSummaryCandidate, 0);
+    if (userConsumptionsLike.size() > 0 && userConsumptionsUnLike.size() > 0) {
+      LOG.info("Start find userConsumptionsLike from database...");
+
+      List<UserConsumption> userConsumptionsMiddle = fDao.getUserConsumptionByTwitterIdAndScore(aSummaryCandidate, 0.5);
+      StringBuilder middleBuilder = null;
+      if (userConsumptionsMiddle.size() > 0) {
+        middleBuilder = new StringBuilder("Like or unlike sometimes...\n");
+        ArrayList<String> mm = generateRandomLikeConsumption(userConsumptionsLike);
+        for (String s : mm) { middleBuilder.append("\n-").append(s); }
+      }
+
+      ArrayList<String> likeConsumption = generateRandomLikeConsumption(userConsumptionsLike);
+      ArrayList<String> unLikeConsumption = generateRandomLikeConsumption(userConsumptionsUnLike);
+      for (String s : likeConsumption) { likelyBuilder.append("\n-").append(s); }
+      for (String s : unLikeConsumption) { unlikelyBuilder.append("\n-").append(s); }
+
+      consumptionBuilder.append(likelyBuilder).append("\n\n");
+      if (middleBuilder != null) {
+        consumptionBuilder.append(middleBuilder).append("\n\n");
+      }
+      consumptionBuilder.append(unlikelyBuilder);
+
+    } else {
+      LOG.info("Start find userConsumptionsLike from service...");
+      Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aSummaryCandidate, TWEETS_STEP), Content.class);
+      ProfileOptions options = new ProfileOptions.Builder()
+          .contentItems(content.getContentItems())
+          .consumptionPreferences(true)
+          .rawScores(true)
+          .build();
+      Profile personality = fPersonalityInsights.getProfile(options).execute();
+      List<Trait> personalities = personality.getPersonality();
+      List<Trait> needs = personality.getNeeds();
+      List<Trait> values = personality.getValues();
+      List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
+      int removePrefix = "Likely to ".length();
+      for (ConsumptionPreferences cp : consumtionPreferences) {
+        UserConsumption uc = new UserConsumption();
+        uc.setTwitterId(aSummaryCandidate);
+        uc.setConsumptionCategory(cp.getCategoryId());
+        for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
+          double score = consumptionPreference.getScore();
+          String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
+          uc.setConsumptionName(name).setConsumptionScore(score);
+          LOG.info("Start saving userConsumptionsLike to database...");
+          fDao.setUserConsumption(uc);
+
+          if (score == 1 && maxLike != 5) {
+            likelyBuilder.append("\n").append(name);
+            maxLike++;
+          } else if (maxUnLike != 5) {
+            unlikelyBuilder.append("\n").append(name);
+            maxUnLike++;
+          }
+        }
+      }
+      consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
+    }
+    pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
+    if (generateRandom(0, 1) == 1) {
+      pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
+          "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
+    }
   }
 
   private void sentimentService(String aReplayToken, String aUserId, UserTwitter aUserTwitter) throws IOException {
@@ -546,7 +534,7 @@ public class LineBotController {
     }
 
     for (String s : positive) { builderPositive.append(s).append(", "); }
-    for (String s : positive) { builderNegative.append(s).append(", "); }
+    for (String s : negative) { builderNegative.append(s).append(", "); }
 
     StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n\n");
     if (aEvidence.size() > 0) {
@@ -565,9 +553,6 @@ public class LineBotController {
   }
 
   private void polarityProcess(String aLineId, String aTwitterId, List<Tweet> resultTweets) {
-    int posittiveCount = 0;
-    int negativeCount = 0;
-    int neutralCount = 0;
     for (Tweet resultTweet : resultTweets) {
       com.ramusthastudio.ama.model.Content content = resultTweet.getCde().getContent();
       Message2 message = resultTweet.getMessage();
@@ -593,18 +578,6 @@ public class LineBotController {
             }
           }
         }
-        // if (sentiment.getPolarity().equals(POSITIVE)) {
-        //   posittiveCount++;
-        //   sentimentPositivValue.setText(String.valueOf(posittiveCount));
-        // }
-        // if (sentiment.getPolarity().equals(NEGATIVE)) {
-        //   negativeCount++;
-        //   sentimentNegativeValue.setText(String.valueOf(negativeCount));
-        // }
-        // if (sentiment.getPolarity().equals(NEUTRAL)) {
-        //   neutralCount++;
-        //   sentimentNeutralValue.setText(String.valueOf(neutralCount));
-        // }
       }
     }
   }
