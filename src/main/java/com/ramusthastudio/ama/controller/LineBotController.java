@@ -53,6 +53,7 @@ import static com.ramusthastudio.ama.util.BotHelper.JOIN;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_AMA;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_PERSONALITY;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_SUMMARY;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.LEAVE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
@@ -319,6 +320,14 @@ public class LineBotController {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
               }
 
+            } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
+              String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
+              replayMessage(fChannelAccessToken, aReplayToken, personality);
+
+            } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
+              String summary = text.substring(KEY_SUMMARY.length(), text.length()).trim();
+              replayMessage(fChannelAccessToken, aReplayToken, summary);
+
             } else {
               isValid = false;
               replayMessage(fChannelAccessToken, aReplayToken, aMessage.text() + " ?");
@@ -400,8 +409,12 @@ public class LineBotController {
               sentimentService(aReplayToken, aUserId, sentiment);
             }
           } else if (pd.startsWith(KEY_PERSONALITY)) {
+            String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
+            replayMessage(fChannelAccessToken, aReplayToken, personalityCandidate);
+
+          } else if (pd.startsWith(KEY_SUMMARY)) {
             try {
-              String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
+              String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
 
               StringBuilder consumptionBuilder = new StringBuilder();
               StringBuilder likelyBuilder = new StringBuilder("Likely to...\n");
@@ -409,12 +422,12 @@ public class LineBotController {
               int maxLike = 0;
               int maxUnLike = 0;
 
-              List<UserConsumption> userConsumptionsLike = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 1);
-              List<UserConsumption> userConsumptionsUnLike = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 0);
+              List<UserConsumption> userConsumptionsLike = fDao.getUserConsumptionByTwitterIdAndScore(summaryCandidate, 1);
+              List<UserConsumption> userConsumptionsUnLike = fDao.getUserConsumptionByTwitterIdAndScore(summaryCandidate, 0);
               if (userConsumptionsLike.size() > 0 && userConsumptionsUnLike.size() > 0) {
                 LOG.info("Start find userConsumptionsLike from database...");
 
-                List<UserConsumption> userConsumptionsMiddle = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 0.5);
+                List<UserConsumption> userConsumptionsMiddle = fDao.getUserConsumptionByTwitterIdAndScore(summaryCandidate, 0.5);
                 StringBuilder middleBuilder = null;
                 if (userConsumptionsMiddle.size() > 0) {
                   middleBuilder = new StringBuilder("Like or unlike sometimes...\n");
@@ -435,7 +448,7 @@ public class LineBotController {
 
               } else {
                 LOG.info("Start find userConsumptionsLike from service...");
-                Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(personalityCandidate, TWEETS_STEP), Content.class);
+                Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(summaryCandidate, TWEETS_STEP), Content.class);
                 ProfileOptions options = new ProfileOptions.Builder()
                     .contentItems(content.getContentItems())
                     .consumptionPreferences(true)
@@ -449,7 +462,7 @@ public class LineBotController {
                 int removePrefix = "Likely to ".length();
                 for (ConsumptionPreferences cp : consumtionPreferences) {
                   UserConsumption uc = new UserConsumption();
-                  uc.setTwitterId(personalityCandidate);
+                  uc.setTwitterId(summaryCandidate);
                   uc.setConsumptionCategory(cp.getCategoryId());
                   for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
                     double score = consumptionPreference.getScore();
@@ -470,6 +483,10 @@ public class LineBotController {
                 consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
               }
               pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
+              if (generateRandom(0, 1) == 1) {
+                pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
+                    "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
+              }
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
@@ -492,7 +509,7 @@ public class LineBotController {
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
     pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
-    instructionTweetsMessage(fChannelAccessToken, aUserId);
+    if (generateRandom(0, 1) == 1) { instructionTweetsMessage(fChannelAccessToken, aUserId); }
     LOG.info("End sentiment service...");
   }
 
@@ -508,7 +525,7 @@ public class LineBotController {
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
     pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
-    instructionTweetsMessage(fChannelAccessToken, aUserId);
+    if (generateRandom(0, 1) == 1) { instructionTweetsMessage(fChannelAccessToken, aUserId); }
     LOG.info("End sentiment service...");
   }
 

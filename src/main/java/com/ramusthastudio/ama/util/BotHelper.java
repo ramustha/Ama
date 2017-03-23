@@ -58,6 +58,7 @@ public final class BotHelper {
 
   public static final String KEY_TWITTER = "twitter";
   public static final String KEY_PERSONALITY = "personality";
+  public static final String KEY_SUMMARY = "personality";
   public static final String KEY_POSITIVE = "twitter positif";
   public static final String KEY_NEGATIVE = "twitter negatif";
   public static final String KEY_FRIEND = "teman";
@@ -157,8 +158,10 @@ public final class BotHelper {
         title,
         desc,
         Arrays.asList(
-            new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aModel.getUsername()),
-            new PostbackAction("Personality ?", KEY_PERSONALITY + " " + aModel.getUsername())
+            new PostbackAction("Sentiment", KEY_TWITTER + " " + aModel.getUsername()),
+            new PostbackAction("Personality", KEY_PERSONALITY + " " + aModel.getUsername()),
+            new PostbackAction("Summary", KEY_SUMMARY + " " + aModel.getUsername()
+            )
         ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
@@ -181,8 +184,10 @@ public final class BotHelper {
         title,
         desc,
         Arrays.asList(
-            new PostbackAction("Sentiment ?", KEY_TWITTER + " " + aUser.getScreenName()),
-            new PostbackAction("Personality ?", KEY_PERSONALITY + " " + aUser.getScreenName())
+            new PostbackAction("Sentiment", KEY_TWITTER + " " + aUser.getScreenName()),
+            new PostbackAction("Personality", KEY_PERSONALITY + " " + aUser.getScreenName()),
+            new PostbackAction("Summary", KEY_SUMMARY + " " + aUser.getScreenName()
+            )
         ));
 
     return templateMessage(aChannelAccessToken, aUserId, template);
