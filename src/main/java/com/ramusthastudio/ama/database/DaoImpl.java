@@ -49,7 +49,8 @@ public class DaoImpl implements Dao {
 
   private final static String SQL_SELECT_ALL_USER_CONSUMPTION = "SELECT * FROM user_consumption";
   private final static String SQL_USER_CONSUMPTION_GET_BY_MESSAGE_ID = SQL_SELECT_ALL_USER_CONSUMPTION + " WHERE LOWER(twitter_id) LIKE LOWER(?) ;";
-  private final static String SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE = SQL_SELECT_ALL_USER_CONSUMPTION + " WHERE LOWER(twitter_id) LIKE LOWER(?) and LOWER(consumption_category) LIKE LOWER(?);";
+  private final static String SQL_USER_CONSUMPTION_GET_BY_MESSAGE_CAT = SQL_SELECT_ALL_USER_CONSUMPTION + " WHERE LOWER(twitter_id) LIKE LOWER(?) and LOWER(consumption_category) LIKE LOWER(?);";
+  private final static String SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE = SQL_SELECT_ALL_USER_CONSUMPTION + " WHERE LOWER(twitter_id) LIKE LOWER(?) and LOWER(consumption_score) LIKE LOWER(?);";
   private final static String SQL_INSERT_USER_CONSUMPTION = "INSERT INTO user_consumption (twitter_id, consumption_category, consumption_name, consumption_score) VALUES (?, ?, ?, ?);";
 
 
@@ -333,7 +334,11 @@ public class DaoImpl implements Dao {
   }
 
   @Override public List<UserConsumption> getUserConsumptionByTwitterIdAndCat(String aTwitterId, String aCategoty) {
-    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE, new Object[] {"%" + aTwitterId + "%", "%" + aCategoty + "%"}, MULTIPLE_USER_CONSUMPTION);
+    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_MESSAGE_CAT, new Object[] {"%" + aTwitterId + "%", "%" + aCategoty + "%"}, MULTIPLE_USER_CONSUMPTION);
+  }
+
+  @Override public List<UserConsumption> getUserConsumptionByTwitterIdAndScore(String aTwitterId, double aScore) {
+    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE, new Object[] {"%" + aTwitterId + "%", "%" + aScore + "%"}, MULTIPLE_USER_CONSUMPTION);
   }
 
   @Override public UserTwitter getUserTwitterById(String aUserId) {

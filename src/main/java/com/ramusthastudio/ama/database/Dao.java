@@ -37,4 +37,5 @@ public interface Dao {
   void setUserConsumption(UserConsumption aUserConsumption);
   List<UserConsumption> getUserConsumptionByTwitterId(String aTwitterId);
   List<UserConsumption> getUserConsumptionByTwitterIdAndCat(String aTwitterId, String aCategoty);
+  List<UserConsumption> getUserConsumptionByTwitterIdAndScore(String aTwitterId, double aScore);
 }

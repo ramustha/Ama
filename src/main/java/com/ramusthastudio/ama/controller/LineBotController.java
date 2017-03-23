@@ -57,14 +57,6 @@ import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.LEAVE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
-import static com.ramusthastudio.ama.util.BotHelper.PI_ENTERPRENEURSHIP;
-import static com.ramusthastudio.ama.util.BotHelper.PI_ENVIRONMENTAL_CONCERN;
-import static com.ramusthastudio.ama.util.BotHelper.PI_HEALTH_AND_ACTIVITY;
-import static com.ramusthastudio.ama.util.BotHelper.PI_MOVIE;
-import static com.ramusthastudio.ama.util.BotHelper.PI_MUSIC;
-import static com.ramusthastudio.ama.util.BotHelper.PI_READING;
-import static com.ramusthastudio.ama.util.BotHelper.PI_SHOPPING;
-import static com.ramusthastudio.ama.util.BotHelper.PI_VOLUNTEERING;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
 import static com.ramusthastudio.ama.util.BotHelper.SOURCE_GROUP;
 import static com.ramusthastudio.ama.util.BotHelper.SOURCE_ROOM;
@@ -417,34 +409,19 @@ public class LineBotController {
               int maxLike = 0;
               int maxUnLike = 0;
 
-              List<UserConsumption> userConsumption = fDao.getUserConsumptionByTwitterId(personalityCandidate);
-              if (userConsumption.size() > 0) {
-                LOG.info("Start find userConsumption from database...");
-                likelyBuilder.append("-")
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_HEALTH_AND_ACTIVITY))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENVIRONMENTAL_CONCERN))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENTERPRENEURSHIP))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MOVIE))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MUSIC))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_READING))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_SHOPPING))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_VOLUNTEERING)
-                    );
-                unlikelyBuilder.append("-")
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_HEALTH_AND_ACTIVITY))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENVIRONMENTAL_CONCERN))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENTERPRENEURSHIP))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MOVIE))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MUSIC))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_READING))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_SHOPPING))
-                    .append(generateRandomLikeConsumption(personalityCandidate, PI_VOLUNTEERING)
-                    );
+              List<UserConsumption> userConsumptions = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 1);
+              if (userConsumptions.size() > 0) {
+                LOG.info("Start find userConsumptions from database...");
+
+                ArrayList<String> likeConsumption = generateRandomLikeConsumption(userConsumptions);
+                for (String s : likeConsumption) {
+                  likelyBuilder.append("-").append(s);
+                }
 
                 consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
 
               } else {
-                LOG.info("Start find userConsumption from service...");
+                LOG.info("Start find userConsumptions from service...");
                 Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(personalityCandidate, TWEETS_STEP), Content.class);
                 ProfileOptions options = new ProfileOptions.Builder()
                     .contentItems(content.getContentItems())
@@ -465,7 +442,7 @@ public class LineBotController {
                     double score = consumptionPreference.getScore();
                     String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
                     uc.setConsumptionName(name).setConsumptionScore(score);
-                    LOG.info("Start saving userConsumption to database...");
+                    LOG.info("Start saving userConsumptions to database...");
                     fDao.setUserConsumption(uc);
 
                     if (score == 1 && maxLike != 5) {
@@ -596,31 +573,14 @@ public class LineBotController {
     }
   }
 
-  private static ArrayList<Integer> generateRandomConsumption() {
-    ArrayList<Integer> numbers = new ArrayList<>();
-    while (numbers.size() < 8) {
-      int random = generateRandom(1, 8);
-      if (!numbers.contains(random)) {
-        numbers.add(random);
+  private static ArrayList<String> generateRandomLikeConsumption(List<UserConsumption> aUserConsumptions) {
+    ArrayList<String> likeConsumption = new ArrayList<>();
+    while (likeConsumption.size() < aUserConsumptions.size() / 2) {
+      String candidate = aUserConsumptions.get(generateRandom(0, aUserConsumptions.size())).getConsumptionName();
+      if (!likeConsumption.contains(candidate)) {
+        likeConsumption.add(candidate);
       }
     }
-    return numbers;
-  }
-  private String generateRandomLikeConsumption(String aCandidate, String aCategory) {
-    List<UserConsumption> consumptions = fDao.getUserConsumptionByTwitterIdAndCat(aCandidate, aCategory);
-    int randomLikeShopping = generateRandom(0, consumptions.size() - 1);
-    if (consumptions.get(randomLikeShopping).getConsumptionScore() == 1) {
-      return consumptions.get(randomLikeShopping).getConsumptionName();
-    }
-    return generateRandomLikeConsumption(aCandidate, aCategory);
-  }
-
-  private String generateRandomUnLikeConsumption(String aCandidate, String aCategory) {
-    List<UserConsumption> consumptions = fDao.getUserConsumptionByTwitterIdAndCat(aCandidate, aCategory);
-    int randomUnLikeShopping = generateRandom(0, consumptions.size() - 1);
-    if (consumptions.get(randomUnLikeShopping).getConsumptionScore() != 1) {
-      return consumptions.get(randomUnLikeShopping).getConsumptionName();
-    }
-    return generateRandomUnLikeConsumption(aCandidate, aCategory);
+    return likeConsumption;
   }
 }
