@@ -58,7 +58,7 @@ public final class BotHelper {
 
   public static final String KEY_TWITTER = "twitter";
   public static final String KEY_PERSONALITY = "personality";
-  public static final String KEY_SUMMARY = "personality";
+  public static final String KEY_SUMMARY = "summary";
   public static final String KEY_POSITIVE = "twitter positif";
   public static final String KEY_NEGATIVE = "twitter negatif";
   public static final String KEY_FRIEND = "teman";

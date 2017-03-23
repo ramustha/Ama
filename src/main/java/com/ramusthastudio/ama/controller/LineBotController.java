@@ -534,13 +534,19 @@ public class LineBotController {
     StringBuilder builderNegative = new StringBuilder("Negatif...\n\n");
     int positivelength = builderPositive.length();
     int negativelength = builderNegative.length();
+    ArrayList<String> positive = new ArrayList<>();
+    ArrayList<String> negative = new ArrayList<>();
     for (Evidence evidence : aEvidence) {
-      if (evidence.getPolarity().equalsIgnoreCase("POSITIVE")) {
-        builderPositive.append(evidence.getSentimentTerm()).append(", ");
-      } else if (evidence.getPolarity().equalsIgnoreCase("NEGATIVE")) {
-        builderNegative.append(evidence.getSentimentTerm()).append(", ");
+      String term = evidence.getSentimentTerm();
+      if (evidence.getPolarity().equalsIgnoreCase("POSITIVE") && !positive.contains(term)) {
+        positive.add(term);
+      } else if (evidence.getPolarity().equalsIgnoreCase("NEGATIVE") && !negative.contains(term)) {
+        negative.add(term);
       }
     }
+
+    for (String s : positive) { builderPositive.append(s).append(", "); }
+    for (String s : positive) { builderNegative.append(s).append(", "); }
 
     StringBuilder b = new StringBuilder("Ini kata orang lain yah, bukan kata aku...\n\n");
     if (aEvidence.size() > 0) {
