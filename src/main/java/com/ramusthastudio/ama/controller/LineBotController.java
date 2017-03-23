@@ -466,6 +466,16 @@ public class LineBotController {
     StringBuilder personalityBuilder = new StringBuilder("Personality...\n");
     List<UserPersonality> userPersonalities = fDao.getUserPersonalityById(aPersonalityCandidate);
     if (userPersonalities.size() > 0) {
+      for (UserPersonality userPersonality : userPersonalities) {
+        int percentage = (int) (userPersonality.getParentPercentile() * 100);
+        personalityBuilder
+            .append("\n-").append(userPersonality.getParentName()).append(" : ").append(percentage).append("%");
+        if (userPersonality.getChildName() != null) {
+          percentage = (int) (userPersonality.getChildPercentile() * 100);
+          personalityBuilder
+              .append("\n--").append(userPersonality.getChildName()).append(" : ").append(percentage).append("%");
+        }
+      }
 
     } else {
       LOG.info("Start find personality from service...");
@@ -503,7 +513,7 @@ public class LineBotController {
 
       int percentage = (int) (parent.getPercentile() * 100);
       aPersonalityBuilder
-          .append("-").append(parent.getName()).append(" : ").append(percentage).append("%");
+          .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
 
       if (parent.getChildren() != null && parent.getChildren().size() != 0) {
         for (Trait child : parent.getChildren()) {
@@ -511,7 +521,7 @@ public class LineBotController {
 
           percentage = (int) (child.getPercentile() * 100);
           aPersonalityBuilder
-              .append("-").append(child.getName()).append(" : ").append(percentage).append("%");
+              .append("\n--").append(child.getName()).append(" : ").append(percentage).append("%");
         }
       }
       LOG.info("Start saving personality to database...");
