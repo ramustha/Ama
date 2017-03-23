@@ -467,11 +467,14 @@ public class LineBotController {
     List<UserPersonality> userPersonalities = fDao.getUserPersonalityById(aPersonalityCandidate);
     if (userPersonalities.size() > 0) {
       LOG.info("Start find personality from database...");
-
+      ArrayList<String> cat = new ArrayList<>();
       for (UserPersonality userPersonality : userPersonalities) {
         int percentage = (int) (userPersonality.getParentPercentile() * 100);
-        personalityBuilder
-            .append("\n-").append(userPersonality.getParentName()).append(" : ").append(percentage).append("%");
+        if (!cat.contains(userPersonality.getParentName())) {
+          cat.add(userPersonality.getParentName());
+          personalityBuilder
+              .append("\n-").append(userPersonality.getParentName()).append(" : ").append(percentage).append("%");
+        }
         if (userPersonality.getChildName() != null) {
           percentage = (int) (userPersonality.getChildPercentile() * 100);
           personalityBuilder
@@ -505,7 +508,6 @@ public class LineBotController {
   }
 
   private void buildPersonality(String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) {
-    ArrayList<String> cat = new ArrayList<>();
     for (Trait parent : aTraits) {
       UserPersonality Parentpersonality = new UserPersonality()
           .setId(aPersonalityCandidate)
@@ -515,11 +517,8 @@ public class LineBotController {
           .setParentPercentile(parent.getPercentile());
 
       int percentage = (int) (parent.getPercentile() * 100);
-      if (!cat.contains(parent.getName())) {
-        cat.add(parent.getName());
-        aPersonalityBuilder
-            .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
-      }
+      aPersonalityBuilder
+          .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
 
       if (parent.getChildren() != null && parent.getChildren().size() != 0) {
         for (Trait child : parent.getChildren()) {
