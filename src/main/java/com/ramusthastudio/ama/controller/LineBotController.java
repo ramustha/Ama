@@ -505,6 +505,7 @@ public class LineBotController {
   }
 
   private void buildPersonality(String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) {
+    ArrayList<String> cat = new ArrayList<>();
     for (Trait parent : aTraits) {
       UserPersonality Parentpersonality = new UserPersonality()
           .setId(aPersonalityCandidate)
@@ -514,8 +515,11 @@ public class LineBotController {
           .setParentPercentile(parent.getPercentile());
 
       int percentage = (int) (parent.getPercentile() * 100);
-      aPersonalityBuilder
-          .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
+      if (!cat.contains(parent.getName())) {
+        cat.add(parent.getName());
+        aPersonalityBuilder
+            .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
+      }
 
       if (parent.getChildren() != null && parent.getChildren().size() != 0) {
         for (Trait child : parent.getChildren()) {
