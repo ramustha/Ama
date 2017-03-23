@@ -463,7 +463,7 @@ public class LineBotController {
   }
 
   private void processPersonality(String aUserId, String aPersonalityCandidate) throws Exception {
-    StringBuilder personalityBuilder = new StringBuilder("Personality...\n");
+    StringBuilder personalityBuilder = new StringBuilder("Ini nih personality nya...\n");
     List<UserPersonality> userPersonalities = fDao.getUserPersonalityById(aPersonalityCandidate);
     if (userPersonalities.size() > 0) {
       LOG.info("Start find personality from database...");
@@ -501,7 +501,7 @@ public class LineBotController {
       buildPersonality(aPersonalityCandidate, personalityBuilder, values);
     }
     pushMessage(fChannelAccessToken, aUserId, personalityBuilder.toString());
-    if (generateRandom(0, 1) == 1) {
+    if (generateRandom(0, 5) > 2) {
       pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
           "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
     }
@@ -606,7 +606,7 @@ public class LineBotController {
       consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
     }
     pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
-    if (generateRandom(0, 1) == 1) {
+    if (generateRandom(0, 5) > 2) {
       pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
           "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
     }
@@ -624,7 +624,7 @@ public class LineBotController {
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
     pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
-    if (generateRandom(0, 1) == 1) { instructionTweetsMessage(fChannelAccessToken, aUserId); }
+    if (generateRandom(0, 5) > 2) { instructionTweetsMessage(fChannelAccessToken, aUserId); }
     LOG.info("End sentiment service...");
   }
 
@@ -640,7 +640,7 @@ public class LineBotController {
     for (Message2 message2 : collectMessage) { fDao.setUserMessage(message2); }
     for (Evidence evidence : collectEvidence) { fDao.setUserEvidence(evidence); }
     pushSentiment(aReplayToken, aUserId, collectMessage, collectEvidence);
-    if (generateRandom(0, 1) == 1) { instructionTweetsMessage(fChannelAccessToken, aUserId); }
+    if (generateRandom(0, 5) > 2) { instructionTweetsMessage(fChannelAccessToken, aUserId); }
     LOG.info("End sentiment service...");
   }
 

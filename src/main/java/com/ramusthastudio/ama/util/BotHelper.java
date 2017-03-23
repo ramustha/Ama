@@ -226,8 +226,11 @@ public final class BotHelper {
 
   public static void talkMessageGroup(String aChannelAccessToken, String aUserId) throws IOException {
     String greeting = "Hi\n";
-    greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
-    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter";
+    greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter, ";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
+    greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
+    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
+    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets ataupun tulisan dalam sebuah file.";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
@@ -235,8 +238,10 @@ public final class BotHelper {
   public static void greetingMessageGroup(String aChannelAccessToken, String aUserId) throws IOException {
     String greeting = "Hi manteman\n";
     greeting += "Makasih aku udah di invite disini!\n";
-    greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
-    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter\n\n";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
+    greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
+    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
+    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets ataupun tulisan dalam sebuah file.\n\n";
     greeting += "Bantuin aku donk supaya punya banyak teman, ini id aku @ape3119w";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
@@ -247,7 +252,10 @@ public final class BotHelper {
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Makasih udah nambahin aku sebagai teman!\n";
     greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter,";
-    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter\n\n";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
+    greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
+    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
+    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets ataupun tulisan dalam sebuah file.\n\n";
     greeting += "Bantuin aku donk supaya punya banyak teman, ini id aku @ape3119w";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
@@ -262,8 +270,12 @@ public final class BotHelper {
 
   public static void instructionSentimentMessage(String aChannelAccessToken, String aUserId) throws IOException {
     String greeting = "Contoh jika kamu pengen tau nih pendapat orang lain tentang indonesia,";
-    greeting += "Kamu tinggal bilang sentiment indonesia, ";
-    greeting += "nanti aku kumpulin infonya terus aku kasih tau ke kamu apa pendapat orang lain tentang indonesia";
+    greeting += "Kamu tinggal bilang sentiment 'indonesia', ";
+    greeting += "kalau pengen tau tentang personality tinggal bilang personality 'jokowi' atau ";
+    greeting += "summary dalam personality kamu cukup bilang summary 'jokowi' ";
+    greeting += "nanti aku kumpulin infonya terus aku kasih tau ke kamu apa pendapat orang lain tentang indonesia\n\n";
+    greeting += "Kalau kamu pengen tau personality dari tulisan seseorang kamu tinggal kirim file tulisanya ke sini.\n\n";
+    greeting += "Saat ini aku cuma bisa baca tulisan pake bahasa inggris aja, untuk bahasa lain aku belum bisa.";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
@@ -271,7 +283,7 @@ public final class BotHelper {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
     greeting += "Aku juga bisa nih lihat profile twitter orang, kamu tinggal tulis aja id twitternya\n";
-    greeting += "Contoh twitter dicoding";
+    greeting += "Contoh twitter 'dicoding'";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
