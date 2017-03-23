@@ -338,7 +338,7 @@ public class DaoImpl implements Dao {
   }
 
   @Override public List<UserConsumption> getUserConsumptionByTwitterIdAndScore(String aTwitterId, double aScore) {
-    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE, new Object[] {"%" + aTwitterId + "%", "%" + aScore + "%"}, MULTIPLE_USER_CONSUMPTION);
+    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE, new Object[] {"%" + aTwitterId + "%", aScore}, MULTIPLE_USER_CONSUMPTION);
   }
 
   @Override public UserTwitter getUserTwitterById(String aUserId) {
