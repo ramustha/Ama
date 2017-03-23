@@ -410,6 +410,10 @@ public class LineBotController {
               int maxLike = 0;
               int maxUnLike = 0;
 
+              for (int random : generateRandomConsumption()) {
+                LOG.info("random ::" + random);
+              }
+
               List<UserConsumption> userConsumption = fDao.getUserConsumptionByTwitterId(personalityCandidate);
               if (userConsumption.size() > 0) {
                 LOG.info("Start find userConsumption from database...");
@@ -418,9 +422,6 @@ public class LineBotController {
 
                 consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
 
-                for (int random : generateRandomConsumption()) {
-                  LOG.info("random ::" + random);
-                }
               } else {
                 LOG.info("Start find userConsumption from service...");
                 Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(personalityCandidate, TWEETS_STEP), Content.class);
