@@ -57,7 +57,14 @@ import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
 import static com.ramusthastudio.ama.util.BotHelper.LEAVE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE;
 import static com.ramusthastudio.ama.util.BotHelper.MESSAGE_TEXT;
+import static com.ramusthastudio.ama.util.BotHelper.PI_ENTERPRENEURSHIP;
+import static com.ramusthastudio.ama.util.BotHelper.PI_ENVIRONMENTAL_CONCERN;
+import static com.ramusthastudio.ama.util.BotHelper.PI_HEALTH_AND_ACTIVITY;
+import static com.ramusthastudio.ama.util.BotHelper.PI_MOVIE;
+import static com.ramusthastudio.ama.util.BotHelper.PI_MUSIC;
+import static com.ramusthastudio.ama.util.BotHelper.PI_READING;
 import static com.ramusthastudio.ama.util.BotHelper.PI_SHOPPING;
+import static com.ramusthastudio.ama.util.BotHelper.PI_VOLUNTEERING;
 import static com.ramusthastudio.ama.util.BotHelper.POSTBACK;
 import static com.ramusthastudio.ama.util.BotHelper.SOURCE_GROUP;
 import static com.ramusthastudio.ama.util.BotHelper.SOURCE_ROOM;
@@ -410,15 +417,29 @@ public class LineBotController {
               int maxLike = 0;
               int maxUnLike = 0;
 
-              for (int random : generateRandomConsumption()) {
-                LOG.info("random ::" + random);
-              }
-
               List<UserConsumption> userConsumption = fDao.getUserConsumptionByTwitterId(personalityCandidate);
               if (userConsumption.size() > 0) {
                 LOG.info("Start find userConsumption from database...");
-                likelyBuilder.append(generateRandomLikeConsumption(personalityCandidate, PI_SHOPPING));
-                unlikelyBuilder.append(generateRandomUnLikeConsumption(personalityCandidate, PI_SHOPPING));
+                likelyBuilder.append("-")
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_HEALTH_AND_ACTIVITY))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENVIRONMENTAL_CONCERN))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENTERPRENEURSHIP))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MOVIE))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MUSIC))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_READING))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_SHOPPING))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_VOLUNTEERING)
+                    );
+                unlikelyBuilder.append("-")
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_HEALTH_AND_ACTIVITY))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENVIRONMENTAL_CONCERN))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_ENTERPRENEURSHIP))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MOVIE))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_MUSIC))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_READING))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_SHOPPING))
+                    .append(generateRandomLikeConsumption(personalityCandidate, PI_VOLUNTEERING)
+                    );
 
                 consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
 
