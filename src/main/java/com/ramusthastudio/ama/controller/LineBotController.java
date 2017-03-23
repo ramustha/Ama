@@ -204,9 +204,23 @@ public class LineBotController {
               if (sentiment.length() > 3) {
                 processTwitter(aReplayToken, aSource, sentiment);
               } else {
-                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...ada yang salah kayaknya");
               }
 
+            } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
+              String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
+              if (personality.length() > 3) {
+                processTwitter(aReplayToken, aSource.groupId(), personality);
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
+              }
+            } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
+              try {
+                String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
+                processSummary(aSource.groupId(), summaryCandidate);
+              } catch (Exception aE) {
+                LOG.error("Exception when reading tweets..." + aE.getMessage());
+              }
             } else if (match.find()) {
               talkMessageGroup(fChannelAccessToken, aSource.groupId());
               instructionSentimentMessage(fChannelAccessToken, aSource.groupId());
@@ -218,6 +232,16 @@ public class LineBotController {
           if (pd.toLowerCase().startsWith(KEY_TWITTER)) {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
             processTwitter(aReplayToken, aSource, sentiment);
+          } else if (pd.startsWith(KEY_PERSONALITY)) {
+            String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
+            replayMessage(fChannelAccessToken, aReplayToken, personalityCandidate);
+          } else if (pd.startsWith(KEY_SUMMARY)) {
+            try {
+              String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
+              processSummary(aSource.groupId(), summaryCandidate);
+            } catch (Exception aE) {
+              LOG.error("Exception when reading tweets..." + aE.getMessage());
+            }
           }
           break;
       }
@@ -291,12 +315,16 @@ public class LineBotController {
               if (sentiment.length() > 3) {
                 processTwitter(aReplayToken, aUserId, sentiment);
               } else {
-                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...");
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...ada yang salah kayaknya");
               }
 
             } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
               String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
-              replayMessage(fChannelAccessToken, aReplayToken, personality);
+              if (personality.length() > 3) {
+                processTwitter(aReplayToken, aUserId, personality);
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
+              }
 
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
               try {
@@ -372,7 +400,6 @@ public class LineBotController {
           } else if (pd.startsWith(KEY_PERSONALITY)) {
             String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
             replayMessage(fChannelAccessToken, aReplayToken, personalityCandidate);
-
           } else if (pd.startsWith(KEY_SUMMARY)) {
             try {
               String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
@@ -380,7 +407,6 @@ public class LineBotController {
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
-
           }
           break;
       }
