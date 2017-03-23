@@ -409,19 +409,32 @@ public class LineBotController {
               int maxLike = 0;
               int maxUnLike = 0;
 
-              List<UserConsumption> userConsumptions = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 1);
-              if (userConsumptions.size() > 0) {
-                LOG.info("Start find userConsumptions from database...");
+              List<UserConsumption> userConsumptionsLike = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 1);
+              List<UserConsumption> userConsumptionsUnLike = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 0);
+              if (userConsumptionsLike.size() > 0 && userConsumptionsUnLike.size() > 0) {
+                LOG.info("Start find userConsumptionsLike from database...");
 
-                ArrayList<String> likeConsumption = generateRandomLikeConsumption(userConsumptions);
-                for (String s : likeConsumption) {
-                  likelyBuilder.append("-").append(s);
+                List<UserConsumption> userConsumptionsMiddle = fDao.getUserConsumptionByTwitterIdAndScore(personalityCandidate, 0.5);
+                StringBuilder middleBuilder = null;
+                if (userConsumptionsMiddle.size() > 0) {
+                  middleBuilder = new StringBuilder("Like or unlike sometimes...\n");
+                  ArrayList<String> mm = generateRandomLikeConsumption(userConsumptionsLike);
+                  for (String s : mm) { middleBuilder.append("\n-").append(s); }
                 }
 
-                consumptionBuilder.append(likelyBuilder).append("\n\n").append(unlikelyBuilder);
+                ArrayList<String> likeConsumption = generateRandomLikeConsumption(userConsumptionsLike);
+                ArrayList<String> unLikeConsumption = generateRandomLikeConsumption(userConsumptionsUnLike);
+                for (String s : likeConsumption) { likelyBuilder.append("\n-").append(s); }
+                for (String s : unLikeConsumption) { unlikelyBuilder.append("\n-").append(s); }
+
+                consumptionBuilder.append(likelyBuilder).append("\n\n");
+                if (middleBuilder != null) {
+                  consumptionBuilder.append(middleBuilder).append("\n\n");
+                }
+                consumptionBuilder.append(unlikelyBuilder);
 
               } else {
-                LOG.info("Start find userConsumptions from service...");
+                LOG.info("Start find userConsumptionsLike from service...");
                 Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(personalityCandidate, TWEETS_STEP), Content.class);
                 ProfileOptions options = new ProfileOptions.Builder()
                     .contentItems(content.getContentItems())
@@ -442,7 +455,7 @@ public class LineBotController {
                     double score = consumptionPreference.getScore();
                     String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
                     uc.setConsumptionName(name).setConsumptionScore(score);
-                    LOG.info("Start saving userConsumptions to database...");
+                    LOG.info("Start saving userConsumptionsLike to database...");
                     fDao.setUserConsumption(uc);
 
                     if (score == 1 && maxLike != 5) {
