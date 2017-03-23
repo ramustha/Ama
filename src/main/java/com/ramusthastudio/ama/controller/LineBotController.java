@@ -466,6 +466,8 @@ public class LineBotController {
     StringBuilder personalityBuilder = new StringBuilder("Personality...\n");
     List<UserPersonality> userPersonalities = fDao.getUserPersonalityById(aPersonalityCandidate);
     if (userPersonalities.size() > 0) {
+      LOG.info("Start find personality from database...");
+
       for (UserPersonality userPersonality : userPersonalities) {
         int percentage = (int) (userPersonality.getParentPercentile() * 100);
         personalityBuilder
@@ -504,7 +506,7 @@ public class LineBotController {
 
   private void buildPersonality(String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) {
     for (Trait parent : aTraits) {
-      UserPersonality up = new UserPersonality()
+      UserPersonality Parentpersonality = new UserPersonality()
           .setId(aPersonalityCandidate)
           .setPersonName(aPersonalityCandidate)
           .setCategory(parent.getCategory())
@@ -517,15 +519,22 @@ public class LineBotController {
 
       if (parent.getChildren() != null && parent.getChildren().size() != 0) {
         for (Trait child : parent.getChildren()) {
-          up.setChildName(child.getName()).setChildPercentile(child.getPercentile());
+          UserPersonality childPersonality = new UserPersonality()
+              .setId(aPersonalityCandidate)
+              .setPersonName(aPersonalityCandidate)
+              .setCategory(parent.getCategory())
+              .setParentName(parent.getName())
+              .setParentPercentile(parent.getPercentile());
+          childPersonality.setChildName(child.getName()).setChildPercentile(child.getPercentile());
 
           percentage = (int) (child.getPercentile() * 100);
           aPersonalityBuilder
               .append("\n--").append(child.getName()).append(" : ").append(percentage).append("%");
+          fDao.setUserPersonality(childPersonality);
         }
       }
       LOG.info("Start saving personality to database...");
-      fDao.setUserPersonality(up);
+      fDao.setUserPersonality(Parentpersonality);
     }
   }
 
