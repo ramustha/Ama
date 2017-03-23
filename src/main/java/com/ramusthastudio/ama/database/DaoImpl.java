@@ -7,6 +7,7 @@ import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserConsumption;
 import com.ramusthastudio.ama.model.UserLine;
+import com.ramusthastudio.ama.model.UserPersonality;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -53,6 +54,12 @@ public class DaoImpl implements Dao {
   private final static String SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE = SQL_SELECT_ALL_USER_CONSUMPTION + " WHERE LOWER(twitter_id) LIKE LOWER(?) and consumption_score = ?;";
   private final static String SQL_INSERT_USER_CONSUMPTION = "INSERT INTO user_consumption (twitter_id, consumption_category, consumption_name, consumption_score) VALUES (?, ?, ?, ?);";
 
+  private final static String SQL_SELECT_ALL_USER_PERSONALITY = "SELECT * FROM user_personality";
+  private final static String SQL_USER_PERSONALITY_GET_BY_ID = SQL_SELECT_ALL_USER_PERSONALITY + " WHERE LOWER(id) LIKE LOWER(?) ;";
+  private final static String SQL_USER_PERSONALITY_GET_BY_NAME = SQL_SELECT_ALL_USER_PERSONALITY + " WHERE LOWER(person_name) LIKE LOWER(?) ;";
+  private final static String SQL_USER_PERSONALITY_GET_BY_ID_AND_CAT = SQL_SELECT_ALL_USER_PERSONALITY + " WHERE LOWER(id) LIKE LOWER(?) and LOWER(category) LIKE LOWER(?);";
+  private final static String SQL_USER_PERSONALITY_GET_BY_NAME_AND_CAT = SQL_SELECT_ALL_USER_PERSONALITY + " WHERE LOWER(person_name) LIKE LOWER(?) and LOWER(category) LIKE LOWER(?);";
+  private final static String SQL_INSERT_USER_PERSONALITY = "INSERT INTO public.user_personality(id, person_name, category, parent_name, parent_percentile, child_name, child_percentile) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
   private final JdbcTemplate mJdbc;
 
@@ -115,6 +122,17 @@ public class DaoImpl implements Dao {
           aRs.getString("consumption_category"),
           aRs.getString("consumption_name"),
           aRs.getDouble("consumption_score"));
+
+  private final static RowMapper<UserPersonality> SINGLE_USER_PERSONALITY = (aRs, rowNum) ->
+      new UserPersonality(
+          aRs.getString("id"),
+          aRs.getString("person_name"),
+          aRs.getString("category"),
+          aRs.getString("parent_name"),
+          aRs.getDouble("parent_percentile"),
+          aRs.getString("child_name"),
+          aRs.getDouble("child_percentile")
+      );
 
   private final static ResultSetExtractor<List<UserTwitter>> MULTIPLE_USER_TWITTER = aRs -> {
     List<UserTwitter> list = new ArrayList<>();
@@ -204,6 +222,22 @@ public class DaoImpl implements Dao {
     return list;
   };
 
+  private final static ResultSetExtractor<List<UserPersonality>> MULTIPLE_USER_PERSONALITY = aRs -> {
+    List<UserPersonality> list = new ArrayList<>();
+    while (aRs.next()) {
+      list.add(new UserPersonality(
+          aRs.getString("id"),
+          aRs.getString("person_name"),
+          aRs.getString("category"),
+          aRs.getString("parent_name"),
+          aRs.getDouble("parent_percentile"),
+          aRs.getString("child_name"),
+          aRs.getDouble("child_percentile"))
+      );
+    }
+    return list;
+  };
+
   @Override public void setUserTwitter(User aUser) {
     mJdbc.update(SQL_INSERT_USER_TWITTER,
         aUser.getScreenName(),
@@ -235,7 +269,7 @@ public class DaoImpl implements Dao {
         aUser.getLastChat(),
         new Timestamp(aUser.getLastTime()),
         aUser.getFalseCount()
-        );
+    );
   }
 
   @Override public void setUserMessage(Message2 aMessage2) {
@@ -284,6 +318,18 @@ public class DaoImpl implements Dao {
     );
   }
 
+  @Override public void setUserPersonality(UserPersonality aUserPersonality) {
+    mJdbc.update(SQL_INSERT_USER_PERSONALITY,
+        aUserPersonality.getId(),
+        aUserPersonality.getPersonName(),
+        aUserPersonality.getCategory(),
+        aUserPersonality.getParentName(),
+        aUserPersonality.getParentPercentile(),
+        aUserPersonality.getChildName(),
+        aUserPersonality.getChildPercentile()
+    );
+  }
+
   @Override public void updateUserChat(UserChat aUser) {
     mJdbc.update(SQL_UPDATE_USER_CHAT,
         aUser.getLastChat(),
@@ -317,6 +363,10 @@ public class DaoImpl implements Dao {
     return mJdbc.query(SQL_SELECT_ALL_USER_CONSUMPTION, MULTIPLE_USER_CONSUMPTION);
   }
 
+  @Override public List<UserPersonality> getAllUserPersonality() {
+    return mJdbc.query(SQL_SELECT_ALL_USER_PERSONALITY, MULTIPLE_USER_PERSONALITY);
+  }
+
   @Override public List<Message2> getUserMessageByLineId(String aLineId) {
     return mJdbc.query(SQL_USER_MESSAGE_GET_BY_LINE_ID, new Object[] {"%" + aLineId + "%"}, MULTIPLE_USER_MESSAGE);
   }
@@ -333,12 +383,34 @@ public class DaoImpl implements Dao {
     return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_MESSAGE_ID, new Object[] {"%" + aTwitterId + "%"}, MULTIPLE_USER_CONSUMPTION);
   }
 
-  @Override public List<UserConsumption> getUserConsumptionByTwitterIdAndCat(String aTwitterId, String aCategoty) {
-    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_MESSAGE_CAT, new Object[] {"%" + aTwitterId + "%", "%" + aCategoty + "%"}, MULTIPLE_USER_CONSUMPTION);
+  @Override public List<UserConsumption> getUserConsumptionByTwitterIdAndCat(String aTwitterId, String aCategory) {
+    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_MESSAGE_CAT, new Object[] {
+        "%" + aTwitterId + "%",
+        "%" + aCategory + "%"
+    }, MULTIPLE_USER_CONSUMPTION);
   }
 
   @Override public List<UserConsumption> getUserConsumptionByTwitterIdAndScore(String aTwitterId, double aScore) {
-    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE, new Object[] {"%" + aTwitterId + "%", aScore}, MULTIPLE_USER_CONSUMPTION);
+    return mJdbc.query(SQL_USER_CONSUMPTION_GET_BY_CAT_AND_SCORE, new Object[] {
+        "%" + aTwitterId + "%",
+        aScore
+    }, MULTIPLE_USER_CONSUMPTION);
+  }
+
+  @Override public List<UserPersonality> getUserPersonalityById(String aId) {
+    return mJdbc.query(SQL_USER_PERSONALITY_GET_BY_ID, new Object[] {"%" + aId + "%"}, MULTIPLE_USER_PERSONALITY);
+  }
+
+  @Override public List<UserPersonality> getUserPersonalityByName(String aName) {
+    return mJdbc.query(SQL_USER_PERSONALITY_GET_BY_NAME, new Object[] {"%" + aName + "%"}, MULTIPLE_USER_PERSONALITY);
+  }
+
+  @Override public List<UserPersonality> getUserPersonalityByIdAndCat(String aId, String aCategory) {
+    return mJdbc.query(SQL_USER_PERSONALITY_GET_BY_ID_AND_CAT, new Object[] {"%" + aId + "%", "%" + aCategory + "%"}, MULTIPLE_USER_PERSONALITY);
+  }
+
+  @Override public List<UserPersonality> getUserPersonalityByNameAndCat(String aName, String aCategory) {
+    return mJdbc.query(SQL_USER_PERSONALITY_GET_BY_NAME_AND_CAT, new Object[] {"%" + aName + "%", "%" + aCategory + "%"}, MULTIPLE_USER_PERSONALITY);
   }
 
   @Override public UserTwitter getUserTwitterById(String aUserId) {

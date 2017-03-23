@@ -6,6 +6,7 @@ import com.ramusthastudio.ama.model.Message2;
 import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserConsumption;
 import com.ramusthastudio.ama.model.UserLine;
+import com.ramusthastudio.ama.model.UserPersonality;
 import com.ramusthastudio.ama.model.UserTwitter;
 import java.util.List;
 import twitter4j.User;
@@ -36,6 +37,13 @@ public interface Dao {
   List<UserConsumption> getAllUserConsumption();
   void setUserConsumption(UserConsumption aUserConsumption);
   List<UserConsumption> getUserConsumptionByTwitterId(String aTwitterId);
-  List<UserConsumption> getUserConsumptionByTwitterIdAndCat(String aTwitterId, String aCategoty);
+  List<UserConsumption> getUserConsumptionByTwitterIdAndCat(String aTwitterId, String aCategory);
   List<UserConsumption> getUserConsumptionByTwitterIdAndScore(String aTwitterId, double aScore);
+
+  List<UserPersonality> getAllUserPersonality();
+  void setUserPersonality(UserPersonality aUser);
+  List<UserPersonality> getUserPersonalityById(String aId);
+  List<UserPersonality> getUserPersonalityByName(String aName);
+  List<UserPersonality> getUserPersonalityByIdAndCat(String aId, String aCategory);
+  List<UserPersonality> getUserPersonalityByNameAndCat(String aName, String aCategory);
 }

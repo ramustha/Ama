@@ -25,6 +25,7 @@ import com.ramusthastudio.ama.model.Tweet;
 import com.ramusthastudio.ama.model.UserChat;
 import com.ramusthastudio.ama.model.UserConsumption;
 import com.ramusthastudio.ama.model.UserLine;
+import com.ramusthastudio.ama.model.UserPersonality;
 import com.ramusthastudio.ama.model.UserTwitter;
 import com.ramusthastudio.ama.util.StickerHelper;
 import com.ramusthastudio.ama.util.Twitter4JHelper;
@@ -210,16 +211,20 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
               String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personality.length() > 3) {
-                processTwitter(aReplayToken, aSource.groupId(), personality);
+                // processTwitter(aReplayToken, aSource.groupId(), personality);
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
               }
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
-              try {
-                String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
-                processSummary(aSource.groupId(), summaryCandidate);
-              } catch (Exception aE) {
-                LOG.error("Exception when reading tweets..." + aE.getMessage());
+              String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
+              if (summaryCandidate.length() > 3) {
+                try {
+                  processSummary(aSource.groupId(), summaryCandidate);
+                } catch (Exception aE) {
+                  LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
               }
             } else if (match.find()) {
               talkMessageGroup(fChannelAccessToken, aSource.groupId());
@@ -321,17 +326,21 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
               String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personality.length() > 3) {
-                processTwitter(aReplayToken, aUserId, personality);
+                // processTwitter(aReplayToken, aUserId, personality);
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
               }
 
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
-              try {
-                String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
-                processSummary(aUserId, summaryCandidate);
-              } catch (Exception aE) {
-                LOG.error("Exception when reading tweets..." + aE.getMessage());
+              String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
+              if (summaryCandidate.length() > 3) {
+                try {
+                  processSummary(aUserId, summaryCandidate);
+                } catch (Exception aE) {
+                  LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
               }
 
             } else {
@@ -437,6 +446,58 @@ public class LineBotController {
     }
   }
 
+  private void processPersonality(String aUserId, String aPersonalityCandidate) throws Exception {
+    StringBuilder personalityBuilder = new StringBuilder("Personality...\n");
+    List<UserConsumption> userConsumptionsLike = fDao.getUserConsumptionByTwitterIdAndScore(aPersonalityCandidate, 1);
+    List<UserConsumption> userConsumptionsUnLike = fDao.getUserConsumptionByTwitterIdAndScore(aPersonalityCandidate, 0);
+    if (userConsumptionsLike.size() > 0 && userConsumptionsUnLike.size() > 0) {
+
+    } else {
+      LOG.info("Start find personality from service...");
+      Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aPersonalityCandidate, TWEETS_STEP), Content.class);
+      ProfileOptions options = new ProfileOptions.Builder()
+          .contentItems(content.getContentItems())
+          .consumptionPreferences(true)
+          .rawScores(true)
+          .build();
+      Profile personality = fPersonalityInsights.getProfile(options).execute();
+
+      List<Trait> personalities = personality.getPersonality();
+      List<Trait> needs = personality.getNeeds();
+      List<Trait> values = personality.getValues();
+
+      for (Trait parent : personalities) {
+        UserPersonality up = new UserPersonality()
+            .setId(aPersonalityCandidate)
+            .setPersonName(aPersonalityCandidate)
+            .setCategory(parent.getCategory())
+            .setParentName(parent.getName())
+            .setParentPercentile(parent.getPercentile());
+
+        int percentage = (int) (parent.getPercentile() * 100);
+        personalityBuilder
+            .append("-").append(parent.getName()).append(" : ").append(percentage).append("%");
+
+        if (parent.getChildren() != null && parent.getChildren().size() != 0) {
+          for (Trait child : parent.getChildren()) {
+            up.setChildName(child.getName()).setChildPercentile(child.getPercentile());
+
+            percentage = (int) (child.getPercentile() * 100);
+            personalityBuilder
+                .append("-").append(child.getName()).append(" : ").append(percentage).append("%");
+          }
+        }
+        LOG.info("Start saving personality to database...");
+        fDao.setUserPersonality(up);
+      }
+    }
+    pushMessage(fChannelAccessToken, aUserId, personalityBuilder.toString());
+    if (generateRandom(0, 1) == 1) {
+      pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
+          "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
+    }
+  }
+
   private void processSummary(String aUserId, String aSummaryCandidate) throws Exception {
     StringBuilder consumptionBuilder = new StringBuilder();
     StringBuilder likelyBuilder = new StringBuilder("Likely to...\n");
@@ -447,7 +508,7 @@ public class LineBotController {
     List<UserConsumption> userConsumptionsLike = fDao.getUserConsumptionByTwitterIdAndScore(aSummaryCandidate, 1);
     List<UserConsumption> userConsumptionsUnLike = fDao.getUserConsumptionByTwitterIdAndScore(aSummaryCandidate, 0);
     if (userConsumptionsLike.size() > 0 && userConsumptionsUnLike.size() > 0) {
-      LOG.info("Start find userConsumptionsLike from database...");
+      LOG.info("Start find userConsumptions from database...");
 
       List<UserConsumption> userConsumptionsMiddle = fDao.getUserConsumptionByTwitterIdAndScore(aSummaryCandidate, 0.5);
       StringBuilder middleBuilder = null;
@@ -469,7 +530,7 @@ public class LineBotController {
       consumptionBuilder.append(unlikelyBuilder);
 
     } else {
-      LOG.info("Start find userConsumptionsLike from service...");
+      LOG.info("Start find userConsumptions from service...");
       Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aSummaryCandidate, TWEETS_STEP), Content.class);
       ProfileOptions options = new ProfileOptions.Builder()
           .contentItems(content.getContentItems())
@@ -477,9 +538,6 @@ public class LineBotController {
           .rawScores(true)
           .build();
       Profile personality = fPersonalityInsights.getProfile(options).execute();
-      List<Trait> personalities = personality.getPersonality();
-      List<Trait> needs = personality.getNeeds();
-      List<Trait> values = personality.getValues();
       List<ConsumptionPreferences> consumtionPreferences = personality.getConsumptionPreferences();
       int removePrefix = "Likely to ".length();
       for (ConsumptionPreferences cp : consumtionPreferences) {
@@ -490,7 +548,7 @@ public class LineBotController {
           double score = consumptionPreference.getScore();
           String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
           uc.setConsumptionName(name).setConsumptionScore(score);
-          LOG.info("Start saving userConsumptionsLike to database...");
+          LOG.info("Start saving userConsumptions to database...");
           fDao.setUserConsumption(uc);
 
           if (score == 1 && maxLike != 5) {
