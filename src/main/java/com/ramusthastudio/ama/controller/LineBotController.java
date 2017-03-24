@@ -419,18 +419,28 @@ public class LineBotController {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
             processTwitter(aReplayToken, aUserId, sentiment);
           } else if (pd.startsWith(KEY_PERSONALITY)) {
+            boolean valid = false;
             try {
               String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
               processPersonality(aReplayToken, aUserId, personalityCandidate);
+              valid = true;
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
+            if (!valid) {
+              replayMessage(fChannelAccessToken, aReplayToken, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
+            }
           } else if (pd.startsWith(KEY_SUMMARY)) {
+            boolean valid = false;
             try {
               String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
               processSummary(aUserId, summaryCandidate);
+              valid = true;
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
+            }
+            if (!valid) {
+              replayMessage(fChannelAccessToken, aReplayToken, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
             }
           }
           break;
