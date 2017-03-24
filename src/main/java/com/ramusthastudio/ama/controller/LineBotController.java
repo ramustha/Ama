@@ -393,10 +393,17 @@ public class LineBotController {
                 if (candidatesSplit[0].length() > 3 && candidatesSplit[1].length() > 3) {
                   String candidate1 = candidatesSplit[0];
                   String candidate2 = candidatesSplit[1];
-                  replayMessage(fChannelAccessToken, aReplayToken, candidatesSplit[0] + " & " + candidatesSplit[1]);
-
-                  processSummary(aUserId, candidate1);
-
+                  // replayMessage(fChannelAccessToken, aReplayToken, candidatesSplit[0] + " & " + candidatesSplit[1]);
+                  boolean valid = false;
+                  try {
+                    processMatch(aUserId, candidate1, candidate2);
+                    valid = true;
+                  }catch (Exception aE){
+                    LOG.error("Exception when reading match..." + aE.getMessage());
+                  }
+                  if (!valid) {
+                    pushMessage(fChannelAccessToken, aUserId, "maaf kawan sepertinya ada kesalahan...");
+                  }
                 } else {
                   replayMessage(fChannelAccessToken, aReplayToken, "kayaknya ada yang salah nih, coba cek lagi...");
                 }
