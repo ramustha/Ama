@@ -688,7 +688,7 @@ public class LineBotController {
     int likePercent;
     int middlePercent;
     int unlikePercent;
-
+    LOG.info("processMatch {} and {} ", aCandidate1, aCandidate2);
     List<UserConsumption> userConsumptionsLikes1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 1);
     List<UserConsumption> userConsumptionsLikes2 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate2, 1);
     List<UserConsumption> userConsumptionsMiddles1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 0.5);
@@ -879,15 +879,15 @@ public class LineBotController {
 
   private void generateConsumption(String aCandidate, List<UserConsumption> aLike, List<UserConsumption> aMiddle, List<UserConsumption> aUnlike) throws Exception {
     Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aCandidate, TWEETS_STEP), Content.class);
-    ProfileOptions options1 = new ProfileOptions.Builder()
+    ProfileOptions options = new ProfileOptions.Builder()
         .contentItems(content.getContentItems())
         .consumptionPreferences(true)
         .rawScores(true)
         .build();
 
-    Profile personality = fPersonalityInsights.getProfile(options1).execute();
+    Profile personality = fPersonalityInsights.getProfile(options).execute();
     List<ConsumptionPreferences> consumptionPreferences = personality.getConsumptionPreferences();
-
+    LOG.info("generateConsumption..." + consumptionPreferences.size());
     int removePrefix = "Likely to ".length();
     for (ConsumptionPreferences cp : consumptionPreferences) {
       UserConsumption uc = new UserConsumption();
