@@ -211,10 +211,15 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
               String personalityCandidate = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personalityCandidate.length() > 3) {
+                boolean valid = false;
                 try {
                   processPersonality(aReplayToken, aSource.groupId(), personalityCandidate);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
@@ -222,10 +227,15 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
               String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
               if (summaryCandidate.length() > 3) {
+                boolean valid = false;
                 try {
                   processSummary(aSource.groupId(), summaryCandidate);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
@@ -242,18 +252,28 @@ public class LineBotController {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
             processTwitter(aReplayToken, aSource, sentiment);
           } else if (pd.startsWith(KEY_PERSONALITY)) {
+            boolean valid = false;
             try {
               String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
               processPersonality(aReplayToken, aSource.groupId(), personalityCandidate);
+              valid = true;
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
+            if (!valid) {
+              pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
+            }
           } else if (pd.startsWith(KEY_SUMMARY)) {
+            boolean valid = false;
             try {
               String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
               processSummary(aSource.groupId(), summaryCandidate);
             } catch (Exception aE) {
+              valid = true;
               LOG.error("Exception when reading tweets..." + aE.getMessage());
+            }
+            if (!valid) {
+              pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
             }
           }
           break;
@@ -334,10 +354,15 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
               String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personality.length() > 3) {
+                boolean valid = false;
                 try {
                   processPersonality(aReplayToken, aUserId, personality);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
@@ -346,10 +371,15 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
               String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
               if (summaryCandidate.length() > 3) {
+                boolean valid = false;
                 try {
                   processSummary(aUserId, summaryCandidate);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
@@ -425,7 +455,6 @@ public class LineBotController {
               processPersonality(aReplayToken, aUserId, personalityCandidate);
               valid = true;
             } catch (Exception aE) {
-              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
               LOG.error("Exception when reading personality..." + aE.getMessage());
             }
             if (!valid) {
@@ -438,7 +467,6 @@ public class LineBotController {
               processSummary(aUserId, summaryCandidate);
               valid = true;
             } catch (Exception aE) {
-              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
               LOG.error("Exception when reading summary..." + aE.getMessage());
             }
             if (!valid) {
