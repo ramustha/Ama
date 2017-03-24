@@ -390,7 +390,8 @@ public class LineBotController {
               String candidates = text.substring(KEY_MATCH.length(), text.length()).trim();
               if (candidates.length() > 11) {
                 String[] candidatesSplit = candidates.split("and");
-                if (candidatesSplit[0] != null && candidatesSplit[0].length() > 3 && candidatesSplit[1] != null && candidatesSplit[1].length() > 3) {
+                if (candidatesSplit.length == 2 && candidatesSplit[0].length() > 3 &&
+                    candidatesSplit[1].length() > 3) {
                   String candidate1 = candidatesSplit[0];
                   String candidate2 = candidatesSplit[1];
                   boolean valid = false;
