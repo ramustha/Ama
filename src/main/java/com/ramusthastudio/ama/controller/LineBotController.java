@@ -701,7 +701,7 @@ public class LineBotController {
       likePercent = processMatches(generateCandidate(userConsumptionsLikes1), generateCandidate(userConsumptionsLikes2), 50);
       middlePercent = processMatches(generateCandidate(userConsumptionsMiddles1), generateCandidate(userConsumptionsMiddles2), 15);
       unlikePercent = processMatches(generateCandidate(userConsumptionsUnLikes1), generateCandidate(userConsumptionsUnLikes2), 35);
-      LOG.info("End find processMatch from database... {}{}{}", likePercent, middlePercent, unlikePercent);
+      LOG.info("End find processMatch from database... {} {} {}", likePercent, middlePercent, unlikePercent);
     } else {
       LOG.info("Start find processMatch from service...");
       List<UserConsumption> likes1 = new ArrayList<>();
@@ -712,13 +712,14 @@ public class LineBotController {
       List<UserConsumption> unLikes2 = new ArrayList<>();
       generateConsumption(aCandidate1, likes1, middles1, unLikes1);
       generateConsumption(aCandidate2, likes2, middles2, unLikes2);
-
       likePercent = processMatches(generateCandidate(likes1), generateCandidate(likes2), 50);
       middlePercent = processMatches(generateCandidate(middles1), generateCandidate(middles2), 15);
       unlikePercent = processMatches(generateCandidate(unLikes1), generateCandidate(unLikes2), 35);
-      LOG.info("End find processMatch from service... {}{}{}", likePercent, middlePercent, unlikePercent);
+      LOG.info("End find processMatch from service... {} {} {}", likePercent, middlePercent, unlikePercent);
     }
-    // pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
+
+    int result = likePercent + middlePercent + unlikePercent;
+    pushMessage(fChannelAccessToken, aUserId, "Match result : " + aCandidate1 + " dan " + aCandidate2 + " adalah " + result + "%");
     if (generateRandom(0, 5) > 2) {
       pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
           "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
