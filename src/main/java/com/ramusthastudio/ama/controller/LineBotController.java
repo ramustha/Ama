@@ -425,10 +425,11 @@ public class LineBotController {
               processPersonality(aReplayToken, aUserId, personalityCandidate);
               valid = true;
             } catch (Exception aE) {
-              LOG.error("Exception when reading tweets..." + aE.getMessage());
+              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
+              LOG.error("Exception when reading personality..." + aE.getMessage());
             }
             if (!valid) {
-              replayMessage(fChannelAccessToken, aReplayToken, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
+              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
             }
           } else if (pd.startsWith(KEY_SUMMARY)) {
             boolean valid = false;
@@ -437,10 +438,11 @@ public class LineBotController {
               processSummary(aUserId, summaryCandidate);
               valid = true;
             } catch (Exception aE) {
-              LOG.error("Exception when reading tweets..." + aE.getMessage());
+              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
+              LOG.error("Exception when reading summary..." + aE.getMessage());
             }
             if (!valid) {
-              replayMessage(fChannelAccessToken, aReplayToken, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
+              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
             }
           }
           break;
