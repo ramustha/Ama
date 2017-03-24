@@ -212,7 +212,7 @@ public class LineBotController {
               String personalityCandidate = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personalityCandidate.length() > 3) {
                 try {
-                  processPersonality(aSource.groupId(), personalityCandidate);
+                  processPersonality(aReplayToken, aSource.groupId(), personalityCandidate);
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
                 }
@@ -244,7 +244,7 @@ public class LineBotController {
           } else if (pd.startsWith(KEY_PERSONALITY)) {
             try {
               String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
-              processPersonality(aSource.groupId(), personalityCandidate);
+              processPersonality(aReplayToken, aSource.groupId(), personalityCandidate);
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
@@ -335,7 +335,7 @@ public class LineBotController {
               String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personality.length() > 3) {
                 try {
-                  processPersonality(aUserId, personality);
+                  processPersonality(aReplayToken, aUserId, personality);
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
                 }
@@ -462,7 +462,7 @@ public class LineBotController {
     }
   }
 
-  private void processPersonality(String aUserId, String aPersonalityCandidate) throws Exception {
+  private void processPersonality(String aReplayToken, String aUserId, String aPersonalityCandidate) throws Exception {
     StringBuilder personalityBuilder = new StringBuilder("Ini nih daftar personality nya...\n");
     List<UserPersonality> userPersonalities = fDao.getUserPersonalityById(aPersonalityCandidate);
     if (userPersonalities.size() > 0) {
@@ -496,9 +496,9 @@ public class LineBotController {
       List<Trait> needs = personality.getNeeds();
       List<Trait> values = personality.getValues();
 
-      buildPersonality(aPersonalityCandidate, personalityBuilder, personalities);
-      buildPersonality(aPersonalityCandidate, personalityBuilder, needs);
-      buildPersonality(aPersonalityCandidate, personalityBuilder, values);
+      buildPersonality(aReplayToken, aPersonalityCandidate, personalityBuilder, personalities);
+      buildPersonality(aReplayToken, aPersonalityCandidate, personalityBuilder, needs);
+      buildPersonality(aReplayToken, aPersonalityCandidate, personalityBuilder, values);
     }
     pushMessage(fChannelAccessToken, aUserId, personalityBuilder.toString());
     if (generateRandom(0, 5) > 2) {
@@ -508,37 +508,41 @@ public class LineBotController {
     randomMessage(aUserId);
   }
 
-  private void buildPersonality(String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) {
-    for (Trait parent : aTraits) {
-      UserPersonality Parentpersonality = new UserPersonality()
-          .setId(aPersonalityCandidate)
-          .setPersonName(aPersonalityCandidate)
-          .setCategory(parent.getCategory())
-          .setParentName(parent.getName())
-          .setParentPercentile(parent.getPercentile());
+  private void buildPersonality(String aReplayToken, String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) throws IOException {
+    if (aTraits.size() > 0) {
+      for (Trait parent : aTraits) {
+        UserPersonality Parentpersonality = new UserPersonality()
+            .setId(aPersonalityCandidate)
+            .setPersonName(aPersonalityCandidate)
+            .setCategory(parent.getCategory())
+            .setParentName(parent.getName())
+            .setParentPercentile(parent.getPercentile());
 
-      int percentage = (int) (parent.getPercentile() * 100);
-      aPersonalityBuilder
-          .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
+        int percentage = (int) (parent.getPercentile() * 100);
+        aPersonalityBuilder
+            .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
 
-      if (parent.getChildren() != null && parent.getChildren().size() != 0) {
-        for (Trait child : parent.getChildren()) {
-          UserPersonality childPersonality = new UserPersonality()
-              .setId(aPersonalityCandidate)
-              .setPersonName(aPersonalityCandidate)
-              .setCategory(parent.getCategory())
-              .setParentName(parent.getName())
-              .setParentPercentile(parent.getPercentile());
-          childPersonality.setChildName(child.getName()).setChildPercentile(child.getPercentile());
+        if (parent.getChildren() != null && parent.getChildren().size() != 0) {
+          for (Trait child : parent.getChildren()) {
+            UserPersonality childPersonality = new UserPersonality()
+                .setId(aPersonalityCandidate)
+                .setPersonName(aPersonalityCandidate)
+                .setCategory(parent.getCategory())
+                .setParentName(parent.getName())
+                .setParentPercentile(parent.getPercentile());
+            childPersonality.setChildName(child.getName()).setChildPercentile(child.getPercentile());
 
-          percentage = (int) (child.getPercentile() * 100);
-          aPersonalityBuilder
-              .append("\n--").append(child.getName()).append(" : ").append(percentage).append("%");
-          fDao.setUserPersonality(childPersonality);
+            percentage = (int) (child.getPercentile() * 100);
+            aPersonalityBuilder
+                .append("\n--").append(child.getName()).append(" : ").append(percentage).append("%");
+            fDao.setUserPersonality(childPersonality);
+          }
         }
+        LOG.info("Start saving personality to database...");
+        fDao.setUserPersonality(Parentpersonality);
       }
-      LOG.info("Start saving personality to database...");
-      fDao.setUserPersonality(Parentpersonality);
+    } else {
+      replayMessage(fChannelAccessToken, aReplayToken, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
     }
   }
 
