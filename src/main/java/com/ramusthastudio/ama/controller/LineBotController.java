@@ -53,6 +53,7 @@ import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.JOIN;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_AMA;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_MATCH;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_PERSONALITY;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_SUMMARY;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
@@ -384,6 +385,12 @@ public class LineBotController {
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
               }
+
+            } else if (text.toLowerCase().startsWith(KEY_MATCH)) {
+              String candidates = text.substring(KEY_MATCH.length(), text.length()).trim();
+              String[] candidatesSplit = candidates.split("and");
+
+              replayMessage(fChannelAccessToken, aReplayToken, candidatesSplit[0] + " & " + candidatesSplit[1]);
 
             } else {
               isValid = false;
@@ -779,5 +786,17 @@ public class LineBotController {
       }
     }
     return likeConsumption;
+  }
+
+  private static int processMatches(ArrayList<String> aCandidate1, ArrayList<String> aCandidate2, int aOffset) {
+    double likeCount = 0;
+    for (String s1 : aCandidate1) {
+      for (String s2 : aCandidate2) {
+        if (s1.contains(s2)) {
+          likeCount++;
+        }
+      }
+    }
+    return (int) Math.round((likeCount / aCandidate1.size()) * aOffset);
   }
 }

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/com/ramusthastudio/ama/exFbApi.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" afterPath="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
     </list>
@@ -109,14 +110,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="766" column="89" lean-forward="false" selection-start-line="766" selection-start-column="89" selection-end-line="766" selection-end-column="89" />
+            <state relative-caret-position="289">
+              <caret line="792" column="20" lean-forward="false" selection-start-line="792" selection-start-column="20" selection-end-line="792" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="exPercentile.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exPercentile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="349">
+              <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -560,7 +571,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/Application.java" />
         <option value="$PROJECT_DIR$/settings.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/util/Config.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/model/Events.java" />
@@ -611,6 +621,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exFbApi.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exPercentile.java" />
       </list>
     </option>
   </component>
@@ -699,6 +710,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ama" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ama" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ama" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -738,25 +779,7 @@
       <recent name="D:\SANDBOX\Line\infomovies\src\main" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.exFbApi">
-    <configuration default="false" name="infomovies [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="assemble" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.exPercentile">
     <configuration default="false" name="Ama [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -816,6 +839,26 @@
         </pattern>
       </extension>
       <option name="MAIN_CLASS_NAME" value="com.ramusthastudio.ama.exFbApi" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="ama_main" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="exPercentile" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.ramusthastudio.ama.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="com.ramusthastudio.ama.exPercentile" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -1218,19 +1261,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Gradle.infomovies [assemble]" />
-      <item index="1" class="java.lang.String" itemvalue="Gradle.Ama [build]" />
-      <item index="2" class="java.lang.String" itemvalue="Spring Boot.Application" />
-      <item index="3" class="java.lang.String" itemvalue="Application.exString" />
-      <item index="4" class="java.lang.String" itemvalue="Application.exFbApi" />
+      <item index="0" class="java.lang.String" itemvalue="Gradle.Ama [build]" />
+      <item index="1" class="java.lang.String" itemvalue="Spring Boot.Application" />
+      <item index="2" class="java.lang.String" itemvalue="Application.exString" />
+      <item index="3" class="java.lang.String" itemvalue="Application.exFbApi" />
+      <item index="4" class="java.lang.String" itemvalue="Application.exPercentile" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.exFbApi" />
-        <item index="1" class="java.lang.String" itemvalue="Spring Boot.Application" />
-        <item index="2" class="java.lang.String" itemvalue="Application.exString" />
-        <item index="3" class="java.lang.String" itemvalue="Gradle.Ama [build]" />
-        <item index="4" class="java.lang.String" itemvalue="Gradle.infomovies [assemble]" />
+        <item index="0" class="java.lang.String" itemvalue="Application.exPercentile" />
+        <item index="1" class="java.lang.String" itemvalue="Application.exFbApi" />
+        <item index="2" class="java.lang.String" itemvalue="Spring Boot.Application" />
+        <item index="3" class="java.lang.String" itemvalue="Application.exString" />
+        <item index="4" class="java.lang.String" itemvalue="Gradle.Ama [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -1254,12 +1297,12 @@
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
       <workItem from="1489565847515" duration="71540000" />
-      <workItem from="1489974093115" duration="110749000" />
+      <workItem from="1489974093115" duration="113312000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285845000" />
+    <option name="totallyTimeSpent" value="288408000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1286,13 +1329,13 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35620052" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35620052" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.4974293" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30343008" sideWeight="0.49614397" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6226913" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.007069409" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30343008" sideWeight="0.49614397" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4656992" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17352185" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17609255" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1360,14 +1403,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/src.zip!/java/sql/Date.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="109" column="23" lean-forward="false" selection-start-line="109" selection-start-column="23" selection-end-line="109" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/src.zip!/java/text/DateFormat.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
@@ -1646,16 +1681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exString.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/Profile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -1673,44 +1698,6 @@
           <caret line="46" column="63" lean-forward="false" selection-start-line="46" selection-start-column="63" selection-end-line="46" selection-end-column="63" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="56" column="88" lean-forward="true" selection-start-line="56" selection-start-column="88" selection-end-line="56" selection-end-column="88" />
-          <folding>
-            <marker date="1490261844008" expanded="true" signature="1094:1120" ph="SELECT * FRO... user_twitter" />
-            <marker date="1490261844008" expanded="true" signature="1213:1243" ph="SELECT * FRO... user_twitter" />
-            <marker date="1490261844008" expanded="true" signature="1305:1580" ph="INSERT INTO user_twitter... " />
-            <marker date="1490261844008" expanded="true" signature="1643:1666" ph="SELECT * FRO... user_line" />
-            <marker date="1490261844008" expanded="true" signature="1753:1783" ph="SELECT * FRO... user_line" />
-            <marker date="1490261844008" expanded="true" signature="1842:1931" ph="INSERT INTO user_line... " />
-            <marker date="1490261844008" expanded="true" signature="1994:2017" ph="SELECT * FRO... user_chat" />
-            <marker date="1490261844008" expanded="true" signature="2104:2134" ph="SELECT * FRO... user_chat" />
-            <marker date="1490261844008" expanded="true" signature="2193:2274" ph="INSERT INTO user_chat... " />
-            <marker date="1490261844008" expanded="true" signature="2332:2428" ph="UPDATE user_... " />
-            <marker date="1490261844008" expanded="true" signature="2494:2520" ph="SELECT * FRO... user_message" />
-            <marker date="1490261844008" expanded="true" signature="2618:2653" ph="SELECT * FRO... user_message" />
-            <marker date="1490261844008" expanded="true" signature="2756:2794" ph="SELECT * FRO... user_message" />
-            <marker date="1490261844008" expanded="true" signature="2856:3012" ph="INSERT INTO user_message... " />
-            <marker date="1490261844008" expanded="true" signature="3079:3106" ph="SELECT * FRO... user_evidence" />
-            <marker date="1490261844008" expanded="true" signature="3209:3247" ph="SELECT * FRO... user_evidence" />
-            <marker date="1490261844008" expanded="true" signature="3310:3413" ph="INSERT INTO user_evidence... " />
-            <marker date="1490261844008" expanded="true" signature="3483:3513" ph="SELECT * FRO... user_consumption" />
-            <marker date="1490261844008" expanded="true" signature="3622:3660" ph="SELECT * FRO... user_evidence" />
-            <marker date="1490261844008" expanded="true" signature="3772:3810" ph="SELECT * FRO... user_consumption" />
-            <marker date="1490261844008" expanded="true" signature="3772:3856" ph="SELECT * FRO... user_consumption" />
-            <marker date="1490261844008" expanded="true" signature="3969:4033" ph="SELECT * FRO... user_consumption" />
-            <marker date="1490261844008" expanded="true" signature="4098:4218" ph="INSERT INTO user_consumption... " />
-            <marker date="1490261844008" expanded="true" signature="4288:4318" ph="SELECT * FRO... user_evidence" />
-            <marker date="1490261844008" expanded="true" signature="4419:4449" ph="SELECT * FRO... user_evidence" />
-            <marker date="1490261844008" expanded="true" signature="4554:4593" ph="SELECT * FRO... user_personality" />
-            <marker date="1490261844008" expanded="true" signature="4704:4768" ph="SELECT * FRO... user_personality" />
-            <marker date="1490261844008" expanded="true" signature="4880:4953" ph="SELECT * FRO... user_personality" />
-            <marker date="1490261844008" expanded="true" signature="5018:5171" ph="INSERT INTO public.user_personality... " />
           </folding>
         </state>
       </provider>
@@ -1811,13 +1798,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exString.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="766" column="89" lean-forward="false" selection-start-line="766" selection-start-column="89" selection-end-line="766" selection-end-column="89" />
+        <state relative-caret-position="-52">
+          <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="71">
+          <caret line="50" column="88" lean-forward="true" selection-start-line="50" selection-start-column="88" selection-end-line="50" selection-end-column="88" />
+          <folding>
+            <marker date="1490261844008" expanded="true" signature="1094:1120" ph="SELECT * FRO... user_twitter" />
+            <marker date="1490261844008" expanded="true" signature="1213:1243" ph="SELECT * FRO... user_twitter" />
+            <marker date="1490261844008" expanded="true" signature="1305:1580" ph="INSERT INTO user_twitter... " />
+            <marker date="1490261844008" expanded="true" signature="1643:1666" ph="SELECT * FRO... user_line" />
+            <marker date="1490261844008" expanded="true" signature="1753:1783" ph="SELECT * FRO... user_line" />
+            <marker date="1490261844008" expanded="true" signature="1842:1931" ph="INSERT INTO user_line... " />
+            <marker date="1490261844008" expanded="true" signature="1994:2017" ph="SELECT * FRO... user_chat" />
+            <marker date="1490261844008" expanded="true" signature="2104:2134" ph="SELECT * FRO... user_chat" />
+            <marker date="1490261844008" expanded="true" signature="2193:2274" ph="INSERT INTO user_chat... " />
+            <marker date="1490261844008" expanded="true" signature="2332:2428" ph="UPDATE user_... " />
+            <marker date="1490261844008" expanded="true" signature="2494:2520" ph="SELECT * FRO... user_message" />
+            <marker date="1490261844008" expanded="true" signature="2618:2653" ph="SELECT * FRO... user_message" />
+            <marker date="1490261844008" expanded="true" signature="2756:2794" ph="SELECT * FRO... user_message" />
+            <marker date="1490261844008" expanded="true" signature="2856:3012" ph="INSERT INTO user_message... " />
+            <marker date="1490261844008" expanded="true" signature="3079:3106" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="3209:3247" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="3310:3413" ph="INSERT INTO user_evidence... " />
+            <marker date="1490261844008" expanded="true" signature="3483:3513" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="3622:3660" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="3772:3810" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="3772:3856" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="3969:4033" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="4098:4218" ph="INSERT INTO user_consumption... " />
+            <marker date="1490261844008" expanded="true" signature="4288:4318" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="4419:4449" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="4554:4593" ph="SELECT * FRO... user_personality" />
+            <marker date="1490261844008" expanded="true" signature="4704:4768" ph="SELECT * FRO... user_personality" />
+            <marker date="1490261844008" expanded="true" signature="4880:4953" ph="SELECT * FRO... user_personality" />
+            <marker date="1490261844008" expanded="true" signature="5018:5171" ph="INSERT INTO public.user_personality... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="792" column="20" lean-forward="false" selection-start-line="792" selection-start-column="20" selection-end-line="792" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exPercentile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
