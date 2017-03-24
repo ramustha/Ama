@@ -388,9 +388,21 @@ public class LineBotController {
 
             } else if (text.toLowerCase().startsWith(KEY_MATCH)) {
               String candidates = text.substring(KEY_MATCH.length(), text.length()).trim();
-              String[] candidatesSplit = candidates.split("and");
+              if (candidates.length() > 11) {
+                String[] candidatesSplit = candidates.split("and");
+                if (candidatesSplit[0].length() > 3 && candidatesSplit[1].length() > 3) {
+                  String candidate1 = candidatesSplit[0];
+                  String candidate2 = candidatesSplit[1];
+                  replayMessage(fChannelAccessToken, aReplayToken, candidatesSplit[0] + " & " + candidatesSplit[1]);
 
-              replayMessage(fChannelAccessToken, aReplayToken, candidatesSplit[0] + " & " + candidatesSplit[1]);
+                  processSummary(aUserId, candidate1);
+
+                } else {
+                  replayMessage(fChannelAccessToken, aReplayToken, "kayaknya ada yang salah nih, coba cek lagi...");
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "kayaknya kamu salah deh masukin id nya...");
+              }
 
             } else {
               isValid = false;
@@ -665,6 +677,57 @@ public class LineBotController {
     randomMessage(aUserId);
   }
 
+  private void processMatch(String aUserId, String aCandidate1, String aCandidate2) throws Exception {
+    int likePercent;
+    int middlePercent;
+    int unlikePercent;
+
+    List<UserConsumption> userConsumptionsLikes1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 1);
+    List<UserConsumption> userConsumptionsLikes2 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate2, 1);
+    List<UserConsumption> userConsumptionsMiddles1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 0.5);
+    List<UserConsumption> userConsumptionsMiddles2 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate2, 0.5);
+    List<UserConsumption> userConsumptionsUnLikes1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 0);
+    List<UserConsumption> userConsumptionsUnLikes2 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate2, 0);
+
+    if (userConsumptionsLikes1.size() > 0 && userConsumptionsUnLikes1.size() > 0) {
+      LOG.info("Start find processMatch from database...");
+      likePercent = processMatches(generateCandidate(userConsumptionsLikes1), generateCandidate(userConsumptionsLikes2), 50);
+      middlePercent = processMatches(generateCandidate(userConsumptionsMiddles1), generateCandidate(userConsumptionsMiddles2), 15);
+      unlikePercent = processMatches(generateCandidate(userConsumptionsUnLikes1), generateCandidate(userConsumptionsUnLikes2), 35);
+      LOG.info("End find processMatch from database... {}{}{}", likePercent, middlePercent, unlikePercent);
+    } else {
+      LOG.info("Start find processMatch from service...");
+      Content content1 = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aCandidate1, TWEETS_STEP), Content.class);
+      ProfileOptions options1 = new ProfileOptions.Builder()
+          .contentItems(content1.getContentItems())
+          .consumptionPreferences(true)
+          .rawScores(true)
+          .build();
+      Profile personality1 = fPersonalityInsights.getProfile(options1).execute();
+      List<ConsumptionPreferences> consumptionPreferences = personality1.getConsumptionPreferences();
+      userConsumptionsLikes1 = new ArrayList<>();
+      userConsumptionsMiddles1 = new ArrayList<>();
+      userConsumptionsUnLikes1 = new ArrayList<>();
+      userConsumptionsLikes2 = new ArrayList<>();
+      userConsumptionsMiddles2 = new ArrayList<>();
+      userConsumptionsUnLikes2 = new ArrayList<>();
+
+      generateConsumption(aCandidate1, consumptionPreferences, userConsumptionsLikes1, userConsumptionsMiddles1, userConsumptionsUnLikes1);
+      generateConsumption(aCandidate2, consumptionPreferences, userConsumptionsLikes2, userConsumptionsMiddles2, userConsumptionsUnLikes2);
+
+      likePercent = processMatches(generateCandidate(userConsumptionsLikes1), generateCandidate(userConsumptionsLikes2), 50);
+      middlePercent = processMatches(generateCandidate(userConsumptionsMiddles1), generateCandidate(userConsumptionsMiddles2), 15);
+      unlikePercent = processMatches(generateCandidate(userConsumptionsUnLikes1), generateCandidate(userConsumptionsUnLikes2), 35);
+      LOG.info("End find processMatch from service... {}{}{}", likePercent, middlePercent, unlikePercent);
+    }
+    // pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
+    if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
+          "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
+    }
+    randomMessage(aUserId);
+  }
+
   private void sentimentService(String aReplayToken, String aUserId, UserTwitter aUserTwitter) throws IOException {
     LOG.info("Start sentiment service...");
     Call<ApiTweets> tweets = fSentimentTweetService.apiTweets(aUserTwitter.getUsername(), MAX_TWEETS);
@@ -775,6 +838,11 @@ public class LineBotController {
     } else if (generateRandom(0, 5) > 2) {
       pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis summary jokowi...");
     }
+
+    if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "aku punya satu lagi nih yang menarik, coba kamu tulis match agnezmo and afgansyah_reza\n" +
+          "aku bisa hitung kecocokan mereka berdasarkan personality nya...");
+    }
   }
 
   private static ArrayList<String> generateRandomLikeConsumption(List<UserConsumption> aUserConsumptions) {
@@ -798,5 +866,40 @@ public class LineBotController {
       }
     }
     return (int) Math.round((likeCount / aCandidate1.size()) * aOffset);
+  }
+
+  private static ArrayList<String> generateCandidate(List<UserConsumption> aCandidates) {
+    ArrayList<String> likeCandidate = new ArrayList<>();
+    for (UserConsumption userConsumption : aCandidates) {
+      String name = userConsumption.getConsumptionName();
+      if (!likeCandidate.contains(name)) {
+        likeCandidate.add(name);
+      }
+    }
+    return likeCandidate;
+  }
+
+  private void generateConsumption(String aCandidate, List<ConsumptionPreferences> aConsumptionPreferences, List<UserConsumption> aLike, List<UserConsumption> aMiddle, List<UserConsumption> aUnlike) {
+    int removePrefix = "Likely to ".length();
+    for (ConsumptionPreferences cp : aConsumptionPreferences) {
+      UserConsumption uc = new UserConsumption();
+      uc.setTwitterId(aCandidate);
+      uc.setConsumptionCategory(cp.getCategoryId());
+      for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
+        double score = consumptionPreference.getScore();
+        String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
+        uc.setConsumptionName(name).setConsumptionScore(score);
+        LOG.info("Start saving processMatch to database...");
+        fDao.setUserConsumption(uc);
+
+        if (score == 1) {
+          aLike.add(uc);
+        } else if (score == 0.5) {
+          aMiddle.add(uc);
+        } else {
+          aUnlike.add(uc);
+        }
+      }
+    }
   }
 }
