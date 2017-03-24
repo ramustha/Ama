@@ -390,10 +390,9 @@ public class LineBotController {
               String candidates = text.substring(KEY_MATCH.length(), text.length()).trim();
               if (candidates.length() > 11) {
                 String[] candidatesSplit = candidates.split("and");
-                if (candidatesSplit[0].length() > 3 && candidatesSplit[1].length() > 3) {
+                if (candidatesSplit[0] != null && candidatesSplit[0].length() > 3 && candidatesSplit[1] != null && candidatesSplit[1].length() > 3) {
                   String candidate1 = candidatesSplit[0];
                   String candidate2 = candidatesSplit[1];
-                  // replayMessage(fChannelAccessToken, aReplayToken, candidatesSplit[0] + " & " + candidatesSplit[1]);
                   boolean valid = false;
                   try {
                     processMatch(aUserId, candidate1.trim(), candidate2.trim());
@@ -720,10 +719,6 @@ public class LineBotController {
 
     int result = likePercent + middlePercent + unlikePercent;
     pushMessage(fChannelAccessToken, aUserId, "Match result : " + aCandidate1 + " dan " + aCandidate2 + " adalah " + result + "%");
-    if (generateRandom(0, 5) > 2) {
-      pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
-          "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
-    }
     randomMessage(aUserId);
   }
 

@@ -98,7 +98,7 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5973597">
+    <splitter split-orientation="horizontal" split-proportion="0.7181518">
       <split-first>
         <leaf>
           <file leaf-file-name="Evidence.java" pinned="false" current-in-tab="false">
@@ -114,8 +114,8 @@
           <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="514">
-                  <caret line="718" column="60" lean-forward="false" selection-start-line="718" selection-start-column="60" selection-end-line="718" selection-end-column="60" />
+                <state relative-caret-position="148">
+                  <caret line="392" column="37" lean-forward="false" selection-start-line="392" selection-start-column="37" selection-end-line="392" selection-end-column="37" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -141,7 +141,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="115">
-                  <caret line="884" column="14" lean-forward="false" selection-start-line="884" selection-start-column="14" selection-end-line="884" selection-end-column="14" />
+                  <caret line="880" column="14" lean-forward="false" selection-start-line="880" selection-start-column="14" selection-end-line="880" selection-end-column="14" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -1316,12 +1316,12 @@
       <workItem from="1489560545100" duration="2154000" />
       <workItem from="1489563070170" duration="2240000" />
       <workItem from="1489565847515" duration="71540000" />
-      <workItem from="1489974093115" duration="120817000" />
+      <workItem from="1489974093115" duration="121257000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="295913000" />
+    <option name="totallyTimeSpent" value="296353000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="0" />
@@ -1875,8 +1875,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="718" column="60" lean-forward="false" selection-start-line="718" selection-start-column="60" selection-end-line="718" selection-end-column="60" />
+        <state relative-caret-position="148">
+          <caret line="392" column="37" lean-forward="false" selection-start-line="392" selection-start-column="37" selection-end-line="392" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
