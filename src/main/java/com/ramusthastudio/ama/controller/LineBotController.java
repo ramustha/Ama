@@ -398,7 +398,7 @@ public class LineBotController {
                   try {
                     processMatch(aUserId, candidate1, candidate2);
                     valid = true;
-                  }catch (Exception aE){
+                  } catch (Exception aE) {
                     LOG.error("Exception when reading match..." + aE.getMessage());
                   }
                   if (!valid) {
@@ -704,23 +704,14 @@ public class LineBotController {
       LOG.info("End find processMatch from database... {}{}{}", likePercent, middlePercent, unlikePercent);
     } else {
       LOG.info("Start find processMatch from service...");
-      Content content1 = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aCandidate1, TWEETS_STEP), Content.class);
-      ProfileOptions options1 = new ProfileOptions.Builder()
-          .contentItems(content1.getContentItems())
-          .consumptionPreferences(true)
-          .rawScores(true)
-          .build();
-      Profile personality1 = fPersonalityInsights.getProfile(options1).execute();
-      List<ConsumptionPreferences> consumptionPreferences = personality1.getConsumptionPreferences();
       userConsumptionsLikes1 = new ArrayList<>();
       userConsumptionsMiddles1 = new ArrayList<>();
       userConsumptionsUnLikes1 = new ArrayList<>();
       userConsumptionsLikes2 = new ArrayList<>();
       userConsumptionsMiddles2 = new ArrayList<>();
       userConsumptionsUnLikes2 = new ArrayList<>();
-
-      generateConsumption(aCandidate1, consumptionPreferences, userConsumptionsLikes1, userConsumptionsMiddles1, userConsumptionsUnLikes1);
-      generateConsumption(aCandidate2, consumptionPreferences, userConsumptionsLikes2, userConsumptionsMiddles2, userConsumptionsUnLikes2);
+      generateConsumption(aCandidate1, userConsumptionsLikes1, userConsumptionsMiddles1, userConsumptionsUnLikes1);
+      generateConsumption(aCandidate2, userConsumptionsLikes2, userConsumptionsMiddles2, userConsumptionsUnLikes2);
 
       likePercent = processMatches(generateCandidate(userConsumptionsLikes1), generateCandidate(userConsumptionsLikes2), 50);
       middlePercent = processMatches(generateCandidate(userConsumptionsMiddles1), generateCandidate(userConsumptionsMiddles2), 15);
@@ -886,9 +877,19 @@ public class LineBotController {
     return likeCandidate;
   }
 
-  private void generateConsumption(String aCandidate, List<ConsumptionPreferences> aConsumptionPreferences, List<UserConsumption> aLike, List<UserConsumption> aMiddle, List<UserConsumption> aUnlike) {
+  private void generateConsumption(String aCandidate, List<UserConsumption> aLike, List<UserConsumption> aMiddle, List<UserConsumption> aUnlike) throws Exception {
+    Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aCandidate, TWEETS_STEP), Content.class);
+    ProfileOptions options1 = new ProfileOptions.Builder()
+        .contentItems(content.getContentItems())
+        .consumptionPreferences(true)
+        .rawScores(true)
+        .build();
+
+    Profile personality = fPersonalityInsights.getProfile(options1).execute();
+    List<ConsumptionPreferences> consumptionPreferences = personality.getConsumptionPreferences();
+
     int removePrefix = "Likely to ".length();
-    for (ConsumptionPreferences cp : aConsumptionPreferences) {
+    for (ConsumptionPreferences cp : consumptionPreferences) {
       UserConsumption uc = new UserConsumption();
       uc.setTwitterId(aCandidate);
       uc.setConsumptionCategory(cp.getCategoryId());
