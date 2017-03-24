@@ -241,6 +241,31 @@ public class LineBotController {
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
               }
+            } else if (text.toLowerCase().startsWith(KEY_MATCH)) {
+              String candidates = text.substring(KEY_MATCH.length(), text.length()).trim();
+              if (candidates.length() > 11) {
+                String[] candidatesSplit = candidates.split("and");
+                if (candidatesSplit.length == 2 && candidatesSplit[0].length() > 3 &&
+                    candidatesSplit[1].length() > 3) {
+                  String candidate1 = candidatesSplit[0];
+                  String candidate2 = candidatesSplit[1];
+                  boolean valid = false;
+                  try {
+                    processMatch(aSource.groupId(), candidate1.trim(), candidate2.trim());
+                    valid = true;
+                  } catch (Exception aE) {
+                    LOG.error("Exception when reading match..." + aE.getMessage());
+                  }
+                  if (!valid) {
+                    pushMessage(fChannelAccessToken, aSource.groupId(), "maaf kawan sepertinya ada kesalahan...");
+                  }
+                } else {
+                  replayMessage(fChannelAccessToken, aReplayToken, "kayaknya ada yang salah nih, coba cek lagi...");
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "kayaknya kamu salah deh masukin id nya...");
+              }
+
             } else if (match.find()) {
               talkMessageGroup(fChannelAccessToken, aSource.groupId());
               instructionSentimentMessage(fChannelAccessToken, aSource.groupId());
@@ -720,6 +745,10 @@ public class LineBotController {
 
     int result = likePercent + middlePercent + unlikePercent;
     pushMessage(fChannelAccessToken, aUserId, "Match result : " + aCandidate1 + " dan " + aCandidate2 + " adalah " + result + "%");
+    if (aCandidate1.equalsIgnoreCase(aCandidate2)) {
+      pushMessage(fChannelAccessToken, aUserId, "Yaiyalah kamu masukin nama yang sama");
+      stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_USELESS));
+    }
     randomMessage(aUserId);
   }
 
