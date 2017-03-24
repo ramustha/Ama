@@ -268,8 +268,8 @@ public class LineBotController {
             try {
               String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
               processSummary(aSource.groupId(), summaryCandidate);
-            } catch (Exception aE) {
               valid = true;
+            } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
             if (!valid) {
@@ -762,9 +762,9 @@ public class LineBotController {
 
   private void randomMessage(String aUserId) throws IOException {
     if (generateRandom(0, 5) > 2) {
-      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis personality jokowi...");
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis personality BarackObama...");
     } else if (generateRandom(0, 5) > 2) {
-      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis sentiment jokowi...");
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis sentiment adele...");
     } else if (generateRandom(0, 5) > 2) {
       pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis summary jokowi...");
     }
