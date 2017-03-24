@@ -396,7 +396,7 @@ public class LineBotController {
                   // replayMessage(fChannelAccessToken, aReplayToken, candidatesSplit[0] + " & " + candidatesSplit[1]);
                   boolean valid = false;
                   try {
-                    processMatch(aUserId, candidate1, candidate2);
+                    processMatch(aUserId, candidate1.trim(), candidate2.trim());
                     valid = true;
                   } catch (Exception aE) {
                     LOG.error("Exception when reading match..." + aE.getMessage());
@@ -711,7 +711,7 @@ public class LineBotController {
       List<UserConsumption> middles2 = new ArrayList<>();
       List<UserConsumption> unLikes2 = new ArrayList<>();
       generateConsumption(aCandidate1, likes1, middles1, unLikes1);
-      // generateConsumption(aCandidate2, likes2, middles2, unLikes2);
+      generateConsumption(aCandidate2, likes2, middles2, unLikes2);
 
       likePercent = processMatches(generateCandidate(likes1), generateCandidate(likes2), 50);
       middlePercent = processMatches(generateCandidate(middles1), generateCandidate(middles2), 15);
@@ -878,7 +878,7 @@ public class LineBotController {
   }
 
   private void generateConsumption(String aCandidate, List<UserConsumption> aLike, List<UserConsumption> aMiddle, List<UserConsumption> aUnlike) throws Exception {
-    LOG.info("aCandidate..." + aCandidate);
+    LOG.info("candidate..." + aCandidate);
     Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aCandidate, TWEETS_STEP), Content.class);
     ProfileOptions options = new ProfileOptions.Builder()
         .contentItems(content.getContentItems())
