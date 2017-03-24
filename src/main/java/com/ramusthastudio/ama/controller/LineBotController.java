@@ -704,18 +704,18 @@ public class LineBotController {
       LOG.info("End find processMatch from database... {}{}{}", likePercent, middlePercent, unlikePercent);
     } else {
       LOG.info("Start find processMatch from service...");
-      userConsumptionsLikes1 = new ArrayList<>();
-      userConsumptionsMiddles1 = new ArrayList<>();
-      userConsumptionsUnLikes1 = new ArrayList<>();
-      userConsumptionsLikes2 = new ArrayList<>();
-      userConsumptionsMiddles2 = new ArrayList<>();
-      userConsumptionsUnLikes2 = new ArrayList<>();
-      generateConsumption(aCandidate1, userConsumptionsLikes1, userConsumptionsMiddles1, userConsumptionsUnLikes1);
-      generateConsumption(aCandidate2, userConsumptionsLikes2, userConsumptionsMiddles2, userConsumptionsUnLikes2);
+      List<UserConsumption> likes1 = new ArrayList<>();
+      List<UserConsumption> middles1 = new ArrayList<>();
+      List<UserConsumption> unLikes1 = new ArrayList<>();
+      List<UserConsumption> likes2 = new ArrayList<>();
+      List<UserConsumption> middles2 = new ArrayList<>();
+      List<UserConsumption> unLikes2 = new ArrayList<>();
+      generateConsumption(aCandidate1, likes1, middles1, unLikes1);
+      // generateConsumption(aCandidate2, likes2, middles2, unLikes2);
 
-      likePercent = processMatches(generateCandidate(userConsumptionsLikes1), generateCandidate(userConsumptionsLikes2), 50);
-      middlePercent = processMatches(generateCandidate(userConsumptionsMiddles1), generateCandidate(userConsumptionsMiddles2), 15);
-      unlikePercent = processMatches(generateCandidate(userConsumptionsUnLikes1), generateCandidate(userConsumptionsUnLikes2), 35);
+      likePercent = processMatches(generateCandidate(likes1), generateCandidate(likes2), 50);
+      middlePercent = processMatches(generateCandidate(middles1), generateCandidate(middles2), 15);
+      unlikePercent = processMatches(generateCandidate(unLikes1), generateCandidate(unLikes2), 35);
       LOG.info("End find processMatch from service... {}{}{}", likePercent, middlePercent, unlikePercent);
     }
     // pushMessage(fChannelAccessToken, aUserId, consumptionBuilder.toString());
@@ -878,6 +878,7 @@ public class LineBotController {
   }
 
   private void generateConsumption(String aCandidate, List<UserConsumption> aLike, List<UserConsumption> aMiddle, List<UserConsumption> aUnlike) throws Exception {
+    LOG.info("aCandidate..." + aCandidate);
     Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aCandidate, TWEETS_STEP), Content.class);
     ProfileOptions options = new ProfileOptions.Builder()
         .contentItems(content.getContentItems())
