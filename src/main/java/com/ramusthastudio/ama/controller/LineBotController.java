@@ -421,7 +421,7 @@ public class LineBotController {
           } else if (pd.startsWith(KEY_PERSONALITY)) {
             try {
               String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
-              processPersonality(aUserId, personalityCandidate);
+              processPersonality(aReplayToken, aUserId, personalityCandidate);
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
