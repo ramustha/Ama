@@ -463,7 +463,7 @@ public class LineBotController {
   }
 
   private void processPersonality(String aUserId, String aPersonalityCandidate) throws Exception {
-    StringBuilder personalityBuilder = new StringBuilder("Ini nih personality nya...\n");
+    StringBuilder personalityBuilder = new StringBuilder("Ini nih daftar personality nya...\n");
     List<UserPersonality> userPersonalities = fDao.getUserPersonalityById(aPersonalityCandidate);
     if (userPersonalities.size() > 0) {
       LOG.info("Start find personality from database...");
@@ -505,6 +505,7 @@ public class LineBotController {
       pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
           "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
     }
+    randomMessage(aUserId);
   }
 
   private void buildPersonality(String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) {
@@ -610,6 +611,7 @@ public class LineBotController {
       pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
           "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
     }
+    randomMessage(aUserId);
   }
 
   private void sentimentService(String aReplayToken, String aUserId, UserTwitter aUserTwitter) throws IOException {
@@ -678,6 +680,7 @@ public class LineBotController {
         pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
             "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
       }
+      randomMessage(aUserId);
     } else {
       replayMessage(fChannelAccessToken, aReplayToken, "hmm.. belum ada sentiment nih, gak begitu populer kayaknya");
     }
@@ -710,6 +713,16 @@ public class LineBotController {
           }
         }
       }
+    }
+  }
+
+  private void randomMessage(String aUserId) throws IOException {
+    if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis personality jokowi...");
+    } else if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis sentiment jokowi...");
+    } else if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis summary jokowi...");
     }
   }
 

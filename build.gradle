@@ -57,6 +57,7 @@ dependencies {
     compile('com.linecorp.bot:line-bot-spring-boot:1.6.0')
 
     compile 'org.twitter4j:twitter4j-core:4.0.3'
+//    compile 'org.facebook4j:facebook4j-core:2.4.8'
 
     compile 'com.ibm.watson.developer_cloud:java-sdk:3.5.3'
     
