@@ -261,6 +261,19 @@ public final class BotHelper {
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
 
+  public static void pushTaskMessage(String aChannelAccessToken, String aUserId) throws IOException {
+    UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
+    String greeting = "Hi " + userProfile.getDisplayName() + "\n";
+    greeting += "Sudah lupa sama aku ? aku AMA bot yang bisa membaca sentiment lewat twitter, ";
+    greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
+    greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
+    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
+    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets ataupun tulisan dalam sebuah file.\n\n";
+    greeting += "Bantuin aku donk supaya punya banyak teman, ini id aku @ape3119w";
+    stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
+    pushMessage(aChannelAccessToken, aUserId, greeting);
+  }
+
   public static void unfollowMessage(String aChannelAccessToken, String aUserId) throws IOException {
     UserProfileResponse userProfile = getUserProfile(aChannelAccessToken, aUserId);
     String greeting = "Hi " + userProfile.getDisplayName() + "\n";
