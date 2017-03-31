@@ -53,6 +53,7 @@ import static com.ramusthastudio.ama.util.BotHelper.FOLLOW;
 import static com.ramusthastudio.ama.util.BotHelper.JOIN;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_AMA;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_FRIEND;
+import static com.ramusthastudio.ama.util.BotHelper.KEY_MATCH;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_PERSONALITY;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_SUMMARY;
 import static com.ramusthastudio.ama.util.BotHelper.KEY_TWITTER;
@@ -211,10 +212,15 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
               String personalityCandidate = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personalityCandidate.length() > 3) {
+                boolean valid = false;
                 try {
-                  processPersonality(aSource.groupId(), personalityCandidate);
+                  processPersonality(aReplayToken, aSource.groupId(), personalityCandidate);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
@@ -222,14 +228,44 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
               String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
               if (summaryCandidate.length() > 3) {
+                boolean valid = false;
                 try {
                   processSummary(aSource.groupId(), summaryCandidate);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
               }
+            } else if (text.toLowerCase().startsWith(KEY_MATCH)) {
+              String candidates = text.substring(KEY_MATCH.length(), text.length()).trim();
+              if (candidates.length() > 11) {
+                String[] candidatesSplit = candidates.split("and");
+                if (candidatesSplit.length == 2 && candidatesSplit[0].length() > 3 &&
+                    candidatesSplit[1].length() > 3) {
+                  String candidate1 = candidatesSplit[0];
+                  String candidate2 = candidatesSplit[1];
+                  boolean valid = false;
+                  try {
+                    processMatch(aSource.groupId(), candidate1.trim(), candidate2.trim());
+                    valid = true;
+                  } catch (Exception aE) {
+                    LOG.error("Exception when reading match..." + aE.getMessage());
+                  }
+                  if (!valid) {
+                    pushMessage(fChannelAccessToken, aSource.groupId(), "maaf kawan sepertinya ada kesalahan...");
+                  }
+                } else {
+                  replayMessage(fChannelAccessToken, aReplayToken, "kayaknya ada yang salah nih, coba cek lagi...");
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "kayaknya kamu salah deh masukin id nya...");
+              }
+
             } else if (match.find()) {
               talkMessageGroup(fChannelAccessToken, aSource.groupId());
               instructionSentimentMessage(fChannelAccessToken, aSource.groupId());
@@ -242,18 +278,28 @@ public class LineBotController {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
             processTwitter(aReplayToken, aSource, sentiment);
           } else if (pd.startsWith(KEY_PERSONALITY)) {
+            boolean valid = false;
             try {
               String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
-              processPersonality(aSource.groupId(), personalityCandidate);
+              processPersonality(aReplayToken, aSource.groupId(), personalityCandidate);
+              valid = true;
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
             }
+            if (!valid) {
+              pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
+            }
           } else if (pd.startsWith(KEY_SUMMARY)) {
+            boolean valid = false;
             try {
               String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
               processSummary(aSource.groupId(), summaryCandidate);
+              valid = true;
             } catch (Exception aE) {
               LOG.error("Exception when reading tweets..." + aE.getMessage());
+            }
+            if (!valid) {
+              pushMessage(fChannelAccessToken, aSource.groupId(), "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
             }
           }
           break;
@@ -334,10 +380,15 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_PERSONALITY)) {
               String personality = text.substring(KEY_PERSONALITY.length(), text.length()).trim();
               if (personality.length() > 3) {
+                boolean valid = false;
                 try {
-                  processPersonality(aUserId, personality);
+                  processPersonality(aReplayToken, aUserId, personality);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
+                }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
                 }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...gak bener nih");
@@ -346,13 +397,43 @@ public class LineBotController {
             } else if (text.toLowerCase().startsWith(KEY_SUMMARY)) {
               String summaryCandidate = text.substring(KEY_SUMMARY.length(), text.length()).trim();
               if (summaryCandidate.length() > 3) {
+                boolean valid = false;
                 try {
                   processSummary(aUserId, summaryCandidate);
+                  valid = true;
                 } catch (Exception aE) {
                   LOG.error("Exception when reading tweets..." + aE.getMessage());
                 }
+                if (!valid) {
+                  pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
+                }
               } else {
                 replayMessage(fChannelAccessToken, aReplayToken, "hmmm...salah yah id nya ?");
+              }
+
+            } else if (text.toLowerCase().startsWith(KEY_MATCH)) {
+              String candidates = text.substring(KEY_MATCH.length(), text.length()).trim();
+              if (candidates.length() > 11) {
+                String[] candidatesSplit = candidates.split("and");
+                if (candidatesSplit.length == 2 && candidatesSplit[0].length() > 3 &&
+                    candidatesSplit[1].length() > 3) {
+                  String candidate1 = candidatesSplit[0];
+                  String candidate2 = candidatesSplit[1];
+                  boolean valid = false;
+                  try {
+                    processMatch(aUserId, candidate1.trim(), candidate2.trim());
+                    valid = true;
+                  } catch (Exception aE) {
+                    LOG.error("Exception when reading match..." + aE.getMessage());
+                  }
+                  if (!valid) {
+                    pushMessage(fChannelAccessToken, aUserId, "maaf kawan sepertinya ada kesalahan...");
+                  }
+                } else {
+                  replayMessage(fChannelAccessToken, aReplayToken, "kayaknya ada yang salah nih, coba cek lagi...");
+                }
+              } else {
+                replayMessage(fChannelAccessToken, aReplayToken, "kayaknya kamu salah deh masukin id nya...");
               }
 
             } else {
@@ -419,18 +500,28 @@ public class LineBotController {
             String sentiment = pd.substring(KEY_TWITTER.length(), pd.length()).trim();
             processTwitter(aReplayToken, aUserId, sentiment);
           } else if (pd.startsWith(KEY_PERSONALITY)) {
+            boolean valid = false;
             try {
               String personalityCandidate = pd.substring(KEY_PERSONALITY.length(), pd.length()).trim();
-              processPersonality(aUserId, personalityCandidate);
+              processPersonality(aReplayToken, aUserId, personalityCandidate);
+              valid = true;
             } catch (Exception aE) {
-              LOG.error("Exception when reading tweets..." + aE.getMessage());
+              LOG.error("Exception when reading personality..." + aE.getMessage());
+            }
+            if (!valid) {
+              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
             }
           } else if (pd.startsWith(KEY_SUMMARY)) {
+            boolean valid = false;
             try {
               String summaryCandidate = pd.substring(KEY_SUMMARY.length(), pd.length()).trim();
               processSummary(aUserId, summaryCandidate);
+              valid = true;
             } catch (Exception aE) {
-              LOG.error("Exception when reading tweets..." + aE.getMessage());
+              LOG.error("Exception when reading summary..." + aE.getMessage());
+            }
+            if (!valid) {
+              pushMessage(fChannelAccessToken, aUserId, "hmm.. aku gak bisa baca summary nya nih, aku cuma bisa baca tweets bahasa inggris aja untuk saat ini");
             }
           }
           break;
@@ -462,8 +553,8 @@ public class LineBotController {
     }
   }
 
-  private void processPersonality(String aUserId, String aPersonalityCandidate) throws Exception {
-    StringBuilder personalityBuilder = new StringBuilder("Ini nih personality nya...\n");
+  private void processPersonality(String aReplayToken, String aUserId, String aPersonalityCandidate) throws Exception {
+    StringBuilder personalityBuilder = new StringBuilder("Ini nih daftar personality nya...\n");
     List<UserPersonality> userPersonalities = fDao.getUserPersonalityById(aPersonalityCandidate);
     if (userPersonalities.size() > 0) {
       LOG.info("Start find personality from database...");
@@ -496,48 +587,53 @@ public class LineBotController {
       List<Trait> needs = personality.getNeeds();
       List<Trait> values = personality.getValues();
 
-      buildPersonality(aPersonalityCandidate, personalityBuilder, personalities);
-      buildPersonality(aPersonalityCandidate, personalityBuilder, needs);
-      buildPersonality(aPersonalityCandidate, personalityBuilder, values);
+      buildPersonality(aReplayToken, aPersonalityCandidate, personalityBuilder, personalities);
+      buildPersonality(aReplayToken, aPersonalityCandidate, personalityBuilder, needs);
+      buildPersonality(aReplayToken, aPersonalityCandidate, personalityBuilder, values);
     }
     pushMessage(fChannelAccessToken, aUserId, personalityBuilder.toString());
     if (generateRandom(0, 5) > 2) {
       pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
           "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
     }
+    randomMessage(aUserId);
   }
 
-  private void buildPersonality(String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) {
-    for (Trait parent : aTraits) {
-      UserPersonality Parentpersonality = new UserPersonality()
-          .setId(aPersonalityCandidate)
-          .setPersonName(aPersonalityCandidate)
-          .setCategory(parent.getCategory())
-          .setParentName(parent.getName())
-          .setParentPercentile(parent.getPercentile());
+  private void buildPersonality(String aReplayToken, String aPersonalityCandidate, StringBuilder aPersonalityBuilder, List<Trait> aTraits) throws IOException {
+    if (aTraits.size() > 0) {
+      for (Trait parent : aTraits) {
+        UserPersonality Parentpersonality = new UserPersonality()
+            .setId(aPersonalityCandidate)
+            .setPersonName(aPersonalityCandidate)
+            .setCategory(parent.getCategory())
+            .setParentName(parent.getName())
+            .setParentPercentile(parent.getPercentile());
 
-      int percentage = (int) (parent.getPercentile() * 100);
-      aPersonalityBuilder
-          .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
+        int percentage = (int) (parent.getPercentile() * 100);
+        aPersonalityBuilder
+            .append("\n-").append(parent.getName()).append(" : ").append(percentage).append("%");
 
-      if (parent.getChildren() != null && parent.getChildren().size() != 0) {
-        for (Trait child : parent.getChildren()) {
-          UserPersonality childPersonality = new UserPersonality()
-              .setId(aPersonalityCandidate)
-              .setPersonName(aPersonalityCandidate)
-              .setCategory(parent.getCategory())
-              .setParentName(parent.getName())
-              .setParentPercentile(parent.getPercentile());
-          childPersonality.setChildName(child.getName()).setChildPercentile(child.getPercentile());
+        if (parent.getChildren() != null && parent.getChildren().size() != 0) {
+          for (Trait child : parent.getChildren()) {
+            UserPersonality childPersonality = new UserPersonality()
+                .setId(aPersonalityCandidate)
+                .setPersonName(aPersonalityCandidate)
+                .setCategory(parent.getCategory())
+                .setParentName(parent.getName())
+                .setParentPercentile(parent.getPercentile());
+            childPersonality.setChildName(child.getName()).setChildPercentile(child.getPercentile());
 
-          percentage = (int) (child.getPercentile() * 100);
-          aPersonalityBuilder
-              .append("\n--").append(child.getName()).append(" : ").append(percentage).append("%");
-          fDao.setUserPersonality(childPersonality);
+            percentage = (int) (child.getPercentile() * 100);
+            aPersonalityBuilder
+                .append("\n--").append(child.getName()).append(" : ").append(percentage).append("%");
+            fDao.setUserPersonality(childPersonality);
+          }
         }
+        LOG.info("Start saving personality to database...");
+        fDao.setUserPersonality(Parentpersonality);
       }
-      LOG.info("Start saving personality to database...");
-      fDao.setUserPersonality(Parentpersonality);
+    } else {
+      replayMessage(fChannelAccessToken, aReplayToken, "hmm.. aku gak bisa baca personality nya, mungkin tweets nya masih sedikit");
     }
   }
 
@@ -610,6 +706,50 @@ public class LineBotController {
       pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
           "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
     }
+    randomMessage(aUserId);
+  }
+
+  private void processMatch(String aUserId, String aCandidate1, String aCandidate2) throws Exception {
+    int likePercent;
+    int middlePercent;
+    int unlikePercent;
+    LOG.info("processMatch {} and {} ", aCandidate1, aCandidate2);
+    List<UserConsumption> userConsumptionsLikes1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 1);
+    List<UserConsumption> userConsumptionsLikes2 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate2, 1);
+    List<UserConsumption> userConsumptionsMiddles1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 0.5);
+    List<UserConsumption> userConsumptionsMiddles2 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate2, 0.5);
+    List<UserConsumption> userConsumptionsUnLikes1 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate1, 0);
+    List<UserConsumption> userConsumptionsUnLikes2 = fDao.getUserConsumptionByTwitterIdAndScore(aCandidate2, 0);
+
+    if (userConsumptionsLikes1.size() > 0 && userConsumptionsUnLikes1.size() > 0) {
+      LOG.info("Start find processMatch from database...");
+      likePercent = processMatches(generateCandidate(userConsumptionsLikes1), generateCandidate(userConsumptionsLikes2), 50);
+      middlePercent = processMatches(generateCandidate(userConsumptionsMiddles1), generateCandidate(userConsumptionsMiddles2), 15);
+      unlikePercent = processMatches(generateCandidate(userConsumptionsUnLikes1), generateCandidate(userConsumptionsUnLikes2), 35);
+      LOG.info("End find processMatch from database... {} {} {}", likePercent, middlePercent, unlikePercent);
+    } else {
+      LOG.info("Start find processMatch from service...");
+      List<UserConsumption> likes1 = new ArrayList<>();
+      List<UserConsumption> middles1 = new ArrayList<>();
+      List<UserConsumption> unLikes1 = new ArrayList<>();
+      List<UserConsumption> likes2 = new ArrayList<>();
+      List<UserConsumption> middles2 = new ArrayList<>();
+      List<UserConsumption> unLikes2 = new ArrayList<>();
+      generateConsumption(aCandidate1, likes1, middles1, unLikes1);
+      generateConsumption(aCandidate2, likes2, middles2, unLikes2);
+      likePercent = processMatches(generateCandidate(likes1), generateCandidate(likes2), 50);
+      middlePercent = processMatches(generateCandidate(middles1), generateCandidate(middles2), 15);
+      unlikePercent = processMatches(generateCandidate(unLikes1), generateCandidate(unLikes2), 35);
+      LOG.info("End find processMatch from service... {} {} {}", likePercent, middlePercent, unlikePercent);
+    }
+
+    int result = likePercent + middlePercent + unlikePercent;
+    pushMessage(fChannelAccessToken, aUserId, "Match result : " + aCandidate1 + " dan " + aCandidate2 + " adalah " + result + "%");
+    if (aCandidate1.equalsIgnoreCase(aCandidate2)) {
+      pushMessage(fChannelAccessToken, aUserId, "Yaiyalah kamu masukin nama yang sama");
+      stickerMessage(fChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_USELESS));
+    }
+    randomMessage(aUserId);
   }
 
   private void sentimentService(String aReplayToken, String aUserId, UserTwitter aUserTwitter) throws IOException {
@@ -678,6 +818,7 @@ public class LineBotController {
         pushMessage(fChannelAccessToken, aUserId, "Ngerti kan maksudnya ?\n\n" +
             "Untuk sekarang aku cuma bisa kasih info pake bahasa inggris nih...");
       }
+      randomMessage(aUserId);
     } else {
       replayMessage(fChannelAccessToken, aReplayToken, "hmm.. belum ada sentiment nih, gak begitu populer kayaknya");
     }
@@ -713,6 +854,21 @@ public class LineBotController {
     }
   }
 
+  private void randomMessage(String aUserId) throws IOException {
+    if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis personality BarackObama...");
+    } else if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis sentiment adele...");
+    } else if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "coba sekarang kamu tulis summary jokowi...");
+    }
+
+    if (generateRandom(0, 5) > 2) {
+      pushMessage(fChannelAccessToken, aUserId, "aku punya satu lagi nih yang menarik, coba kamu tulis match agnezmo and afgansyah_reza\n" +
+          "aku bisa hitung kecocokan mereka berdasarkan personality nya...");
+    }
+  }
+
   private static ArrayList<String> generateRandomLikeConsumption(List<UserConsumption> aUserConsumptions) {
     ArrayList<String> likeConsumption = new ArrayList<>();
     while (likeConsumption.size() < aUserConsumptions.size() / 2) {
@@ -722,5 +878,63 @@ public class LineBotController {
       }
     }
     return likeConsumption;
+  }
+
+  private static int processMatches(ArrayList<String> aCandidate1, ArrayList<String> aCandidate2, int aOffset) {
+    double likeCount = 0;
+    for (String s1 : aCandidate1) {
+      for (String s2 : aCandidate2) {
+        if (s1.contains(s2)) {
+          likeCount++;
+        }
+      }
+    }
+    return (int) Math.round((likeCount / aCandidate1.size()) * aOffset);
+  }
+
+  private static ArrayList<String> generateCandidate(List<UserConsumption> aCandidates) {
+    ArrayList<String> likeCandidate = new ArrayList<>();
+    for (UserConsumption userConsumption : aCandidates) {
+      String name = userConsumption.getConsumptionName();
+      if (!likeCandidate.contains(name)) {
+        likeCandidate.add(name);
+      }
+    }
+    return likeCandidate;
+  }
+
+  private void generateConsumption(String aCandidate, List<UserConsumption> aLike, List<UserConsumption> aMiddle, List<UserConsumption> aUnlike) throws Exception {
+    LOG.info("candidate..." + aCandidate);
+    Content content = GsonSingleton.getGson().fromJson(fTwitterHelper.getTweets(aCandidate, TWEETS_STEP), Content.class);
+    ProfileOptions options = new ProfileOptions.Builder()
+        .contentItems(content.getContentItems())
+        .consumptionPreferences(true)
+        .rawScores(true)
+        .build();
+
+    Profile personality = fPersonalityInsights.getProfile(options).execute();
+    List<ConsumptionPreferences> consumptionPreferences = personality.getConsumptionPreferences();
+    LOG.info("generateConsumption..." + consumptionPreferences.size());
+    int removePrefix = "Likely to ".length();
+    for (ConsumptionPreferences cp : consumptionPreferences) {
+      UserConsumption uc = new UserConsumption();
+      uc.setTwitterId(aCandidate);
+      uc.setConsumptionCategory(cp.getCategoryId());
+      for (ConsumptionPreferences.ConsumptionPreference consumptionPreference : cp.getConsumptionPreferences()) {
+        double score = consumptionPreference.getScore();
+        String name = consumptionPreference.getName().substring(removePrefix, consumptionPreference.getName().length());
+        uc.setConsumptionName(name).setConsumptionScore(score);
+        LOG.info("Start saving processMatch to database...");
+        fDao.setUserConsumption(uc);
+
+        if (score == 1) {
+          aLike.add(uc);
+        } else if (score == 0.5) {
+          aMiddle.add(uc);
+        } else {
+          aUnlike.add(uc);
+        }
+      }
+    }
   }
 }

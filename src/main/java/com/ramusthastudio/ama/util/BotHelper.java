@@ -59,6 +59,7 @@ public final class BotHelper {
   public static final String KEY_TWITTER = "twitter";
   public static final String KEY_PERSONALITY = "personality";
   public static final String KEY_SUMMARY = "summary";
+  public static final String KEY_MATCH = "match";
   public static final String KEY_POSITIVE = "twitter positif";
   public static final String KEY_NEGATIVE = "twitter negatif";
   public static final String KEY_FRIEND = "teman";
@@ -229,8 +230,8 @@ public final class BotHelper {
     greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter, ";
     greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
     greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
-    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
-    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets ataupun tulisan dalam sebuah file.";
+    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan dalam sosial media, ";
+    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets.";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }
@@ -240,8 +241,8 @@ public final class BotHelper {
     greeting += "Makasih aku udah di invite disini!\n";
     greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
     greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
-    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
-    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets ataupun tulisan dalam sebuah file.\n\n";
+    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan dalam sosial media, ";
+    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets.\n\n";
     greeting += "Bantuin aku donk supaya punya banyak teman, ini id aku @ape3119w";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
@@ -254,8 +255,8 @@ public final class BotHelper {
     greeting += "Kenalin, aku AMA bot yang bisa membaca sentiment lewat twitter, ";
     greeting += "sentiment atau pendapat orang tentang apapun di dalam dunia twitter, ";
     greeting += "selain sentiment aku juga bisa baca personality nya lho.\n\n";
-    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan atau pun sosial media, ";
-    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets ataupun tulisan dalam sebuah file.\n\n";
+    greeting += "Personality menggambarkan karakter seseorang dari sebuah tulisan dalam sosial media, ";
+    greeting += "saat ini aku hanya bisa membaca karakter seseorang lewat tweets.\n\n";
     greeting += "Bantuin aku donk supaya punya banyak teman, ini id aku @ape3119w";
     stickerMessage(aChannelAccessToken, aUserId, new StickerHelper.StickerMsg(JAMES_STICKER_TWO_THUMBS));
     pushMessage(aChannelAccessToken, aUserId, greeting);
@@ -287,7 +288,6 @@ public final class BotHelper {
     greeting += "kalau pengen tau tentang karakter seseorang tulis personality 'jokowi' atau ";
     greeting += "summary 'jokowi' buat tau pribadi 'jokowi' lebih dalam seperti apa yang 'jokowi' suka dan gak suka, ";
     greeting += "nanti aku kumpulin infonya terus aku kasih tau ke kamu.\n\n";
-    greeting += "Kalau kamu pengen tau tentang karakter seseorang dari tulisan seseorang kamu tinggal kirim file tulisanya ke sini.\n\n";
     greeting += "Saat ini aku cuma bisa baca tulisan pake bahasa inggris aja, untuk bahasa lain aku belum bisa.";
     pushMessage(aChannelAccessToken, aUserId, greeting);
   }

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="2bbd0049-3490-4602-8aee-4fd74c65a730" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
+=======
+    <list default="true" id="383bcd04-0812-4968-ae91-cfb823c453f9" name="Default" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,11 +48,110 @@
     </system>
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <leaf />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>SQL_SELECT_ALL_USER_MESSAGE</find>
+=======
+    <splitter split-orientation="horizontal" split-proportion="0.4990099">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="Evidence.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Evidence.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="160">
+                  <caret line="14" column="12" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="148">
+                  <caret line="392" column="47" lean-forward="false" selection-start-line="392" selection-start-column="47" selection-end-line="392" selection-end-column="47" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="BotHelper.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="260">
+                  <caret line="61" column="38" lean-forward="false" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="38" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="LineBotController.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="115">
+                  <caret line="881" column="14" lean-forward="false" selection-start-line="881" selection-start-column="14" selection-end-line="881" selection-end-column="14" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>UserModel</find>
+      <find>getByUserScreenName</find>
+      <find>kamu</find>
+      <find>st</find>
+      <find>Integer</find>
+      <find>100</find>
+      <find>1</find>
+      <find>@</find>
+      <find>+ '\'' +</find>
+      <find>UserChat</find>
+      <find>getUserTwitterById</find>
+      <find>march</find>
+      <find>chat</find>
+      <find>SQL_INSERT_USER_CHAT</find>
+      <find>USER_CHAT</find>
+      <find>TWITTER_SENTIMENT</find>
+      <find>getUserMessageByTwitterId</find>
+      <find>SQL_USER_CONSUMPTION_GET_BY_MESSAGE_ID</find>
+      <find>confirmTwitterMessage</find>
+      <find>SQL_USER_CONSUMPTION_GET_BY_MESSAGE_CAT</find>
+      <find>KEY_PERSONALITY</find>
+      <find>inggr</find>
+      <find>indoe</find>
+      <find>pushMessage</find>
+      <find>sentiment</find>
+      <find>-</find>
+      <find>permissions</find>
+      <find>users ::</find>
+      <find>generateRandom</find>
+      <find>personality</find>
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -254,12 +358,19 @@
     </option>
     <option name="modificationStamps">
       <map>
+<<<<<<< HEAD
         <entry key="D:/SANDBOX/Line/BluemixLINEBot-master/BluemixLINEBot-master" value="1486696771623" />
         <entry key="D:/SANDBOX/Line/LINEBotHeroku-master" value="1485744248000" />
         <entry key="D:/SANDBOX/Line/line-bot-sdk-java" value="2973257646034" />
         <entry key="$PROJECT_DIR$" value="2980639107309" />
         <entry key="L:/XXX/DEVELOP/Ama" value="1489474380274" />
         <entry key="L:/XXX/DEVELOP/IAmAma" value="1485917330000" />
+=======
+        <entry key="$PROJECT_DIR$" value="2979887956087" />
+        <entry key="$PROJECT_DIR$/../BluemixLINEBot-master/BluemixLINEBot-master" value="1486696771623" />
+        <entry key="$PROJECT_DIR$/../LINEBotHeroku-master" value="1485744248000" />
+        <entry key="$PROJECT_DIR$/../line-bot-sdk-java" value="2973257646034" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -446,7 +557,59 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/task/ScheduledTasks.java" />
+=======
+        <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/util/Config.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/model/Events.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/model/Message.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/model/Source.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/util/BotHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/controller/TheMovieDbService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/infomovies/controller/LineBotController.java" />
+        <option value="$PROJECT_DIR$/manifest.yml" />
+        <option value="$PROJECT_DIR$/src/main/resources/META-INF/additional-spring-configuration-metadata.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/task/TaskExecutor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/task/TaskExecutorTwitter.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserLine.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/StickerHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/Application.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserTwitter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Search.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Next.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/ApiTweets.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/CdeInternal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Track.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/SentimentTweetService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Generator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Tweet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Author.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Location.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Url_.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Url.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Hashtag.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Link.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Geo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Message2.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/task/ScheduledTasks.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Evidence.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exString.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserChat.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserConsumption.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/PersonalityHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/UserPersonality.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/Dao.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserPersonality.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exFbApi.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exPercentile.java" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java" />
       </list>
@@ -564,6 +727,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="task" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -595,6 +759,9 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controller" />
+=======
+              <option name="myItemId" value="database" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -620,8 +787,31 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Spring Boot.Application">
     <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+=======
+  <component name="RunManager" selected="Application.exPercentile">
+    <configuration default="false" name="Ama [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="com.ramusthastudio.ama.*" />
@@ -629,6 +819,46 @@
         </pattern>
       </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ramusthastudio.ama.Application" />
+      <module name="ama_main" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="exFbApi" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.ramusthastudio.ama.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="com.ramusthastudio.ama.exFbApi" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="ama_main" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="exPercentile" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.ramusthastudio.ama.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="com.ramusthastudio.ama.exPercentile" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
       <module name="ama_main" />
       <envs />
       <method />
@@ -1013,12 +1243,29 @@
     <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
+<<<<<<< HEAD
     <list size="1">
       <item index="0" class="java.lang.String" itemvalue="Spring Boot.Application" />
     </list>
     <recent_temporary>
       <list size="1">
         <item index="0" class="java.lang.String" itemvalue="Spring Boot.Application" />
+=======
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="Gradle.Ama [build]" />
+      <item index="1" class="java.lang.String" itemvalue="Spring Boot.Application" />
+      <item index="2" class="java.lang.String" itemvalue="Application.exString" />
+      <item index="3" class="java.lang.String" itemvalue="Application.exFbApi" />
+      <item index="4" class="java.lang.String" itemvalue="Application.exPercentile" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Application.exPercentile" />
+        <item index="1" class="java.lang.String" itemvalue="Application.exFbApi" />
+        <item index="2" class="java.lang.String" itemvalue="Spring Boot.Application" />
+        <item index="3" class="java.lang.String" itemvalue="Application.exString" />
+        <item index="4" class="java.lang.String" itemvalue="Gradle.Ama [build]" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
       </list>
     </recent_temporary>
   </component>
@@ -1031,6 +1278,7 @@
       <created>1490321630510</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
+<<<<<<< HEAD
       <updated>1490321630510</updated>
       <workItem from="1490321636048" duration="4290000" />
       <workItem from="1490409809631" duration="4558000" />
@@ -1040,11 +1288,26 @@
       <workItem from="1490623255006" duration="1338000" />
       <workItem from="1490796004336" duration="2113000" />
       <workItem from="1490969033138" duration="718000" />
+=======
+      <updated>1487042337271</updated>
+      <workItem from="1487042340156" duration="88401000" />
+      <workItem from="1489475558308" duration="39000" />
+      <workItem from="1489475885979" duration="10674000" />
+      <workItem from="1489560478830" duration="48000" />
+      <workItem from="1489560545100" duration="2154000" />
+      <workItem from="1489563070170" duration="2240000" />
+      <workItem from="1489565847515" duration="71540000" />
+      <workItem from="1489974093115" duration="121439000" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="16044000" />
+=======
+    <option name="totallyTimeSpent" value="296535000" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1098" extended-state="6" />
@@ -1069,12 +1332,22 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19495167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35620052" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.4974293" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30343008" sideWeight="0.49614397" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4656992" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.026349615" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2008593" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1103,18 +1376,52 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/controller/LineBotController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9064">
           <caret line="412" column="22" lean-forward="false" selection-start-line="412" selection-start-column="22" selection-end-line="412" selection-end-column="22" />
+=======
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/src.zip!/java/text/DateFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="360" column="16" lean-forward="false" selection-start-line="360" selection-start-column="16" selection-end-line="360" selection-end-column="16" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Actor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.3.7.RELEASE/d6bbdf962fa3a7e654f414262ac735bb9b4847ec/spring-core-4.3.7.RELEASE-sources.jar!/org/springframework/util/StringUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6642">
+          <caret line="55" column="22" lean-forward="false" selection-start-line="55" selection-start-column="22" selection-end-line="55" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.5/f7d878153e86a1cdddf6b37850e00a9f8bff726f/commons-lang3-3.5-sources.jar!/org/apache/commons/lang3/StringUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-468">
+          <caret line="5923" column="25" lean-forward="false" selection-start-line="5923" selection-start-column="25" selection-end-line="5923" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_72/src.zip!/java/util/Collections.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="4787" column="30" lean-forward="false" selection-start-line="4787" selection-start-column="30" selection-end-line="4787" selection-end-column="30" />
+          <folding>
+            <element signature="e#186747#186748#0" expanded="false" />
+            <element signature="e#186792#186793#0" expanded="false" />
+          </folding>
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
         </state>
       </provider>
     </entry>
@@ -1134,6 +1441,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Config.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
@@ -1143,6 +1451,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/Application.java">
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserTwitter.java">
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="484">
           <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
@@ -1264,10 +1575,41 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="946">
           <caret line="43" column="76" lean-forward="false" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="76" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/Twitter4JHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="216" column="16" lean-forward="false" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/Behavior.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserConsumption.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="51" lean-forward="false" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
           <folding />
         </state>
       </provider>
@@ -1282,8 +1624,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/Application.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="484">
           <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
+=======
+        <state relative-caret-position="47">
+          <caret line="89" column="65" lean-forward="false" selection-start-line="89" selection-start-column="11" selection-end-line="89" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/Profile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="171" column="21" lean-forward="false" selection-start-line="171" selection-start-column="21" selection-end-line="171" selection-end-column="21" />
+          <folding>
+            <element signature="e#4334#4335#0" expanded="false" />
+            <element signature="e#4362#4363#0" expanded="false" />
+          </folding>
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
         </state>
       </provider>
     </entry>
@@ -1294,8 +1653,97 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/UserPersonality.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="679">
+          <caret line="60" column="38" lean-forward="true" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/3afd77c9e62b1fe90ced600dd4e263f46aee2f80/personality-insights-3.5.3-sources.jar!/com/ibm/watson/developer_cloud/personality_insights/v3/model/Trait.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="134">
+          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/SentimentTweetService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/Tweet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/model/ApiTweets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.facebook4j/facebook4j-core/2.4.8/b9fdff872f9c1b01ed13aa21dcd5870ecef98ba6/facebook4j-core-2.4.8-sources.jar!/facebook4j/auth/OAuthSupport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="36" column="25" lean-forward="false" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.facebook4j/facebook4j-core/2.4.8/b9fdff872f9c1b01ed13aa21dcd5870ecef98ba6/facebook4j-core-2.4.8-sources.jar!/facebook4j/api/AccountMethods.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="51" column="26" lean-forward="false" selection-start-line="51" selection-start-column="26" selection-end-line="51" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.facebook4j/facebook4j-core/2.4.8/b9fdff872f9c1b01ed13aa21dcd5870ecef98ba6/facebook4j-core-2.4.8-sources.jar!/facebook4j/Reading.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="47" column="19" lean-forward="false" selection-start-line="47" selection-start-column="19" selection-end-line="47" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exFbApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="4" lean-forward="false" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/database/DaoImpl.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="243">
           <caret line="353" column="28" lean-forward="false" selection-start-line="353" selection-start-column="28" selection-end-line="353" selection-end-column="28" />
         </state>
@@ -1305,22 +1753,85 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
           <caret line="359" column="22" lean-forward="true" selection-start-line="359" selection-start-column="22" selection-end-line="359" selection-end-column="22" />
-          <folding />
+=======
+        <state relative-caret-position="71">
+          <caret line="50" column="88" lean-forward="true" selection-start-line="50" selection-start-column="88" selection-end-line="50" selection-end-column="88" />
+          <folding>
+            <marker date="1490261844008" expanded="true" signature="1094:1120" ph="SELECT * FRO... user_twitter" />
+            <marker date="1490261844008" expanded="true" signature="1213:1243" ph="SELECT * FRO... user_twitter" />
+            <marker date="1490261844008" expanded="true" signature="1305:1580" ph="INSERT INTO user_twitter... " />
+            <marker date="1490261844008" expanded="true" signature="1643:1666" ph="SELECT * FRO... user_line" />
+            <marker date="1490261844008" expanded="true" signature="1753:1783" ph="SELECT * FRO... user_line" />
+            <marker date="1490261844008" expanded="true" signature="1842:1931" ph="INSERT INTO user_line... " />
+            <marker date="1490261844008" expanded="true" signature="1994:2017" ph="SELECT * FRO... user_chat" />
+            <marker date="1490261844008" expanded="true" signature="2104:2134" ph="SELECT * FRO... user_chat" />
+            <marker date="1490261844008" expanded="true" signature="2193:2274" ph="INSERT INTO user_chat... " />
+            <marker date="1490261844008" expanded="true" signature="2332:2428" ph="UPDATE user_... " />
+            <marker date="1490261844008" expanded="true" signature="2494:2520" ph="SELECT * FRO... user_message" />
+            <marker date="1490261844008" expanded="true" signature="2618:2653" ph="SELECT * FRO... user_message" />
+            <marker date="1490261844008" expanded="true" signature="2756:2794" ph="SELECT * FRO... user_message" />
+            <marker date="1490261844008" expanded="true" signature="2856:3012" ph="INSERT INTO user_message... " />
+            <marker date="1490261844008" expanded="true" signature="3079:3106" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="3209:3247" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="3310:3413" ph="INSERT INTO user_evidence... " />
+            <marker date="1490261844008" expanded="true" signature="3483:3513" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="3622:3660" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="3772:3810" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="3772:3856" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="3969:4033" ph="SELECT * FRO... user_consumption" />
+            <marker date="1490261844008" expanded="true" signature="4098:4218" ph="INSERT INTO user_consumption... " />
+            <marker date="1490261844008" expanded="true" signature="4288:4318" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="4419:4449" ph="SELECT * FRO... user_evidence" />
+            <marker date="1490261844008" expanded="true" signature="4554:4593" ph="SELECT * FRO... user_personality" />
+            <marker date="1490261844008" expanded="true" signature="4704:4768" ph="SELECT * FRO... user_personality" />
+            <marker date="1490261844008" expanded="true" signature="4880:4953" ph="SELECT * FRO... user_personality" />
+            <marker date="1490261844008" expanded="true" signature="5018:5171" ph="INSERT INTO public.user_personality... " />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/util/BotHelper.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="61" column="38" lean-forward="false" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exPercentile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="577">
+          <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/exString.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="278">
           <caret line="94" column="41" lean-forward="false" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="41" />
           <folding />
+=======
+        <state relative-caret-position="203">
+          <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ramusthastudio/ama/task/ScheduledTasks.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="439">
           <caret line="62" column="23" lean-forward="true" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+=======
+        <state relative-caret-position="148">
+          <caret line="392" column="47" lean-forward="false" selection-start-line="392" selection-start-column="47" selection-end-line="392" selection-end-column="47" />
+>>>>>>> 8b0a1f3c3b2e058df1b315c4895e6ae448a259f0
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
